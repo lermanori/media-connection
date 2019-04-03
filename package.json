@@ -1,0 +1,19 @@
+{
+  "name": "media-connection",
+  "version": "1.0.0",
+  "description": "final project for school",
+  "main": "./server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lermanori/media-connection.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lermanori/media-connection/issues"
+  },
+  "homepage": "https://github.com/lermanori/media-connection#readme"
+}

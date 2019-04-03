@@ -16,7 +16,10 @@ app.use(jsonParser);
 var distPath = path.join(__dirname,'mc3','dist','spa');
 console.log(distPath);
 
-
+app.get('/',jsonParser,function(req,res){
+    console.log('indexed');
+    res.sendFile(path.join(distPath,'index.html'));
+});
 
 app.use('/',express.static(distPath));
 

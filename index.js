@@ -13,7 +13,7 @@ fs.readFile('memory.json',(err,data)=>{projectsArr = JSON.parse(data)})
 app.use(jsonParser);
 
 var distPath = path.join('./','mc3','dist','spa');
-app.use('/',express.static(distPath));
+app.use(express.static(distPath));
 
 app.get('/projects',jsonParser,function(req,res){
     res.send(projectsArr)

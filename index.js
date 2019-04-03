@@ -9,11 +9,12 @@ var fs = require('fs')
 
 let projectsArr = []
 
+
 fs.readFile('memory.json',(err,data)=>{projectsArr = JSON.parse(data)})
 app.use(jsonParser);
 
-var distPath = path.join('mc3','dist','spa');
-app.use(express.static(distPath));
+
+app.use(express.static('mc3/dist/spa'));
 
 app.get('/projects',jsonParser,function(req,res){
     res.send(projectsArr)
@@ -41,6 +42,14 @@ app.delete('/clear', jsonParser, function(req, res){
     fs.writeFile('memory.json',JSON.stringify(projectsArr),(err,data)=>{console.log(data)})
     res.send("cleard!")
 });
-var port = process.env.PORT||3000;
-app.listen(port,()=>console.log(`listening on port ${port}`));
+// Set up the server
+// process.env.PORT is related to deploying on heroku
+var server = app.listen(process.env.PORT || 3000, listen);
+
+// This call back just tells us that the server has started
+function listen() {
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log('listening at http://' + host + ':' + port);
+}
 

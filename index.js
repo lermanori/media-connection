@@ -28,6 +28,7 @@ app.post('/projects', jsonParser, function(req, res){
 
 });
 app.post('/projects/:index', jsonParser, function(req, res){
+    console.log(req.params);
     let obj = req.body;
     projectsArr[obj.index].project_roadmap.push(obj.entry)
     fs.writeFile('memory.json',JSON.stringify(projectsArr),(err,data)=>{console.log(data)})

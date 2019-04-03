@@ -57,15 +57,15 @@ export default function(/* { ssrContext } */) {
     },
     actions:{
       addProject(context,obj){
-        axios.post("http://localhost:3000/projects",obj).then(()=>{context.commit('addProject',obj)})
+        axios.post("/projects",obj).then(()=>{context.commit('addProject',obj)})
       },
       addEntry(context,obj){
-        let url = `http://localhost:3000/projects/${obj.index}`;
+        let url = `/projects/${obj.index}`;
         console.log(url);
         axios.post(url,obj).then(()=>{context.commit('addEntry',obj)})
       },
       syncProjects(context,obj){
-        let url = `http://localhost:3000/projects/`;
+        let url = `/projects/`;
         axios.get(url).then((data)=>{context.commit('syncProjects',data.data)})
       }
 

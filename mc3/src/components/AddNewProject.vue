@@ -50,7 +50,13 @@ export default {
                 project_due_by: proj.project_due_by,
                 project_roadmap: proj.project_roadmap
             };
-            this.$store.dispatch('addProject',obj)
+            try{
+                this.$store.dispatch('addProject',obj).catch((err)=>{alert(err)})
+            }
+            catch(err)
+            {
+                alert(err)
+            }
         }
     }
 }

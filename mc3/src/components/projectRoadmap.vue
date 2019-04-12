@@ -5,12 +5,12 @@
         <div class="col-6">
           <div class="text-h6">Roadmap {{roadmap}}</div>
         </div>
-        <div class="col-3">
+        <div class="col-5">
           <div class="text-h6 text-right text-grey">
             <q-btn class="q-mr-md" round @click='add_handle'>
               <q-icon name="add" style="font-size:3em" />
             </q-btn>
-            <q-btn round @click='click_handle'>
+            <q-btn  class="q-mr-md" round @click='click_handle'>
               <q-icon name="close" style="font-size:3em" />
             </q-btn>
           </div>

@@ -49,7 +49,9 @@ module.exports = function (ctx) {
         'QSeparator',
         'QTimeline',
         'QTimelineEntry',
-        'QDialog'
+        'QDialog',
+        'QBanner',
+        'QSpace'
       ],
 
       directives: [

@@ -48,7 +48,7 @@ export default {
     }
   },
   created(){
-    this.$store.dispatch('syncProjects');
+      this.$store.dispatch('syncProjects');
   }
 };
 </script>

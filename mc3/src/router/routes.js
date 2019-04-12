@@ -1,3 +1,7 @@
+import store from "../store";
+import Axios from "axios";
+
+
 const routes = [
   {
     path: "/",
@@ -17,9 +21,19 @@ const routes = [
   {
     path: "/taskManager",
     component: () => import("layouts/MyLayout.vue"),
-    children: [{ path: "", component: () => import("pages/taskManager.vue") }]
+    children: [{ path: "", component: () => import("pages/taskManager.vue") }],
+    beforeEnter:(to,from,next)=>{
+      Axios.get('/auth').then((response)=>{
+      let user = response.data;
+      if(user == "")
+        next('/');
+      else
+        next();
+      })
+    }
   }
 ];
+
 
 // Always leave this as last one
 if (process.env.MODE !== "ssr") {

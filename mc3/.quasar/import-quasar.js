@@ -13,7 +13,7 @@
 
 import Vue from 'vue'
 
-import {Quasar,QLayout,QHeader,QDrawer,QPageContainer,QPage,QToolbar,QToolbarTitle,QBtn,QIcon,QList,QItem,QItemSection,QItemLabel,QCard,QCardSection,QCardActions,QBtnGroup,QInput,QPageSticky,QImg,QDate,QPopupProxy,QFab,QFabAction,QSeparator,QTimeline,QTimelineEntry,QDialog,Ripple,ClosePopup,Notify,Dialog} from 'quasar'
+import {Quasar,QLayout,QHeader,QDrawer,QPageContainer,QPage,QToolbar,QToolbarTitle,QBtn,QIcon,QList,QItem,QItemSection,QItemLabel,QCard,QCardSection,QCardActions,QBtnGroup,QInput,QPageSticky,QImg,QDate,QPopupProxy,QFab,QFabAction,QSeparator,QTimeline,QTimelineEntry,QDialog,QBanner,QSpace,Ripple,ClosePopup,Notify,Dialog} from 'quasar'
 
 
-Vue.use(Quasar, { config: {},components: {QLayout,QHeader,QDrawer,QPageContainer,QPage,QToolbar,QToolbarTitle,QBtn,QIcon,QList,QItem,QItemSection,QItemLabel,QCard,QCardSection,QCardActions,QBtnGroup,QInput,QPageSticky,QImg,QDate,QPopupProxy,QFab,QFabAction,QSeparator,QTimeline,QTimelineEntry,QDialog},directives: {Ripple,ClosePopup},plugins: {Notify,Dialog} })
+Vue.use(Quasar, { config: {},components: {QLayout,QHeader,QDrawer,QPageContainer,QPage,QToolbar,QToolbarTitle,QBtn,QIcon,QList,QItem,QItemSection,QItemLabel,QCard,QCardSection,QCardActions,QBtnGroup,QInput,QPageSticky,QImg,QDate,QPopupProxy,QFab,QFabAction,QSeparator,QTimeline,QTimelineEntry,QDialog,QBanner,QSpace},directives: {Ripple,ClosePopup},plugins: {Notify,Dialog} })

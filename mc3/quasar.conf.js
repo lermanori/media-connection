@@ -51,7 +51,14 @@ module.exports = function (ctx) {
         'QTimelineEntry',
         'QDialog',
         'QBanner',
-        'QSpace'
+        'QSpace',
+        'QBadge',
+        'QLinearProgress',
+        'QTabPanels',
+        'QTabPanel',
+        'QTabs',
+        'QTab',
+        'QRouteTab'
       ],
 
       directives: [

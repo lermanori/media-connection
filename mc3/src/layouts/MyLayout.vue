@@ -2,7 +2,7 @@
   <q-layout view="lHh lpr lFf">
     <q-header elevated class="glossy">
       <q-toolbar>
-        <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu">
+        <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" v-if='loggedIn'>
           <q-icon name="menu" />
         </q-btn>
         <q-toolbar-title>
@@ -21,7 +21,7 @@
 
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
       <q-list>
-        <q-item-label header>Essential Links</q-item-label>
+        <q-item-label header>Documentation Links</q-item-label>
         <q-item clickable tag="a" target="_blank" href="http://v1.quasar-framework.org">
           <q-item-section avatar>
             <q-icon name="school" />
@@ -29,6 +29,16 @@
           <q-item-section>
             <q-item-label>Docs</q-item-label>
             <q-item-label caption>v1.quasar-framework.org</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item-label header>In-app Links</q-item-label>
+        <q-item clickable tag="a" to="/dashboard">
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Dashboard</q-item-label>
+            <q-item-label caption>Home,Profile etc..</q-item-label>
           </q-item-section>
         </q-item>
 
@@ -50,7 +60,7 @@ export default {
   name: "MyLayout",
   data() {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: this.$q.platform.is.desktop && this.$store.getters.loggedIn
     };
   },
   methods: {

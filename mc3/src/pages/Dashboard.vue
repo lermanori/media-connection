@@ -106,6 +106,8 @@
 
 
 <script>
+import services from '../services.js'
+
 export default {
     data(){
         return {
@@ -115,7 +117,7 @@ export default {
         }
     },
     created(){
-        this.$axios.get('/auth').then((res)=>{this.user = res.data;})
+        this.user = services.auth() 
     }
 }
 </script>

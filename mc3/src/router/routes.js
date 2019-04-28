@@ -1,14 +1,12 @@
 import store from "../store";
-import Axios from "axios";
+import services from "../services";
 
 const AuthMidlleware = (to, from, next) => {
-  Axios.get('/auth').then((response) => {
-    let user = response.data;
+    let user = services.auth();
     if (user == "")
       next('/');
     else
       next();
-  })
 };
 
 

@@ -1,6 +1,9 @@
 var express = require('express')
 var router = express.Router()
 const passport = require('passport');
+const cors = require('cors');
+
+router.use(cors())
 
 router.post('/local-register',(req,res)=>{
     const user = req.body
@@ -21,7 +24,7 @@ router.get('/',(req,res)=>{
 })
 
 router.get('/login',(req, res)=>{
-    res.send('login page')
+    res.redirect('./google')
 })
 router.get('/logout',(req,res)=>{
     req.logOut();
@@ -33,7 +36,7 @@ router.get('/google',passport.authenticate('google',{
 }))
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) =>{
-    //res.send(req.user)
+    //res.send(req.user);
     res.redirect('/#/taskManager');
 })
 

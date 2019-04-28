@@ -20,9 +20,9 @@
       </q-card-section>
       <q-card-section class="text-center">
 
-        <a href="/auth/google"><q-btn  
+        <q-btn  @click="login"
                 class="q-mt-md" 
-                color="red">google+</q-btn></a>
+                color="red">google+</q-btn>
       </q-card-section>
     </q-card>
     <div class="row">
@@ -38,7 +38,9 @@
 <style></style>
 
 <script>
-import axios from "axios"
+//import axios from "axios"
+import baseURL from '../baseUrl.js'
+import services from '../services.js'
 
 export default {
   name: "Register",
@@ -47,24 +49,32 @@ export default {
       email:"",
       password:"",
       passwordMatch:"",
+      baseURL:baseURL,
       auth:true
     }
   },
   methods:{
     demoAuth(email,password){
         if(email=='ori' && password=='1234' && this.password == this.passwordMatch ){
-          axios.post('auth/local-register',{email:email,password:password}).then((data)=>{
           this.$router.push('/taskManager')
-        }).catch((err)=>{
-          this.auth = false
+          /*
+          axios.post('auth/local-register',{email:email,password:password}).then((data)=>{
+            }).catch((err)=>{
+              this.auth = false
           
           })
+          */
         }
         else{
           this.auth = false
 
         }
-      }
+      },
+    login(){
+      services.login().catch((err)=>{console.log(err)}).then(()=>{
+        this.$store.dispatch('auth',services.auth())
+      });
+    }
     }
 };
 </script>

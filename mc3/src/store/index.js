@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import BaseURL from "../baseUrl"
+
+const baseURL = BaseURL.localBaseUrl
 
 // import example from './module-example'
 
@@ -51,7 +54,7 @@ export default function ( /* { ssrContext } */ ) {
     },
     actions: {
       addProject(context, obj) {
-        return axios.post("api/projects", obj).then((response) => {
+        return axios.post( baseURL + "api/projects", obj).then((response) => {
           console.log(response.data)
           context.commit('addProject', response.data);
         })
@@ -60,19 +63,19 @@ export default function ( /* { ssrContext } */ ) {
         let id = context.state.projectsArr[obj.index]._id;
         console.log(id);
         let url = `api/projects/${id}/entry`;
-        axios.post(url, obj.entry).then((res) => {
+        axios.post( baseURL + url, obj.entry).then((res) => {
           console.log(res);
           context.commit('addEntry', obj);
         });
       },
       syncProjects(context, obj) {
         let url = `api/projects/`;
-        axios.get(url).then((data) => {
+        axios.get(baseURL + url).then((data) => {
           context.commit('syncProjects', data.data)
         })
       },
       auth(context) {
-        axios.get('/auth').then((data) => {
+        axios.get(baseURL + '/auth').then((data) => {
           context.commit('setAuthUser', data.data);
         })
       },

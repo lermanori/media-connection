@@ -45,6 +45,12 @@ import b_Bootaxios from 'boot/axios'
 
 
 
+Vue.config.devtools = true
+Vue.config.productionTip = false
+
+
+
+console.info('[Quasar] Running CORDOVA.')
 
 
 
@@ -82,9 +88,14 @@ async function start () {
     
 
     
+    document.addEventListener('deviceready', () => {
+    Vue.prototype.$q.cordova = window.cordova
+    
 
       new Vue(app)
 
+    
+    }, false) // on deviceready
     
 
   

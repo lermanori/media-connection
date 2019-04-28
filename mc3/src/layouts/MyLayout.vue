@@ -1,12 +1,12 @@
 <template>
   <q-layout view="lHh lpr lFf">
-    <q-header elevated class="glossy">
+    <q-header elevated class="glossy purple">
       <q-toolbar>
         <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" v-if='loggedIn'>
           <q-icon name="menu" />
         </q-btn>
         <q-toolbar-title>
-          Media Connection
+          Media Connection-ori
         </q-toolbar-title>
         
         <q-space/>

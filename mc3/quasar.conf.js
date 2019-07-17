@@ -1,5 +1,7 @@
 // Configuration for your app
 /* eslint-disable */
+
+
 module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
@@ -78,6 +80,8 @@ module.exports = function (ctx) {
 
     supportIE: false,
 
+
+
     build: {
       scopeHoisting: true,
       // vueRouterMode: 'history',
@@ -85,14 +89,25 @@ module.exports = function (ctx) {
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      extendWebpack (cfg) {
+      extendWebpack(cfg) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
-         // loader: 'eslint-loader',
+          // loader: 'eslint-loader',
           exclude: /node_modules/
-        })
+        });
+        cfg.module.rules.push({
+          enforce: 'pre',
+          test: /\.(svg)$/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: ''
+          }
+        });
+
       }
+
     },
 
     devServer: {
@@ -102,7 +117,7 @@ module.exports = function (ctx) {
     },
 
     // animations: 'all' --- includes all animations
-    animations: ['fadeInDown','fadeOutUp'],
+    animations: ['fadeInDown', 'fadeOutUp'],
 
     ssr: {
       pwa: false
@@ -119,8 +134,7 @@ module.exports = function (ctx) {
         orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#027be3',
-        icons: [
-          {
+        icons: [{
             'src': 'statics/icons/icon-128x128.png',
             'sizes': '128x128',
             'type': 'image/png'
@@ -150,13 +164,13 @@ module.exports = function (ctx) {
     },
 
     cordova: {
-      // id: 'org.cordova.quasar.app'
+      //id: 'org.cordova.quasar.app'
     },
 
     electron: {
       // bundler: 'builder', // or 'packager'
 
-      extendWebpack (cfg) {
+      extendWebpack(cfg) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       },

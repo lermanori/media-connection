@@ -2,20 +2,23 @@
   <q-layout view="lHh lpr lFf">
     <q-header elevated class="glossy purple">
       <q-toolbar>
-        <q-btn flat dense round @click="leftDrawerOpen = !leftDrawerOpen" aria-label="Menu" v-if='loggedIn'>
+        <q-btn
+          flat
+          dense
+          round
+          @click="leftDrawerOpen = !leftDrawerOpen"
+          aria-label="Menu"
+          v-if="loggedIn"
+        >
           <q-icon name="menu" />
         </q-btn>
-        <q-toolbar-title>
-          Media Connection-ori
-        </q-toolbar-title>
-        
-        <q-space/>
+        <q-toolbar-title>Media Connection</q-toolbar-title>
 
-        <a href="/auth/logout" @click='logout_Handle'>
-          <q-btn flat dense round aria-label="Logout" v-if='loggedIn'>
-            <q-icon color="white" name="exit_to_app"  />
-          </q-btn>
-        </a>
+        <q-space />
+
+        <q-btn flat dense round aria-label="Logout" v-if="loggedIn" @click="logout_Handle">
+          <q-icon color="white" name="exit_to_app" />
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -41,9 +44,6 @@
             <q-item-label caption>Home,Profile etc..</q-item-label>
           </q-item-section>
         </q-item>
-
-
-
       </q-list>
     </q-drawer>
 
@@ -60,25 +60,26 @@ export default {
   name: "MyLayout",
   data() {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop && this.$store.getters.loggedIn
+      leftDrawerOpen:
+        this.$q.platform.is.desktop && this.$store.getters.loggedIn
     };
   },
   methods: {
     openURL,
-    logout_Handle(){
-      this.$store.dispatch('clearAuth');
+    logout_Handle() {
+      this.$store.dispatch("clearAuth");
+      this.$router.push("/");
       console.log(this.$store.getters.loggedIn);
     }
   },
-  computed:{
-    loggedIn(){
-      return this.$store.getters.loggedIn
+  computed: {
+    loggedIn() {
+      return this.$store.getters.loggedIn;
     }
   },
-  created(){
-    this.$store.dispatch('auth')
+  created() {
+    //this.$store.dispatch('reauth');
   }
-
 };
 </script>
 

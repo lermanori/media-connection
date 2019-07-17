@@ -50,7 +50,7 @@ Vue.config.productionTip = false
 
 
 
-console.info('[Quasar] Running CORDOVA.')
+console.info('[Quasar] Running SPA.')
 
 
 
@@ -88,14 +88,9 @@ async function start () {
     
 
     
-    document.addEventListener('deviceready', () => {
-    Vue.prototype.$q.cordova = window.cordova
-    
 
       new Vue(app)
 
-    
-    }, false) // on deviceready
     
 
   

@@ -1,12 +1,11 @@
-import store from "../store";
 import services from "../services";
-
+import store from "../store"
 const AuthMidlleware = (to, from, next) => {
-    let user = services.auth();
-    if (user == "")
-      next('/');
-    else
-      next();
+  //console.log(this.$store)
+  if (store().getters.loggedIn == false)
+    next('/');
+  else
+    next();
 };
 
 
@@ -24,6 +23,14 @@ const routes = [{
     children: [{
       path: "",
       component: () => import("pages/register.vue")
+    }]
+  },
+  {
+    path: "/login",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/login.vue")
     }]
   },
   {
@@ -52,6 +59,15 @@ const routes = [{
       component: () => import("pages/Dashboard.vue")
     }],
     beforeEnter: AuthMidlleware
+  },
+  {
+    path: "/image-editor",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/ImageEditor.vue")
+    }],
+    //beforeEnter: AuthMidlleware
   }
 ];
 

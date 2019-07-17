@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@toast-ui/vue-image-editor": "^1.0.2",
     "axios": "^0.18.0",
-    "quasar": "^1.0.0-beta.0"
+    "fabric": "^3.3.2",
+    "firebase": "^6.1.1",
+    "quasar": "^1.0.0-beta.0",
+    "vue-authenticate": "^1.4.1"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0-beta.0",

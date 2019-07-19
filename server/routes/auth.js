@@ -1,43 +1,25 @@
-var express = require('express')
-var router = express.Router()
-const passport = require('passport');
-const cors = require('cors');
+const express = require('express')
+const router = express.Router()
+const userController = require('../controllers/userController.js');
+const authMiddleware = require('../middleware/auth-middleware.js')
 
-router.use(cors())
 
-router.post('/local-register',(req,res)=>{
-    const user = req.body
-    if(user.email =="ori" && user.password =="1234")
-    {
-        res.sendStatus(200);
-        console.log('200')
-    }
-    else
-    {
-        res.sendStatus(403);
-        console.log('403')
-    }
+router.post('/register', userController.register);
+router.post('/login', userController.login);
+router.get('/', authMiddleware, (req, res) => {
+    console.log("protected route")
+    res.status(200).json({
+        "message": "this is a protected route"
+    });
 })
 
-router.get('/',(req,res)=>{
-    res.send(req.user);
-})
+// there is an auth middlewar// 
 
-router.get('/login',(req, res)=>{
-    res.redirect('./google')
-})
-router.get('/logout',(req,res)=>{
-    req.logOut();
-    console.log(req.user);
-    res.redirect('/');
-})
-router.get('/google',passport.authenticate('google',{
-    scope:['profile','email']
-}))
+/*
+router.delete('/delete', userController.deleteUser);
+*/
 
-router.get('/google/redirect', passport.authenticate('google'), (req, res) =>{
-    //res.send(req.user);
-    res.redirect('/#/taskManager');
-})
+
+
 
 module.exports = router

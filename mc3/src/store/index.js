@@ -30,16 +30,8 @@ firebase.initializeApp(firebaseConfig);
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
-
-
-
-
-
-
-
 const baseURL = BaseURL.localBaseUrl
 
-// import example from './module-example'
 
 Vue.use(Vuex);
 
@@ -57,7 +49,9 @@ const Store = new Vuex.Store({
     id: myID++,
     projectsArr: [],
     user: {
-      userObj: {}
+      userObj: {},
+      token: ""
+
     },
     authenticated: false
   },
@@ -67,7 +61,12 @@ const Store = new Vuex.Store({
     },
     loggedIn: function (state) {
       return state.authenticated;
+    },
+    token: function (state) {
+      return state.user.token;
     }
+
+
   },
   mutations: {
     addProject(state, obj) {
@@ -84,6 +83,7 @@ const Store = new Vuex.Store({
         state.authenticated = true;
       }
       state.user.userObj = JSON.stringify(firebase.auth().currentUser);
+      state.user.token = user.token;
     },
     clearAuthUser(state) {
       console.log("clearing user " + state.user.loggedIn);
@@ -115,19 +115,41 @@ const Store = new Vuex.Store({
         context.commit('syncProjects', data.data)
       })
     },
-    signUpwWithEmailAndPass(context, obj) {
-      return firebase.auth().createUserWithEmailAndPassword(obj.email, obj.password).then((data) => {
-        context.commit('setAuthUser', data.user);
-      }).catch(function (error) {
+    async signUpwWithEmailAndPass(context, obj) {
+      try {
+        const {
+          user
+        } = await firebase.auth().createUserWithEmailAndPassword(obj.email, obj.password);
+        const {
+          data
+        } = await axios.post(baseURL + '/auth/register', {
+          "email": user.email,
+          "uid": user.uid
+        });
+        const result = await axios.post(baseURL + '/auth/login', {
+          "email": user.email,
+          "uid": user.uid
+        })
+        const token = result.data.token;
+        obj['token'] = token;
+        context.commit('setAuthUser', obj);
+      } catch (error) {
         console.log("Error SignIn" + error);
-      });
+      }
     },
-    login(context, obj) {
-      return firebase.auth().signInWithEmailAndPassword(obj.email, obj.password).then((data) => {
-        context.commit('setAuthUser', data.user);
-      }).catch(function (error) {
+    async login(context, obj) {
+      try {
+        const data = await firebase.auth().signInWithEmailAndPassword(obj.email, obj.password);
+        const result = await axios.post(baseURL + '/auth/login', {
+          "email": data.user.email,
+          "uid": data.user.uid
+        })
+        const token = result.data.token;
+        data['token'] = token;
+        context.commit('setAuthUser', data);
+      } catch (error) {
         console.log("Error SignIn" + error);
-      });
+      }
 
     },
 
@@ -135,12 +157,22 @@ const Store = new Vuex.Store({
     async auth(context) {
       try {
         const result = await firebase.auth().signInWithPopup(provider);
-        // This gives you a Google Access Token.
-        // You can use it to access the Google API.
-        const token = result.credential.accessToken;
-        // The signed-in user info.
         const user = result.user;
-        console.log(user);
+
+        if (result.additionalUserInfo.isNewUser) {
+          const {
+            data
+          } = await axios.post(baseURL + '/auth/register', {
+            "email": user.email,
+            "uid": user.uid
+          });
+        }
+        const loginResult = await axios.post(baseURL + '/auth/login', {
+          "email": user.email,
+          "uid": user.uid
+        })
+        const token = loginResult.data.token;
+        user['token'] = token;
         context.commit('setAuthUser', user);
         return result;
       } catch (error) {

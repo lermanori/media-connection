@@ -27,7 +27,7 @@
             <div class="q-my-md row wrap justify-between">
               <div class="col-6">Description: {{index.group_desc}}</div>
               <div class="col-4 text-center">
-                <q-btn round color="black" icon="my_location" />
+                <q-btn round color="indigo" icon="my_location" :to="'/group/' + index._id" />
               </div>
             </div>
             <q-separator class="q-mt-md" />
@@ -60,6 +60,7 @@
 
 <script>
 import baseURL from "../baseUrl";
+import AxiosConfig from "../axiosConfig";
 export default {
   data() {
     return {
@@ -77,11 +78,7 @@ export default {
       return this.groups;
     },
     AxiosConfig() {
-      return {
-        headers: {
-          Authorization: "bearer " + this.$store.getters.token
-        }
-      };
+      return AxiosConfig;
     }
   },
   methods: {

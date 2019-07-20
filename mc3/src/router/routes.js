@@ -68,7 +68,27 @@ const routes = [{
       component: () => import("pages/ImageEditor.vue")
     }],
     //beforeEnter: AuthMidlleware
-  }
+  },
+  {
+    path: "/group/:groupid",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/group.vue")
+    }],
+    beforeEnter: AuthMidlleware
+
+  },
+  {
+    path: "/instagram",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/instagramRedirect.vue")
+    }],
+    //beforeEnter: AuthMidlleware
+
+  },
 ];
 
 

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const {
     JWT_KEY
 } = require('../config/keys.js')
+
 module.exports = {
     register(req, res, next) {
         let {
@@ -40,7 +41,6 @@ module.exports = {
         User.findOne({
             "uid": uid
         }).then((user) => {
-            console.log(user)
             if (!user) {
                 console.log("no user")
                 res.status(401).json({
@@ -62,6 +62,5 @@ module.exports = {
                 "message": "login faild"
             })
         })
-    },
-
+    }
 }

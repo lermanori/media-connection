@@ -2,6 +2,16 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import BaseURL from "../baseUrl";
+import VuexPersist from 'vuex-persist';
+
+const vuexLocalStorage = new VuexPersist({
+  key: 'vuex', // The key to store the state on in the storage provider.
+  storage: window.localStorage, // or window.sessionStorage or localForage
+  // Function that passes the state and returns the state with only the objects you want to store.
+  // reducer: state => state,
+  // Function that passes a mutation and lets you decide if it should update the state in localStorage.
+  // filter: mutation => (true)
+})
 
 
 // Firebase App (the core Firebase SDK) is always required and
@@ -50,7 +60,8 @@ const Store = new Vuex.Store({
     projectsArr: [],
     user: {
       userObj: {},
-      token: ""
+      token: "",
+      instagram_token: ""
 
     },
     authenticated: false
@@ -64,8 +75,10 @@ const Store = new Vuex.Store({
     },
     token: function (state) {
       return state.user.token;
+    },
+    instagram_token: function (state) {
+      return state.user.instagram_token;
     }
-
 
   },
   mutations: {
@@ -90,6 +103,9 @@ const Store = new Vuex.Store({
       state.user.userObj = {};
       state.authenticated = false;
       console.log("clearing user " + state.user.loggedIn + " afater ");
+    },
+    setInstagramToken(state, token) {
+      state.user.instagram_token = token;
     }
   },
   actions: {
@@ -115,6 +131,10 @@ const Store = new Vuex.Store({
         context.commit('syncProjects', data.data)
       })
     },
+    setInstagramToken(context, obj) {
+      context.commit('setInstagramToken', obj);
+    },
+
     async signUpwWithEmailAndPass(context, obj) {
       try {
         const {
@@ -132,6 +152,7 @@ const Store = new Vuex.Store({
         })
         const token = result.data.token;
         obj['token'] = token;
+        this.$cookies.set("token", token);
         context.commit('setAuthUser', obj);
       } catch (error) {
         console.log("Error SignIn" + error);
@@ -146,6 +167,7 @@ const Store = new Vuex.Store({
         })
         const token = result.data.token;
         data['token'] = token;
+        this.$cookies.set("token", token);
         context.commit('setAuthUser', data);
       } catch (error) {
         console.log("Error SignIn" + error);
@@ -222,6 +244,7 @@ const Store = new Vuex.Store({
 
   //enable strict mode (adds overhead!)
   // for dev mode only
+  plugins: [vuexLocalStorage.plugin],
   strict: process.env.DEV
 
 });

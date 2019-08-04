@@ -58,6 +58,7 @@ const Store = new Vuex.Store({
   state: {
     id: myID++,
     projectsArr: [],
+    currentGroupID: "",
     user: {
       userObj: {},
       token: "",
@@ -78,6 +79,9 @@ const Store = new Vuex.Store({
     },
     instagram_token: function (state) {
       return state.user.instagram_token;
+    },
+    currentGroupID: function (state) {
+      return state.currentGroupID;
     }
 
   },
@@ -106,6 +110,9 @@ const Store = new Vuex.Store({
     },
     setInstagramToken(state, token) {
       state.user.instagram_token = token;
+    },
+    setGroupID(state, groupID) {
+      state.currentGroupID = groupID;
     }
   },
   actions: {
@@ -134,7 +141,10 @@ const Store = new Vuex.Store({
     setInstagramToken(context, obj) {
       context.commit('setInstagramToken', obj);
     },
-
+    setGroupID(context, obj) {
+      console.log(obj);
+      context.commit('setGroupID', obj);
+    },
     async signUpwWithEmailAndPass(context, obj) {
       try {
         const {

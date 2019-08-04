@@ -60,7 +60,11 @@ module.exports = function (ctx) {
         'QTabPanel',
         'QTabs',
         'QTab',
-        'QRouteTab'
+        'QRouteTab',
+        'QSpinnerCube',
+        'QCheckbox',
+        'QBtnDropdown'
+
       ],
 
       directives: [
@@ -117,7 +121,7 @@ module.exports = function (ctx) {
     },
 
     // animations: 'all' --- includes all animations
-    animations: ['fadeInDown', 'fadeOutUp'],
+    animations: ['fadeIn', 'fadeOut',],
 
     ssr: {
       pwa: false

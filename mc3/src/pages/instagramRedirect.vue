@@ -1,5 +1,12 @@
 <template>
-  <h1 class="text-h1">redirecting to grid..</h1>
+  <div class="row justify-center q-mt-lg">
+    <div class="col-12 text-center">
+      <h1 class="text-h4">redirecting to grid..</h1>
+    </div>
+    <div class="col-12 text-center">
+      <q-spinner-cube color="indigo" size="5.5em" />
+    </div>
+  </div>
 </template>
 
 <script>

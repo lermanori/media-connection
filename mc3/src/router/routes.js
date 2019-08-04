@@ -89,6 +89,17 @@ const routes = [{
     //beforeEnter: AuthMidlleware
 
   },
+  {
+    path: "/requests",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/requests.vue")
+    }],
+    //beforeEnter: AuthMidlleware
+
+  },
+
 ];
 
 

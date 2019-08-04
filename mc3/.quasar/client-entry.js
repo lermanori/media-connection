@@ -18,9 +18,9 @@ import '@quasar/extras/material-icons/material-icons.css'
 
 
 
-import '@quasar/extras/animate/fadeInDown.css'
+import '@quasar/extras/animate/fadeIn.css'
 
-import '@quasar/extras/animate/fadeOutUp.css'
+import '@quasar/extras/animate/fadeOut.css'
 
 
 import 'quasar-styl'

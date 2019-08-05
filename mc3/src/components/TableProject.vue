@@ -39,7 +39,7 @@
 export default {
   computed: {
     projectsArr() {
-      return this.$store.getters.projects;
+      return this.$store.getters["Project/projects"]
     }
   },
   methods: {
@@ -48,7 +48,7 @@ export default {
     }
   },
   created(){
-      this.$store.dispatch('syncProjects');
+      this.$store.dispatch('Project/syncProjects');
   }
 };
 </script>

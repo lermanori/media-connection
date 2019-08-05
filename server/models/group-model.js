@@ -9,7 +9,8 @@ const GroupSchema = new Schema({
     members: [{
         memberUid: String,
         role: String
-    }]
+    }],
+    posts:[{type:Schema.Types.ObjectId,ref:'Post'}]
 })
 
 const Group = mongoose.model('group', GroupSchema)

@@ -49,7 +49,7 @@ module.exports = {
             }
             let token = jwt.sign({
                 user
-            }, "shhhhhh", {
+            }, JWT_KEY, {
                 expiresIn: "1h"
             });
             res.status(200).json({

@@ -67,14 +67,14 @@ export default {
   methods: {
     openURL,
     logout_Handle() {
-      this.$store.dispatch("clearAuth");
+      this.$store.dispatch("User/clearAuth");
       this.$router.push("/");
       console.log(this.$store.getters.loggedIn);
     }
   },
   computed: {
     loggedIn() {
-      return this.$store.getters.loggedIn;
+      return this.$store.getters["User/loggedIn"];
     }
   },
   created() {

@@ -14,6 +14,7 @@ var jsonParser = bodyParser.json()
 const authRoutes = require('./server/routes/auth')
 const groupRoutes = require('./server/routes/group')
 const taskManagerRoutes = require('./server/routes/taskManager')
+const postRoutes = require('./server/routes/post')
 
 app.use(cors())
 app.use(cookieSession({
@@ -45,6 +46,7 @@ app.use('/', express.static(distPath));
 app.use('/auth', authRoutes);
 app.use('/group', groupRoutes);
 app.use('/api/projects', taskManagerRoutes);
+app.use('/api/post', postRoutes);
 
 
 var port = process.env.PORT || 3000;

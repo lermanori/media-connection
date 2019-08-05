@@ -2,7 +2,7 @@ import services from "../services";
 import store from "../store"
 const AuthMidlleware = (to, from, next) => {
   //console.log(this.$store)
-  if (store().getters.loggedIn == false)
+  if (store().getters["Users/loggedIn"] == false)
     next('/');
   else
     next();

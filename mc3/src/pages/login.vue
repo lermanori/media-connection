@@ -50,13 +50,13 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch("auth").then(() => {
+      this.$store.dispatch("User/auth").then(() => {
         window.setTimeout(() => this.$router.push("/taskManager"), 500);
       });
     },
     loginWithEmailAndPass() {
       this.$store
-        .dispatch("login", {
+        .dispatch("User/login", {
           email: this.email,
           password: this.password
         })
@@ -65,17 +65,5 @@ export default {
         });
     }
   }
-
-  /*created() {
-    this.$store
-      .dispatch("reauth")
-      .then(result => {
-        if (this.$store.getters.loggedIn) this.$router.push("/taskManager");
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-     */
 };
 </script>

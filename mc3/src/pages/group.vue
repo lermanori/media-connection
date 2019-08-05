@@ -16,7 +16,7 @@
       <a
         :href="`https://api.instagram.com/oauth/authorize/?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`"
       >
-        <q-btn @click="()=>$store.dispatch('setGroupID',$route.params.groupid)">connect to instagram</q-btn>
+        <q-btn @click="()=>$store.dispatch('Group/setGroupID',$route.params.groupid)">connect to instagram</q-btn>
       </a>
     </template>
   </div>

@@ -69,8 +69,7 @@ export default {
     handle_click_save() {
       const filter = this.properties.filter((arg)=>!arg.disabled);
       this.filterdProperties = filter.map(({key,value,mode})=>{return {key,value,mode}})
-      this.$store.dispatch('createPost',this.filterdProperties);//tbi
-      
+      this.$store.dispatch('Post/createPost',this.filterdProperties);//tbi
     },
     clean_handler() {
       this.properties = this.properties.filter(arg => !arg.disabled);
@@ -78,7 +77,7 @@ export default {
     handle_save_schema(){
       const schema_name = this.schemaName;
       const properties = this.filterdProperties;
-      if(this.save)this.$store.dispatch('createSchema',{schema_name,properties});this.save=true//tbi
+      if(this.save)this.$store.dispatch('Post/createSchema',{schema_name,properties});this.save=true//tbi
     }
 
   }

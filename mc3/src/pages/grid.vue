@@ -2,7 +2,7 @@
   <q-page>
     <q-page-container>
       <div class="text-center">
-        <div class="text-h6">currentGroupID: {{$store.getters.currentGroupID}}</div>
+        <div class="text-h6">currentGroupID: {{$store.getters["Group/currentGroupID"]}}</div>
       </div>
       <div class="row justify-center q-gutter-sm">
         <div class="col-md-5 col-xs-12 q-mb-lg">
@@ -60,7 +60,7 @@ export default {
     async getInstagramData() {
       let { data } = await this.$axios.get(
         "https://api.instagram.com/v1/users/self/media/recent/?access_token=" +
-          this.$store.getters.instagram_token
+          this.$store.getters["User/instagram_token"]
       );
       this.data = data.data;
       return;

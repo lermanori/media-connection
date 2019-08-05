@@ -29,7 +29,7 @@ export default {
         //handle success
         console.log(response);
         this.$store
-          .dispatch("setInstagramToken", response.data.access_token)
+          .dispatch("User/setInstagramToken", response.data.access_token)
           .then(() => {
             this.$router.push("/grid");
           });

@@ -56,28 +56,22 @@ export default {
         this.password == this.passwordMatch
       ) {
         this.$router.push("/taskManager");
-        /*
-          axios.post('auth/local-register',{email:email,password:password}).then((data)=>{
-            }).catch((err)=>{
-              this.auth = false
-          
-          })
-          */
+
       } else {
         this.auth = false;
       }
     },
     login() {
-      this.$store.dispatch("auth").then(() => {
+      this.$store.dispatch("User/auth").then(() => {
         this.$router.push("/taskManager");
       });
     },
     instagramAuth() {
-      this.$store.dispatch("authenticate", "instagram");
+      this.$store.dispatch("User/authenticate", "instagram");
     },
     register() {
       this.$store
-        .dispatch("signUpwWithEmailAndPass", {
+        .dispatch("User/signUpwWithEmailAndPass", {
           email: this.email,
           password: this.password
         })
@@ -86,15 +80,6 @@ export default {
         });
     }
   }
-  /*created() {
-    this.$store
-      .dispatch("reauth")
-      .then(result => {
-        if (this.$store.getters.loggedIn) this.$router.push("/taskManager");
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }*/
+
 };
 </script>

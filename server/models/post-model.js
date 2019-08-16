@@ -3,9 +3,13 @@ const Schema = mongoose.Schema
 const User = require("../models/user-model")
 
 const PostSchema = new Schema({
-    properties:[],
-    group:{type:Schema.Types.ObjectId,ref:'Group'}
-
+    properties: [],
+    commits: [],
+    group: {
+        type: Schema.Types.ObjectId,
+        ref: 'Group'
+    },
+    status: String
 })
 
 const Post = mongoose.model('post', PostSchema)

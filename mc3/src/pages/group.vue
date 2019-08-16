@@ -13,10 +13,15 @@
       <div class="row wrap">
         <h4>group description: {{groupData.group_desc}}</h4>
       </div>
+      <div class="row wrap">
+        <h4>group posts: {{groupData.posts}}</h4>
+      </div>
       <a
         :href="`https://api.instagram.com/oauth/authorize/?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`"
       >
-        <q-btn @click="()=>$store.dispatch('Group/setGroupID',$route.params.groupid)">connect to instagram</q-btn>
+        <q-btn
+          @click="()=>$store.dispatch('Group/setGroupID',$route.params.groupid)"
+        >connect to instagram</q-btn>
       </a>
     </template>
   </div>
@@ -24,7 +29,7 @@
 
 <script>
 import baseUrl from "../baseUrl";
-import axiosConfig from "../axiosConfig";
+import axiosConfig from "../axiosConfig.js";
 export default {
   data() {
     return {
@@ -37,14 +42,15 @@ export default {
 
   methods: {
     async getData() {
-      let URL = baseUrl.localBaseUrl + "/group/" + this.$route.params.groupid;
+      let URL =
+        baseUrl.localBaseUrl + "/api/group/" + this.$route.params.groupid;
       let data = await this.$axios.get(URL, this.AxiosConfig);
       return data;
     }
   },
   computed: {
     AxiosConfig() {
-      return axiosConfig;
+      return axiosConfig.axiosConfig();
     },
     DataLoaded() {
       return this.dataLoaded;

@@ -5,6 +5,8 @@ const postController = require('../controllers/postController.js')
 
 
 router.post('/create', authMiddleware, postController.create);
+router.post('/commit', authMiddleware, postController.addCommit);
+router.get('/:postid/commit', authMiddleware, postController.getCommits);
 router.get('/', authMiddleware, postController.getPosts);
 router.get('/:postid', authMiddleware, postController.getPost);
 

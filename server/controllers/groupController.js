@@ -66,5 +66,26 @@ module.exports = {
             res.status(404).json("error getting group");
         })
 
+    },
+    getGroupPosts(req, res, next) {
+        let groupID = req.params.groupid;
+        User.findById(req.user.user._id).then((doc) => {
+            const groups = doc.groups;
+            if (groups.includes(groupID)) {
+                Group.findById({
+                    '_id': groupID
+                }).then((doc) => {
+                    let filterduid = doc.members.map(arg => arg.memberUid);
+                    let contains = filterduid.includes(req.user.user.uid);
+                    if (contains) {
+                        res.status(200).json(doc.posts);
+                    }
+                })
+            }
+        }).catch((err) => {
+            console.log(err);
+            res.status(404).json("error getting group");
+        })
+
     }
 }

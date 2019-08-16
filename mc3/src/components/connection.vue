@@ -60,7 +60,7 @@
 
 <script>
 import baseURL from "../baseUrl";
-import AxiosConfig from "../axiosConfig";
+import axiosConfig from "../axiosConfig";
 export default {
   data() {
     return {
@@ -78,18 +78,18 @@ export default {
       return this.groups;
     },
     AxiosConfig() {
-      return AxiosConfig;
+      return axiosConfig.axiosConfig();
     }
   },
   methods: {
     addGroup(group) {
-      let URL = baseURL.localBaseUrl + "/group/create";
+      let URL = baseURL.localBaseUrl + "/api/group/create";
       this.$axios.post(URL, this.newGroup, this.AxiosConfig).then(() => {
         this.getGroups();
       });
     },
     getGroups() {
-      let URL = baseURL.localBaseUrl + "/group";
+      let URL = baseURL.localBaseUrl + "/api/group";
       this.$axios.get(URL, this.AxiosConfig).then(data => {
         this.groups = data.data;
         this.newGroup = {};

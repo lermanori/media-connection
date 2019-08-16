@@ -70,6 +70,24 @@ const routes = [{
     //beforeEnter: AuthMidlleware
   },
   {
+    path: "/:postid/image-editor",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/ImageEditorWithCard.vue")
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+  {
+    path: "/:postid/approval",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/approval.vue")
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+  {
     path: "/group/:groupid",
     component: () => import("layouts/MyLayout.vue"),
     children: [{
@@ -90,6 +108,15 @@ const routes = [{
 
   },
   {
+    path: "/new-request",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/newRequest.vue")
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+  {
     path: "/requests",
     component: () => import("layouts/MyLayout.vue"),
     children: [{
@@ -97,8 +124,61 @@ const routes = [{
       component: () => import("pages/requests.vue")
     }],
     //beforeEnter: AuthMidlleware
-
   },
+  {
+    path: "/post/requests",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/filterType.vue"),
+      props: {
+        title: "new requests",
+        filterFunc: x => x.status == "new request"
+      }
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+  {
+    path: "/post/in-process",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/filterType.vue"),
+      props: {
+        title: "In Process",
+        filterFunc: x => x.status == "in process"
+      }
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+  {
+    path: "/post/waiting-for-approval",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/filterType.vue"),
+      props: {
+        title: "Waiting For Approval",
+        filterFunc: x => x.status == "waiting for approval",
+        mode: "approval"
+      }
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+  {
+    path: "/post",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/filterType.vue"),
+      props: {
+        title: "Posts",
+        filterFunc: x => x == x
+      }
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+
 
 ];
 

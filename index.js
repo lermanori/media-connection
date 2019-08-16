@@ -10,7 +10,6 @@ const passport = require('passport');
 const cors = require('cors')
 
 
-var jsonParser = bodyParser.json()
 const authRoutes = require('./server/routes/auth')
 const groupRoutes = require('./server/routes/group')
 const taskManagerRoutes = require('./server/routes/taskManager')
@@ -31,20 +30,30 @@ mongoose.connect(keys.mongo.dbURI, {
     console.log('connected to mongoDB')
 })
 
-app.use(jsonParser);
+app.use(bodyParser.json({
+    limit: '10mb'
+}));
+
+app.use(bodyParser.urlencoded({
+    extended: true,
+    limit: '10mb'
+}));
 
 
 var distPath = path.join(__dirname, 'mc3', 'dist', 'spa');
+var imagesPath = path.join(__dirname, 'images');
 
 
 
-app.get('/', jsonParser, function (req, res) {
+app.get('/', function (req, res) {
     res.sendFile(path.join(distPath, 'index.html'));
 });
 
 app.use('/', express.static(distPath));
+app.use('/images', express.static(imagesPath));
+
 app.use('/auth', authRoutes);
-app.use('/group', groupRoutes);
+app.use('/api/group', groupRoutes);
 app.use('/api/projects', taskManagerRoutes);
 app.use('/api/post', postRoutes);
 

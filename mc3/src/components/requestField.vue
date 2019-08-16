@@ -2,11 +2,20 @@
   <div class="container">
     <div class="row text-center justify-left">
       <div class="col-1 q-pt-lg">
-        {{value}}
-        <q-checkbox label="disable" @input="$emit('input',value)" v-model="value.disabled"/>
+        <q-checkbox
+          v-if="!(required == 'true')"
+          label="disable"
+          @input="$emit('input',value)"
+          v-model="value.disabled"
+        />
       </div>
-      <div class="col-3 q-pt-lg">
-        <q-btn-dropdown color="primary" :label="buttonText" :disable="value.disabled">
+      <div class="col-2 q-pt-lg q-ml-md">
+        <q-btn-dropdown
+          :style="{display:required == 'true' ? 'none': 'block'}"
+          color="primary"
+          :label="buttonText"
+          :disable="value.disabled  "
+        >
           <q-list>
             <q-item clickable v-close-popup @click="onItemClick('photo')">
               <q-item-section>
@@ -19,14 +28,24 @@
                 <q-item-label>String</q-item-label>
               </q-item-section>
             </q-item>
+            <q-item clickable v-close-popup @click="onItemClick('date')">
+              <q-item-section>
+                <q-item-label>Date</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-list>
         </q-btn-dropdown>
       </div>
 
-      <div class="col-6 q-pa-sm" v-if="choseType">
-        <app-dynamic :disabled="value.disabled" :mode=mode :value="value" @input="handleInput" />
+      <div class="col-8 q-pa-sm" v-if="choseType">
+        <app-dynamic
+          :disabled="value.disabled"
+          :mode="mode"
+          :value="value"
+          @input="handleInput"
+          :required-key="required == 'true' ? 'upload date':null"
+        />
       </div>
-          
     </div>
   </div>
 </template>
@@ -37,25 +56,21 @@ import dynamicKeyValue from "./dynamicKeyValue.vue";
 export default {
   data() {
     return {
-      checked:  true ,
+      checked: true,
       choseType: false,
       mode: "",
       buttonText: "data type",
-      once:true,
-      obj:{},
-      my_id:null,
-      
+      once: true,
+      obj: {},
+      my_id: null
     };
   },
-  computed:{
-    disabled(){
+  computed: {
+    disabled() {
       return this.value.disabled;
-    },
-
+    }
   },
-  watch: {
-
-  },
+  watch: {},
 
   methods: {
     onItemClick(mode) {
@@ -63,30 +78,34 @@ export default {
       this.mode = mode;
       this.buttonText = mode;
     },
-    handleInput(e){
+    handleInput(e) {
       e.disabled = this.value.disabled;
       e.id = this.my_id;
       this.$emit("input", e);
     },
-    handleInputCheckBox(e){
+    handleInputCheckBox(e) {
       this.checked = !this.checked;
-      this.handleInput(e);      
+      this.handleInput(e);
     }
   },
   components: {
     "app-dynamic": dynamicKeyValue
   },
 
-  props: ["value","id",],
-  created(){
-    if (this.once)
-    {
+  props: ["value", "id", "required"],
+  created() {
+    if (this.once) {
       this.my_id = this.id;
       console.log(this.my_id);
-      this.once=false;
+      this.once = false;
+    }
+  },
+  mounted() {
+    if (this.required == "true") {
+      this.onItemClick("date");
+      this.value.key = "upload date";
     }
   }
-
 };
 </script>
 

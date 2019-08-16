@@ -8,18 +8,27 @@
         <div class="col-md-5 col-xs-12 q-mb-lg">
           <q-card class="my-card">
             <q-card-section class="bg-indigo text-white text-center">
-              <div class="text-h6">Post waiting for submission</div>
-              <div class="text-h4">5</div>
-              <q-btn>to submissions</q-btn>
+              <div class="text-h6">Post Waiting For Approval</div>
+              <div class="text-h4" v-if="postLoaded">{{NumberOfWaitingPosts}}</div>
+              <q-btn to="/post/waiting-for-approval">to submissions</q-btn>
             </q-card-section>
           </q-card>
         </div>
-        <div class="col-md-5 col-xs-12">
+        <div class="col-md-5 col-xs-12 q-mb-lg">
+          <q-card class="my-card">
+            <q-card-section class="bg-blue darken 4 text-white text-center">
+              <div class="text-h6">Posts In Process</div>
+              <div class="text-h4" v-if="postLoaded">{{NumberOfInProcessPosts}}</div>
+              <q-btn to="/post/in-process">to In Process</q-btn>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-md-5 col-xs-12 q-mb-lg">
           <q-card class="my-card">
             <q-card-section class="bg-cyan text-white text-center">
               <div class="text-h6">Posts requested</div>
-              <div class="text-h4">3</div>
-              <q-btn>to requests</q-btn>
+              <div class="text-h4" v-if="postLoaded">{{NumberOfNewPosts}}</div>
+              <q-btn to="/post/requests">to requests</q-btn>
             </q-card-section>
           </q-card>
         </div>
@@ -48,12 +57,23 @@ export default {
       username: "",
       password: "",
       auth: "true",
-      data: []
+      data: [],
+      postLoaded: false,
+      posts: []
     };
   },
   computed: {
     InstagramData() {
       return this.data;
+    },
+    NumberOfNewPosts() {
+      return this.posts.filter(x => x.status === "new request").length;
+    },
+    NumberOfInProcessPosts() {
+      return this.posts.filter(x => x.status === "in process").length;
+    },
+    NumberOfWaitingPosts() {
+      return this.posts.filter(x => x.status === "waiting for approval").length;
     }
   },
   methods: {
@@ -68,6 +88,15 @@ export default {
   },
   created() {
     this.getInstagramData();
+    this.$store
+      .dispatch("Post/syncPosts", this.$store.getters["Group/currentGroupID"])
+      .then(result => {
+        this.posts = result;
+        this.postLoaded = true;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>

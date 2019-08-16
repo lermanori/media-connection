@@ -7,6 +7,7 @@ const groupController = require('../controllers/groupController')
 router.post('/create', authMiddleware, groupController.create);
 router.get('/', authMiddleware, groupController.getGroups);
 router.get('/:groupid', authMiddleware, groupController.getGroup);
+router.get('/:groupid/posts',authMiddleware,groupController.getGroupPosts);
 
 
 module.exports = router

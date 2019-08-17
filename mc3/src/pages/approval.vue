@@ -7,14 +7,7 @@
         </h6>
       </div>
     </div>
-    <q-select
-      @input="loadCommitData"
-      filled
-      v-model="model"
-      v-if="loaded"
-      :options="InputOptions"
-      label="Commits"
-    />
+    <q-select filled v-model="model" v-if="loaded" :options="InputOptions" label="Commits" />
     <div class="container q-ma-xl" v-if="model!=null">
       <div class="row justify-center q-my-md">commit description: {{model.description}}</div>
       <div class="row justify-center">
@@ -29,49 +22,39 @@
         <div class="col-12" :key="index">
           <p
             :key="index"
-          >{{index}}.{{Object.fromEntries(Object.keys(data.properties[index]).map(arg=> [arg,data.properties[0][arg]]))}}</p>
+          >{{index}}.{{Object.fromEntries(Object.keys(data.properties[index]).map(arg=> [arg,data.properties[index][arg]]))}}</p>
         </div>
       </div>
     </template>
     <div class="row wrap justify-center">
       <div class="q-mx-sm q-my-lg">
-        <q-btn class="q-mr-xl" round icon="save" color="indigo">
-          <q-popup-proxy v-model="opened">
-            <q-banner>
-              <template v-slot:avatar>
-                <q-icon name="save" color="primary" />
-              </template>
-              Enter Commit Message
-              <template v-slot:action>
-                <q-checkbox outline round label="done" v-model="done" class="q-mr-xl" />
+        <q-btn class="q-mr-xl" round icon="check" color="green" @click="()=>openPopup('yes')"></q-btn>
+        <q-btn class="q-mr-xl" round icon="close" color="red" @click="()=>openPopup('no')"></q-btn>
+        <q-dialog v-model="prompt" persistent>
+          <q-card style="min-width: 400px">
+            <q-card-section>
+              <div class="text-h6">{{popUpText}}</div>
+            </q-card-section>
 
-                <q-input outline round label="Commit Message" v-model="commitMessage" />
-                <q-btn outline round color="indigo" icon="send" @click="sumbit_photo_handle" />
-              </template>
-            </q-banner>
-          </q-popup-proxy>
-        </q-btn>
+            <q-card-section>
+              <q-input dense v-model="message" autogrow filled @keyup.enter="prompt = false" />
+            </q-card-section>
+
+            <q-card-actions align="right" class="text-primary">
+              <q-btn fab icon="close" v-close-popup />
+              <q-btn fab icon="check" v-close-popup @click="handlePrompt" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </div>
       <div class="q-mx-sm q-my-lg"></div>
     </div>
   </div>
 </template>
 <script>
-// To use the default UI, the svg files for the icons is required.
-import { ImageEditor } from "@toast-ui/vue-image-editor";
-// copy example white-theme.js to project and export it
-import "tui-image-editor/dist/tui-image-editor.min.css";
-import "tui-image-editor/dist/svg/icon-a.svg";
-import "tui-image-editor/dist/svg/icon-b.svg";
-import "tui-image-editor/dist/svg/icon-c.svg";
-import "tui-image-editor/dist/svg/icon-d.svg";
-
 import PostConverter from "../mixins/PostConverter.js";
 import baseURL from "../baseUrl";
 export default {
-  components: {
-    "tui-image-editor": ImageEditor
-  },
   data() {
     return {
       model: null,
@@ -89,25 +72,13 @@ export default {
           category: "1"
         }
       ],
-      useDefaultUI: true,
-      options: {
-        includeUI: {
-          initMenu: "filter"
-          //theme: whiteTheme
-        },
-        loadImage: {
-          path: "",
-          name: "something"
-        },
-        cssMaxWidth: 700,
-        cssMaxHeight: 500
-      },
       data: {},
       loaded: false,
-      commitMessage: "",
-      opened: false,
+      message: "",
+      prompt: false,
       done: false,
-      baseURL
+      baseURL,
+      approved: "no"
     };
   },
   computed: {
@@ -123,37 +94,37 @@ export default {
         .filter(x => x.value != undefined);
       console.log(commitsToValues);
       return commitsToValues;
+    },
+    popUpText() {
+      return this.approved == "yes"
+        ? "Do uo want to add any thing"
+        : "Please enter reason fo denail";
     }
   },
   methods: {
-    onAddText(res) {
-      console.group("addText");
-      console.log("Client Position : ", res.clientPosition);
-      console.log("Origin Position : ", res.originPosition);
-      console.groupEnd();
+    openPopup(arg) {
+      this.approved = arg;
+      this.prompt = true;
     },
-    onObjectMoved(res) {
-      console.group("objectMoved");
-      console.log("Left : ", res.left);
-      console.log("Top : ", res.top);
-      console.groupEnd();
+    handlePrompt() {
+      if (this.approved == "yes") {
+        let postId = this.$route.params.postid;
+        let message = this.message;
+        this.$store
+          .dispatch("Post/approvePost", { postId, message })
+          .then(data => {
+            this.$router.push("/grid");
+          });
+      } else {
+        let postId = this.$route.params.postid;
+        let message = this.message;
+        this.$store
+          .dispatch("Post/disapprovePost", { postId, message })
+          .then(data => {
+            this.$router.push("/grid");
+          });
+      }
     },
-    sumbit_photo_handle() {
-      let image64 = this.$refs.tuiImageEditor.invoke("toDataURL");
-      let commitMessage = this.commitMessage;
-      let postId = this.$route.params.postid;
-      let done = this.done;
-      let imageData = { image64, commitMessage, postId, done };
-      this.$store
-        .dispatch("Post/addImageToPost", imageData)
-        .then(() => {
-          this.commitMessage = "";
-          this.opened = false;
-        })
-        .catch(err => console.log(err));
-    },
-    loadCommitData() {},
-
     async convertIdToPost(id) {
       const res = PostConverter.convertIdToPost(id);
       return res;
@@ -172,13 +143,7 @@ export default {
   width: 100%;
   max-width: 250px;
 }
-.imageEditorApp {
-  width: 90vw;
-  height: 70vh;
-}
-.svg_ic-menu {
-  background-color: white;
-}
+
 * >>> div.tui-image-editor-header-logo {
   display: none;
 }

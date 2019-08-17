@@ -131,8 +131,60 @@ module.exports = {
 
         }).catch((err) => {
             console.log(err);
-            res.status(400).json("error getting group");
+            res.status(400).json("error getting post");
         })
 
+    },
+    approveCommit(req, res, next) {
+        let postID = req.params.postid;
+        console.log(postID);
+        Post.findOneAndUpdate({
+            _id: postID
+        }, {
+            $set: {
+                status: "approved"
+            }
+        }, {
+            new: true
+        }).then((doc) => {
+            console.log(doc);
+            if (doc) {
+                res.status(200).json(doc);
+            } else {
+                throw new Error("notFound in user posts");
+            }
+
+        }).catch((err) => {
+            console.log(err);
+            res.status(400).json("error getting post");
+        })
+    },
+    disapproveCommit(req, res, next) {
+        let postID = req.params.postid;
+        let message = "disaprove reason: " + req.body.message;
+        console.log(postID);
+        Post.findOneAndUpdate({
+            _id: postID
+        }, {
+            $set: {
+                status: "in process"
+            },
+            $push: {
+                messages: message
+            }
+        }, {
+            new: true
+        }).then((doc) => {
+            console.log(doc);
+            if (doc) {
+                res.status(200).json(doc);
+            } else {
+                throw new Error("notFound in user posts");
+            }
+
+        }).catch((err) => {
+            console.log(err);
+            res.status(400).json("error getting post");
+        })
     }
 }

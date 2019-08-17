@@ -12,3 +12,9 @@ export function addImageToPost(state, postData) {
 export function setPosts(state, posts) {
   state.posts = posts;
 }
+export function approvePost(state, post) {
+  const posts = state.posts
+  const filter = posts.filter(x => x.id != post.id);
+  console.log(post)
+  state.posts = [...filter, post]
+}

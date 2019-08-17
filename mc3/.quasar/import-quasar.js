@@ -13,7 +13,7 @@
 
 import Vue from 'vue'
 
-import {Quasar,QLayout,QHeader,QDrawer,QPageContainer,QPage,QToolbar,QToolbarTitle,QBtn,QIcon,QList,QItem,QItemSection,QItemLabel,QCard,QCardSection,QCardActions,QBtnGroup,QInput,QPageSticky,QImg,QDate,QPopupProxy,QFab,QFabAction,QSeparator,QTimeline,QTimelineEntry,QDialog,QBanner,QSpace,QBadge,QLinearProgress,QTabPanels,QTabPanel,QTabs,QTab,QRouteTab,QSpinnerCube,QCheckbox,QBtnDropdown,QSelect,QTime,Ripple,ClosePopup,Notify,Dialog} from 'quasar'
+import {Quasar,QLayout,QHeader,QDrawer,QPageContainer,QPage,QToolbar,QToolbarTitle,QBtn,QIcon,QList,QItem,QItemSection,QItemLabel,QCard,QCardSection,QCardActions,QBtnGroup,QInput,QPageSticky,QImg,QDate,QPopupProxy,QFab,QFabAction,QSeparator,QTimeline,QTimelineEntry,QDialog,QBanner,QSpace,QBadge,QLinearProgress,QTabPanels,QTabPanel,QTabs,QTab,QRouteTab,QSpinnerCube,QCheckbox,QBtnDropdown,QSelect,QTime,QRadio,Ripple,ClosePopup,Notify,Dialog} from 'quasar'
 
 
-Vue.use(Quasar, { config: {},components: {QLayout,QHeader,QDrawer,QPageContainer,QPage,QToolbar,QToolbarTitle,QBtn,QIcon,QList,QItem,QItemSection,QItemLabel,QCard,QCardSection,QCardActions,QBtnGroup,QInput,QPageSticky,QImg,QDate,QPopupProxy,QFab,QFabAction,QSeparator,QTimeline,QTimelineEntry,QDialog,QBanner,QSpace,QBadge,QLinearProgress,QTabPanels,QTabPanel,QTabs,QTab,QRouteTab,QSpinnerCube,QCheckbox,QBtnDropdown,QSelect,QTime},directives: {Ripple,ClosePopup},plugins: {Notify,Dialog} })
+Vue.use(Quasar, { config: {},components: {QLayout,QHeader,QDrawer,QPageContainer,QPage,QToolbar,QToolbarTitle,QBtn,QIcon,QList,QItem,QItemSection,QItemLabel,QCard,QCardSection,QCardActions,QBtnGroup,QInput,QPageSticky,QImg,QDate,QPopupProxy,QFab,QFabAction,QSeparator,QTimeline,QTimelineEntry,QDialog,QBanner,QSpace,QBadge,QLinearProgress,QTabPanels,QTabPanel,QTabs,QTab,QRouteTab,QSpinnerCube,QCheckbox,QBtnDropdown,QSelect,QTime,QRadio},directives: {Ripple,ClosePopup},plugins: {Notify,Dialog} })

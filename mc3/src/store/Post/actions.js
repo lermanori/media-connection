@@ -58,6 +58,34 @@ export async function addImageToPost(context, imageData) {
     console.log(err);
   }
 }
+export async function approvePost(context, postData) {
+  try {
+    console.log("approve post:--")
+    let message = postData.message;
+    const conf = newAxioxConfig();
+    const result = await axios.post(baseUrl.localBaseUrl + `/api/post/${postData.postId}/approve`, {
+      message
+    }, conf);
+    context.commit('approvePost', result.data)
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+}
+export async function disapprovePost(context, postData) {
+  try {
+    console.log("disapprove post:--")
+    let message = postData.message;
+    const conf = newAxioxConfig();
+    const result = await axios.post(baseUrl.localBaseUrl + `/api/post/${postData.postId}/disapprove`, {
+      message
+    }, conf);
+    context.commit('approvePost', result.data)
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+}
 export async function getCommits(context, postId) {
   try {
     const conf = newAxioxConfig();

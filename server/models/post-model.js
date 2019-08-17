@@ -9,7 +9,8 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Group'
     },
-    status: String
+    status: String,
+    messages: []
 })
 
 const Post = mongoose.model('post', PostSchema)

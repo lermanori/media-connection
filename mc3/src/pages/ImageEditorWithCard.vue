@@ -25,7 +25,7 @@
         <div class="col-12" :key="index">
           <p
             :key="index"
-          >{{index}}.{{Object.fromEntries(Object.keys(data.properties[index]).map(arg=> [arg,data.properties[0][arg]]))}}</p>
+          >{{index}}.{{Object.fromEntries(Object.keys(data.properties[index]).map(arg=> [arg,data.properties[index][arg]]))}}</p>
         </div>
       </div>
     </template>

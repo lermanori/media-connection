@@ -65,7 +65,8 @@ module.exports = function (ctx) {
         'QCheckbox',
         'QBtnDropdown',
         'QSelect',
-        'QTime'
+        'QTime',
+        'QRadio'
 
       ],
 

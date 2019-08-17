@@ -34,11 +34,23 @@
         </div>
       </div>
     </q-page-container>
+
     <q-page-container class="q-mx-sm">
+      <div class="row justify-center q-mb-md">
+        <div class="q-gutter-sm">
+          <q-radio v-model="dataMode" val="instagram" label="Instagram" />
+          <q-radio v-model="dataMode" val="in-app" label="In App" />
+          <q-radio v-model="dataMode" val="mixed" label="Combined" />
+        </div>
+      </div>
       <div class="row justify-center q-gutter-xl">
-        <div class="col-4" v-for="(img,i) in InstagramData" :key="i">
+        <div class="col-3" v-for="(img,i) in dynamicDataReverse" :key="i">
           <q-card>
-            <q-img class="app-img q-mx-auto" :src="img.images.standard_resolution.url"></q-img>
+            <q-img class="app-img q-mx-auto" :src="img.src" ratio="1.2">
+              <div
+                class="absolute-bottom text-subtitle1 text-center q-pa-xs"
+              >{{dateToString(img.uploadTime)}}</div>
+            </q-img>
           </q-card>
         </div>
       </div>
@@ -50,21 +62,29 @@
 </style>
 
 <script>
+import baseUrl from "../baseUrl";
 export default {
   name: "Register",
   data() {
     return {
+      baseUrl: baseUrl.localBaseUrl,
       username: "",
       password: "",
       auth: "true",
       data: [],
       postLoaded: false,
-      posts: []
+      posts: [],
+      dataMode: "mixed"
     };
   },
   computed: {
     InstagramData() {
-      return this.data;
+      return this.data.map(x => {
+        return {
+          src: x.images.standard_resolution.url,
+          uploadTime: parseInt(x.created_time) * 1000
+        };
+      });
     },
     NumberOfNewPosts() {
       return this.posts.filter(x => x.status === "new request").length;
@@ -74,6 +94,46 @@ export default {
     },
     NumberOfWaitingPosts() {
       return this.posts.filter(x => x.status === "waiting for approval").length;
+    },
+    ApprovedPosts() {
+      return this.posts
+        .filter(x => x.status === "approved")
+        .map(x => {
+          return {
+            src: this.baseUrl + x.commits[x.commits.length - 1].path2,
+            uploadTime: Date.parse(
+              x.filterdProperties.find(x => x.key == "upload date").value
+            )
+          };
+        });
+    },
+    mixed() {
+      let approved = this.ApprovedPosts;
+      let instagram = this.InstagramData;
+      let arr = [...approved, ...instagram];
+      let res = arr;
+      return res;
+    },
+    dynamicData() {
+      switch (this.dataMode) {
+        case "instagram":
+          return this.InstagramData;
+          break;
+        case "mixed":
+          return this.mixed;
+          break;
+        case "in-app":
+          return this.ApprovedPosts;
+          break;
+        default:
+          return this.mixed;
+          break;
+      }
+    },
+    dynamicDataReverse() {
+      return this.dynamicData
+        .sort((x, y) => x.uploadTime - y.uploadTime)
+        .reverse();
     }
   },
   methods: {
@@ -84,6 +144,13 @@ export default {
       );
       this.data = data.data;
       return;
+    },
+    dateToString(date) {
+      return new Date(date)
+        .toString()
+        .split(" ")
+        .filter((x, idx) => idx < 5)
+        .join(" ");
     }
   },
   created() {

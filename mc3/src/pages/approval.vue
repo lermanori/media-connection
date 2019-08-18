@@ -30,7 +30,7 @@
       <div class="q-mx-sm q-my-lg">
         <q-btn class="q-mr-xl" round icon="check" color="green" @click="()=>openPopup('yes')"></q-btn>
         <q-btn class="q-mr-xl" round icon="close" color="red" @click="()=>openPopup('no')"></q-btn>
-        <q-dialog v-model="prompt" persistent>
+        <q-dialog v-model="prompt">
           <q-card style="min-width: 400px">
             <q-card-section>
               <div class="text-h6">{{popUpText}}</div>
@@ -110,8 +110,9 @@ export default {
       if (this.approved == "yes") {
         let postId = this.$route.params.postid;
         let message = this.message;
+        let value = this.model.value;
         this.$store
-          .dispatch("Post/approvePost", { postId, message })
+          .dispatch("Post/approvePost", { postId, message, value })
           .then(data => {
             this.$router.push("/grid");
           });

@@ -8,6 +8,7 @@ import postConverter from "../../mixins/PostConverter"
 
 const newAxioxConfig = () => {
   return {
+
     headers: {
       Authorization: "bearer " + store().getters['User/token']
     }
@@ -62,9 +63,11 @@ export async function approvePost(context, postData) {
   try {
     console.log("approve post:--")
     let message = postData.message;
+    let path = postData.value;
     const conf = newAxioxConfig();
     const result = await axios.post(baseUrl.localBaseUrl + `/api/post/${postData.postId}/approve`, {
-      message
+      message,
+      path
     }, conf);
     context.commit('approvePost', result.data)
     return result;
@@ -114,6 +117,7 @@ export async function syncPosts(context, groupId) {
           id: res._id,
           status: res.status,
           commits: res.commits,
+          path: res.approvedPath
         }
       });
       context.commit('setPosts', posts);
@@ -122,6 +126,11 @@ export async function syncPosts(context, groupId) {
   } catch (err) {
     console.log(err)
   }
+}
+
+export async function getAllPosts(context) {
+  const conf = newAxioxConfig();
+  return axios.get(baseUrl.localBaseUrl + `/api/post`, conf)
 }
 
 

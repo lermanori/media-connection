@@ -42,6 +42,13 @@
     </div>
     <div class="row wrap justify-center">
       <div class="q-mx-sm q-my-lg">
+        <q-btn
+          class="q-mr-xl"
+          round
+          icon="exit_to_app"
+          color="indigo"
+          @click="$router.push('/grid')"
+        />
         <q-btn class="q-mr-xl" round icon="save" color="indigo">
           <q-popup-proxy v-model="opened">
             <q-banner>

@@ -121,14 +121,19 @@ module.exports = {
         let postID = req.params.postid;
         Post.findById(postID).then((doc) => {
             const group = doc.group;
-            const usergroups = req.user.user.groups;
-            const found = usergroups.includes(`${group}`);
-            if (found) {
-                res.status(200).json(doc);
-            } else {
-                throw new Error("notFound in user groups");
-            }
+            const userId = req.user.user._id;
+            User.findById(userId).then(user => {
+                const usergroups = user.groups;
+                const found = usergroups.includes(`${group}`);
 
+                if (found) {
+                    res.status(200).json(doc);
+                } else {
+                    console.log(usergroups);
+                    console.log(req.user);
+                    throw new Error("notFound in user groups " + postID);
+                }
+            })
         }).catch((err) => {
             console.log(err);
             res.status(400).json("error getting post");
@@ -137,12 +142,17 @@ module.exports = {
     },
     approveCommit(req, res, next) {
         let postID = req.params.postid;
-        console.log(postID);
+        let message = req.body.message;
+        let path = req.body.path;
         Post.findOneAndUpdate({
             _id: postID
         }, {
             $set: {
-                status: "approved"
+                status: "approved",
+                approvedPath: path
+            },
+            $push: {
+                messages: message
             }
         }, {
             new: true

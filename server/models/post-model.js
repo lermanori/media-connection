@@ -10,7 +10,8 @@ const PostSchema = new Schema({
         ref: 'Group'
     },
     status: String,
-    messages: []
+    messages: [],
+    approvedPath: String
 })
 
 const Post = mongoose.model('post', PostSchema)

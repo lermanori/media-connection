@@ -13,7 +13,10 @@
         :to="'/' + request.id + (mode=='approval'?'/approval':'/image-editor')"
       ></q-btn>
     </div>
-    <q-btn fab to="/new-request" icon="add" color="cyan" class="q-mt-xl"></q-btn>
+    <div class="row q-mt-xl">
+      <q-btn fab to="/new-request" icon="add" color="cyan" class></q-btn>
+      <q-btn fab class="q-ml-xl" icon="exit_to_app" color="indigo" to="/grid" />
+    </div>
   </div>
 </template>
 

@@ -99,8 +99,9 @@ export default {
       return this.posts
         .filter(x => x.status === "approved")
         .map(x => {
+          console.log(x);
           return {
-            src: this.baseUrl + x.commits[x.commits.length - 1].path2,
+            src: this.baseUrl + x.path,
             uploadTime: Date.parse(
               x.filterdProperties.find(x => x.key == "upload date").value
             )

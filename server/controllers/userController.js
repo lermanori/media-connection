@@ -50,7 +50,7 @@ module.exports = {
             let token = jwt.sign({
                 user
             }, JWT_KEY, {
-                expiresIn: "1h"
+                expiresIn: "1d"
             });
             res.status(200).json({
                 "message": "login sucseed",

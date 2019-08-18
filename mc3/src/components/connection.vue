@@ -64,7 +64,7 @@ import axiosConfig from "../axiosConfig";
 export default {
   data() {
     return {
-      tab: "Friends",
+      tab: "Groups",
       popup: false,
       newGroup: {
         group_name: "",

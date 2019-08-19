@@ -31,13 +31,15 @@ import Project from './Project'
 import User from './User'
 import Group from './Group'
 import Post from './Post'
+import Friend from './Friend'
 
 const Store = new Vuex.Store({
   modules: {
     Project,
     User,
     Group,
-    Post
+    Post,
+    Friend,
   },
   //enable strict mode (adds overhead!)
   // for dev mode only

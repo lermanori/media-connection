@@ -8,8 +8,8 @@
       </div>
     </div>
     <q-select
-      @input="loadCommitData"
       filled
+      @input="loadImageFromUrl(model.value)"
       v-model="model"
       v-if="loaded"
       :options="InputOptions"
@@ -17,7 +17,7 @@
     />
     <div v-if="model!=null">
       commit description: {{model.description}}
-      <q-img :src="baseURL.localBaseUrl+model.value" />
+      <!--<q-img :src="baseURL.localBaseUrl+model.value" />-->
     </div>
     <br />
     <template v-for="(entries,index) in data.properties">
@@ -170,6 +170,29 @@ export default {
     async convertIdToPost(id) {
       const res = PostConverter.convertIdToPost(id);
       return res;
+    },
+    selectImage: function(event) {
+      const file = event.target.files[0];
+      this.$refs.tuiImageEditor.invoke("loadImageFromFile", file).then(x => {
+        let image64 = this.$refs.tuiImageEditor.invoke("toDataURL");
+      });
+      this.$refs.tuiImageEditor;
+    },
+    loadImageFromUrl(url) {
+      this.$refs.tuiImageEditor
+        .invoke(
+          "loadImageFromURL",
+          baseURL.localBaseUrl + url,
+          "My sample image"
+        )
+        .then(x => {
+          console.log(x);
+          this.$refs.tuiImageEditor.invoke("resizeCanvasDimension", {
+            width: 500,
+            height: 400
+          });
+          let image64 = this.$refs.tuiImageEditor.invoke("toDataURL");
+        });
     }
   },
   mounted() {
@@ -177,6 +200,20 @@ export default {
       this.data = data;
       this.loaded = true;
     });
+    this.$refs.tuiImageEditor
+      .invoke(
+        "loadImageFromURL",
+        "http://localhost:3000/images/1565901817451.png",
+        "My sample image"
+      )
+      .then(x => {
+        console.log(x);
+        this.$refs.tuiImageEditor.invoke("resizeCanvasDimension", {
+          width: 500,
+          height: 400
+        });
+        let image64 = this.$refs.tuiImageEditor.invoke("toDataURL");
+      });
   }
 };
 </script>

@@ -39,6 +39,12 @@
 
         <q-tab-panel name="Friends">
           <div class="text-h6">Friends</div>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <q-btn @click="$store.dispatch('Friend/syncFriends')" icon="sync" />
+          <q-btn
+            @click="$store.dispatch('Friend/add','lermanori@gmail.com')"
+            color="cyan"
+            icon="add"
+          />
         </q-tab-panel>
       </q-tab-panels>
     </q-card-section>

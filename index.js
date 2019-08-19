@@ -14,6 +14,7 @@ const authRoutes = require('./server/routes/auth')
 const groupRoutes = require('./server/routes/group')
 const taskManagerRoutes = require('./server/routes/taskManager')
 const postRoutes = require('./server/routes/post')
+const friendRoutes = require('./server/routes/friend')
 
 app.use(cors())
 app.use(cookieSession({
@@ -56,6 +57,7 @@ app.use('/auth', authRoutes);
 app.use('/api/group', groupRoutes);
 app.use('/api/projects', taskManagerRoutes);
 app.use('/api/post', postRoutes);
+app.use('/api/friend', friendRoutes);
 
 
 var port = process.env.PORT || 3000;

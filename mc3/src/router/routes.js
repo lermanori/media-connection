@@ -78,6 +78,7 @@ const routes = [{
     }],
     //beforeEnter: AuthMidlleware
   },
+
   {
     path: "/:postid/approval",
     component: () => import("layouts/MyLayout.vue"),
@@ -97,6 +98,7 @@ const routes = [{
     beforeEnter: AuthMidlleware
 
   },
+
   {
     path: "/instagram",
     component: () => import("layouts/MyLayout.vue"),
@@ -175,6 +177,16 @@ const routes = [{
         title: "Posts",
         filterFunc: x => x == x
       }
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+
+  {
+    path: "/friends",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/testCard.vue"),
     }],
     //beforeEnter: AuthMidlleware
   },

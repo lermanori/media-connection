@@ -55,6 +55,9 @@ var imagesPath = path.join(__dirname, 'images');
 app.get('/', function (req, res) {
     res.sendFile(path.join(distPath, 'index.html'));
 });
+app.get('/instagram', function (req, res) {
+    res.sendFile(path.join(distPath, 'index.html'));
+});
 
 app.use('/', express.static(distPath));
 app.use('/images', express.static(imagesPath));

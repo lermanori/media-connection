@@ -16,13 +16,6 @@ const taskManagerRoutes = require('./server/routes/taskManager')
 const postRoutes = require('./server/routes/post')
 const friendRoutes = require('./server/routes/friend')
 
-const
-    serveStatic = require('serve-static'),
-    history = require('connect-history-api-fallback')
-
-
-
-
 app.use(cors())
 app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
@@ -51,18 +44,16 @@ app.use(bodyParser.urlencoded({
 var distPath = path.join(__dirname, 'mc3', 'dist', 'spa');
 var imagesPath = path.join(__dirname, 'images');
 
-app.use(history())
-app.use(serveStatic(distPath))
 
 
-// app.get('/', function (req, res) {
-//     res.sendFile(path.join(distPath, 'index.html'));
-// });
-// app.get('/instagram', function (req, res) {
-//     res.sendFile(path.join(distPath, 'index.html'));
-// });
+app.get('/', function (req, res) {
+    res.sendFile(path.join(distPath, 'index.html'));
+});
+app.get('/instagram', function (req, res) {
+    res.sendFile(path.join(distPath, 'index.html'));
+});
 
-// app.use('/', express.static(distPath));
+app.use('/', express.static(distPath));
 app.use('/images', express.static(imagesPath));
 
 app.use('/auth', authRoutes);

@@ -106,7 +106,7 @@ const routes = [{
       path: "",
       component: () => import("pages/instagramRedirect.vue")
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
 
   },
   {
@@ -116,7 +116,7 @@ const routes = [{
       path: "",
       component: () => import("pages/newRequest.vue")
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
   },
   {
     path: "/requests",
@@ -125,7 +125,7 @@ const routes = [{
       path: "",
       component: () => import("pages/requests.vue")
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
   },
   {
     path: "/post/requests",
@@ -138,7 +138,7 @@ const routes = [{
         filterFunc: x => x.status == "new request"
       }
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
   },
   {
     path: "/post/in-process",
@@ -151,7 +151,7 @@ const routes = [{
         filterFunc: x => x.status == "in process"
       }
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
   },
   {
     path: "/post/waiting-for-approval",
@@ -165,7 +165,7 @@ const routes = [{
         mode: "approval"
       }
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
   },
   {
     path: "/post/:id",
@@ -181,7 +181,7 @@ const routes = [{
         }
       }
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
   },
   {
     path: "/post",
@@ -195,7 +195,7 @@ const routes = [{
         mode: "all"
       }
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
   },
 
   {
@@ -205,7 +205,7 @@ const routes = [{
       path: "",
       component: () => import("pages/pendingReqList.vue"),
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
   },
   {
     path: "/friends",
@@ -214,7 +214,7 @@ const routes = [{
       path: "",
       component: () => import("pages/friendList.vue"),
     }],
-    //beforeEnter: AuthMidlleware
+    beforeEnter: AuthMidlleware
   },
   {
     path: "/groups/:id",
@@ -229,7 +229,9 @@ const routes = [{
           //mode: "approval"
         }
       }
-    }]
+    }],
+    beforeEnter: AuthMidlleware
+
   },
   {
     path: "/groups",
@@ -243,6 +245,8 @@ const routes = [{
         mode: "all"
       }
     }],
+    beforeEnter: AuthMidlleware
+
   }
 ];
 

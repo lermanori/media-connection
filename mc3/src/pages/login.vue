@@ -19,7 +19,7 @@
         <q-btn @click="login" class="q-mt-md" color="red">google+</q-btn>
       </q-card-section>
     </q-card>
-    <q-btn to="/register" size="xl" class="q-mt-md" color="indigo">Register</q-btn>
+    <q-btn to="/register" size="xl" class="q-mt-md absolute-bottom" color="indigo">Register</q-btn>
 
     <div class="row">
       <q-banner
@@ -51,7 +51,7 @@ export default {
   methods: {
     login() {
       this.$store.dispatch("User/auth").then(() => {
-        window.setTimeout(() => this.$router.push("/taskManager"), 500);
+        window.setTimeout(() => this.$router.push("/dashboard"), 100);
       });
     },
     loginWithEmailAndPass() {
@@ -61,7 +61,7 @@ export default {
           password: this.password
         })
         .then(() => {
-          this.$router.push("/taskManager");
+          this.$router.push("/dashboard");
         });
     }
   }

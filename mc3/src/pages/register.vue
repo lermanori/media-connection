@@ -55,15 +55,14 @@ export default {
         password == "1234" &&
         this.password == this.passwordMatch
       ) {
-        this.$router.push("/taskManager");
-
+        this.$router.push("/dashboard");
       } else {
         this.auth = false;
       }
     },
     login() {
       this.$store.dispatch("User/auth").then(() => {
-        this.$router.push("/taskManager");
+        this.$router.push("/dashboard");
       });
     },
     instagramAuth() {
@@ -80,6 +79,5 @@ export default {
         });
     }
   }
-
 };
 </script>

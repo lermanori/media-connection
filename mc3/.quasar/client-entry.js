@@ -47,12 +47,6 @@ import b_Bootcookies from 'boot/cookies'
 
 
 
-Vue.config.devtools = true
-Vue.config.productionTip = false
-
-
-
-console.info('[Quasar] Running SPA.')
 
 
 

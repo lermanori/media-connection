@@ -120,6 +120,7 @@ module.exports = {
     getPost(req, res, next) {
         let postID = req.params.postid;
         Post.findById(postID).then((doc) => {
+            console.log(doc);
             const group = doc.group;
             const userId = req.user.user._id;
             User.findById(userId).then(user => {

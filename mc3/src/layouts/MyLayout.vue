@@ -24,17 +24,8 @@
 
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
       <q-list>
-        <q-item-label header>Documentation Links</q-item-label>
-        <q-item clickable tag="a" target="_blank" href="http://v1.quasar-framework.org">
-          <q-item-section avatar>
-            <q-icon name="school" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Docs</q-item-label>
-            <q-item-label caption>v1.quasar-framework.org</q-item-label>
-          </q-item-section>
-        </q-item>
         <q-item-label header>In-app Links</q-item-label>
+
         <q-item clickable tag="a" to="/dashboard">
           <q-item-section avatar>
             <q-icon name="dashboard" />
@@ -42,6 +33,33 @@
           <q-item-section>
             <q-item-label>Dashboard</q-item-label>
             <q-item-label caption>Home,Profile etc..</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable tag="a" to="/groups">
+          <q-item-section avatar class>
+            <q-icon name="people_outline" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Groups</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable tag="a" to="/friends">
+          <q-item-section avatar class>
+            <q-icon name="person_outline" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Friends</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable tag="a" to="/post">
+          <q-item-section avatar class>
+            <q-icon name="pages" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Posts</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>

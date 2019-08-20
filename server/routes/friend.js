@@ -8,6 +8,8 @@ router.post('/add', authMiddleware, friendController.addFriend);
 router.post('/approve', authMiddleware, friendController.approveFriend);
 router.get('/', authMiddleware, friendController.getFriends);
 router.post('/users', authMiddleware, friendController.getUsers);
+router.post('/users/uid', authMiddleware, friendController.getUsersByUid);
+router.post('/addToGroup', authMiddleware, friendController.addToGroup);
 
 
 module.exports = router

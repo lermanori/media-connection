@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md row items-start q-gutter-md">
     <template v-for="(item, index) in pending">
-      <q-card class="my-card" :key="index" v-if="pending.length > 0">
+      <q-card class="my-card" :key="index">
         <img
           :src="item.profilePic != null? item.profilePic : 'https://previews.123rf.com/images/salamatik/salamatik1801/salamatik180100019/92979836-profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-isolated-on.jpg'"
         />

@@ -2,52 +2,46 @@
   <q-page>
     <div class="row justify-center q-pa-md">
       <div class="col-12">
-        <q-container>
-          <div class="text-h5 text-center">DashBoard</div>
-          <q-card bordered class="my-card" style="min-height:25vh;">
-            <q-card-section>
-              <div class="text-h6 text-center">
-                <u>PROGRESSION:</u>
-              </div>
-            </q-card-section>
-            <app-progress
-              :label="progress.group"
-              :progress1="progress.time"
-              :progress2="progress.progress"
-              v-for="(progress,index) in Progression"
-              :key="index"
-              @click="progressBarClick_handle(progress)"
-            />
-            <q-separator class="q-mb-lg" color="indigo-8" />
-          </q-card>
-        </q-container>
+        <div class="text-h5 text-center">DashBoard</div>
+        <q-card bordered class="my-card" style="min-height:25vh;">
+          <q-card-section>
+            <div class="text-h6 text-center">
+              <u>PROGRESSION:</u>
+            </div>
+          </q-card-section>
+          <app-progress
+            :label="progress.group"
+            :progress1="progress.time"
+            :progress2="progress.progress"
+            v-for="(progress,index) in Progression"
+            :key="index"
+            @click="progressBarClick_handle(progress)"
+          />
+          <q-separator class="q-mb-lg" color="indigo-8" />
+        </q-card>
 
         <div class="row justify-between">
-          <div class="col-md-5 col-xs-12 q-my-lg">
-            <q-container>
-              <q-card bordered class="my-card">
-                <q-card-section>
-                  <div class="text-h6 text-center">
-                    <u>CONNECTIONS:</u>
-                  </div>
-                </q-card-section>
-                <app-connection />
-              </q-card>
-            </q-container>
+          <div class="col-md-12 col-xs-12 q-my-lg">
+            <q-card bordered class="my-card">
+              <q-card-section>
+                <div class="text-h6 text-center">
+                  <u>CONNECTIONS:</u>
+                </div>
+              </q-card-section>
+              <app-connection />
+            </q-card>
           </div>
-          <div class="col-md-5 col-xs-12 q-my-lg">
-            <q-container>
-              <q-card bordered class="my-card">
-                <q-card-section>
-                  <div class="text-h6 text-center">
-                    <u>NOTIFICATION:</u>
-                  </div>
-                  <app-notification v-for="i in 3" :key="i" />
-                  <q-separator class="q-mb-lg" color="indigo" />
-                </q-card-section>
-              </q-card>
-            </q-container>
-          </div>
+          <!--<div class="col-md-5 col-xs-12 q-my-lg">
+            <q-card bordered class="my-card">
+              <q-card-section>
+                <div class="text-h6 text-center">
+                  <u>NOTIFICATION:</u>
+                </div>
+                <app-notification v-for="i in 3" :key="i" />
+                <q-separator class="q-mb-lg" color="indigo" />
+              </q-card-section>
+            </q-card>
+          </div>-->
         </div>
       </div>
     </div>
@@ -77,6 +71,7 @@ export default {
       progression: []
     };
   },
+
   computed: {
     Progression() {
       return this.progression;
@@ -100,18 +95,13 @@ export default {
     },
     convertGroupIdToName(id) {
       const groups = this.$store.getters["Group/Groups"];
-      console.log(groups);
       const res = groups.find(x => x._id == id).group_name;
-      console.log(res);
       return res;
     },
     progressBarClick_handle(arg) {
       this.$store.dispatch("Group/setGroupID", arg.groupId).then(() => {
         this.$store.dispatch("Post/syncPosts", arg.groupId).then(() => {
-          console.log(arg.status);
-          const url = `/${arg.id}/${
-            arg.status == "waiting for approval" ? "approval" : "image-editor"
-          }`;
+          const url = `/post/${arg.id}`;
           this.$router.push(url);
         });
       });
@@ -119,19 +109,19 @@ export default {
   },
 
   created() {
+    this.$store.dispatch("Friend/syncFriends");
     this.$store.dispatch("Group/syncGroups");
     this.$store.dispatch("Post/getAllPosts").then(x => {
-      console.log(x);
-      const mapped = x.data
+      const mapped = x
         .filter(x => x.status != "approved")
         .map(val => {
           return {
-            id: val._id,
+            id: val.id,
             uploadDate: Date.parse(
-              val.properties.find(x => x.key == "upload date").value
+              val.filterdProperties.find(x => x.key == "upload date").value
             ),
             status: val.status,
-            group: val.group
+            group: val.groupID
           };
         });
       const numberd = mapped.map(x => {

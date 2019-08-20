@@ -1,4 +1,5 @@
 const User = require('../models/user-model')
+const Group = require('../models/group-model')
 
 
 module.exports = {
@@ -79,6 +80,24 @@ module.exports = {
             });
         }
     },
+    async getUsersByUid(req, res, next) {
+        try {
+            const users = req.body.users;
+            const result = await User.find({
+                'uid': {
+                    $in: users
+                }
+            });
+            res.status(200).json({
+                result
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({
+                message: "failed to get users"
+            });
+        }
+    },
     async approveFriend(req, res) {
         try {
             const myId = req.user.user._id;
@@ -110,5 +129,35 @@ module.exports = {
                 message: "approve of user failed"
             })
         }
+    },
+    async addToGroup(req, res) {
+        try {
+
+            const body = req.body;
+            let group = await Group.findById(body.group);
+            let addedUser = await User.findById(body.friend._id);
+            if (!group.members.find(x => x.memberUid == addedUser.uid))
+                group.members = [...group.members, {
+                    memberUid: addedUser.uid,
+                    role: "default"
+                }];
+
+            if (!addedUser.groups.find(x => x == group._id))
+                addedUser.groups = [...addedUser.groups, group._id];
+
+            group = await group.save();
+            addeduser = await addedUser.save();
+
+            res.status(200).json({
+                group,
+                addedUser
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({
+                message: "add to group failed"
+            });
+        }
+
     }
 }

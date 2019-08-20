@@ -1,11 +1,11 @@
 <template>
   <q-card-section>
-    <q-separator class="q-mb-md" color="indigo"/>
+    <q-separator class="q-mb-md" color="indigo" />
 
     <q-item clickable v-ripple>
       <q-item-section side>
         <q-avatar rounded size="33px">
-          <img src="https://cdn.quasar-framework.org/img/avatar.png">
+          <img src />
           <q-badge class floating color="teal">new</q-badge>
         </q-avatar>
       </q-item-section>

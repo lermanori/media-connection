@@ -186,12 +186,10 @@ export default {
           "My sample image"
         )
         .then(x => {
-          console.log(x);
-          this.$refs.tuiImageEditor.invoke("resizeCanvasDimension", {
-            width: 500,
-            height: 400
+          this.$refs.tuiImageEditor.invoke("startDrawingMode", "NORMAL", {
+            width: 10,
+            color: "rgba(255, 0, 0, 0.5)"
           });
-          let image64 = this.$refs.tuiImageEditor.invoke("toDataURL");
         });
     }
   },
@@ -200,20 +198,6 @@ export default {
       this.data = data;
       this.loaded = true;
     });
-    this.$refs.tuiImageEditor
-      .invoke(
-        "loadImageFromURL",
-        "http://localhost:3000/images/1565901817451.png",
-        "My sample image"
-      )
-      .then(x => {
-        console.log(x);
-        this.$refs.tuiImageEditor.invoke("resizeCanvasDimension", {
-          width: 500,
-          height: 400
-        });
-        let image64 = this.$refs.tuiImageEditor.invoke("toDataURL");
-      });
   }
 };
 </script>

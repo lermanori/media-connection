@@ -130,7 +130,19 @@ export async function syncPosts(context, groupId) {
 
 export async function getAllPosts(context) {
   const conf = newAxioxConfig();
-  return axios.get(baseUrl.localBaseUrl + `/api/post`, conf)
+  const posts = await axios.get(baseUrl.localBaseUrl + `/api/post`, conf);
+  const postsMapped = posts.data.map(res => {
+    return {
+      filterdProperties: res.properties,
+      groupID: res.group,
+      id: res._id,
+      status: res.status,
+      commits: res.commits,
+      path: res.approvedPath
+    }
+  })
+  context.commit('setPosts', postsMapped);
+  return postsMapped;
 }
 
 

@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import baseUrl from "../baseUrl";
 export default {
   created() {
     // print user name
@@ -17,7 +18,7 @@ export default {
     bodyFormData.set("client_id", "c0a7f25d2a7645fd82686d1f128f7409");
     bodyFormData.set("client_secret", "90a6883175d04046abe366da68dd2161");
     bodyFormData.set("grant_type", "authorization_code");
-    bodyFormData.set("redirect_uri", "http://localhost:8080/instagram");
+    bodyFormData.set("redirect_uri", baseUrl.instagramRedirect);
     bodyFormData.set("code", this.$route.query.code);
     this.$axios({
       method: "post",

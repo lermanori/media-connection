@@ -134,7 +134,7 @@ const routes = [{
       path: "",
       component: () => import("pages/filterType.vue"),
       props: {
-        title: "new requests",
+        //title: "new requests",
         filterFunc: x => x.status == "new request"
       }
     }],
@@ -147,7 +147,7 @@ const routes = [{
       path: "",
       component: () => import("pages/filterType.vue"),
       props: {
-        title: "In Process",
+        //title: "In Process",
         filterFunc: x => x.status == "in process"
       }
     }],
@@ -160,9 +160,25 @@ const routes = [{
       path: "",
       component: () => import("pages/filterType.vue"),
       props: {
-        title: "Waiting For Approval",
+        //  title: "Waiting For Approval",
         filterFunc: x => x.status == "waiting for approval",
         mode: "approval"
+      }
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+  {
+    path: "/post/:id",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/filterType.vue"),
+      props: (route) => {
+        return {
+          //title: "post",
+          filterFunc: x => x.id == route.params.id,
+          mode: "approval"
+        }
       }
     }],
     //beforeEnter: AuthMidlleware
@@ -174,25 +190,62 @@ const routes = [{
       path: "",
       component: () => import("pages/filterType.vue"),
       props: {
-        title: "Posts",
-        filterFunc: x => x == x
+        //title: "Posts",
+        filterFunc: x => x == x,
+        mode: "all"
       }
     }],
     //beforeEnter: AuthMidlleware
   },
 
   {
+    path: "/friends/pending",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/pendingReqList.vue"),
+    }],
+    //beforeEnter: AuthMidlleware
+  },
+  {
     path: "/friends",
     component: () => import("layouts/MyLayout.vue"),
     children: [{
       path: "",
-      component: () => import("pages/testCard.vue"),
+      component: () => import("pages/friendList.vue"),
     }],
     //beforeEnter: AuthMidlleware
   },
-
-
+  {
+    path: "/groups/:id",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/groups.vue"),
+      props: (route) => {
+        return {
+          //title: "post",
+          filterFunc: x => x._id == route.params.id,
+          //mode: "approval"
+        }
+      }
+    }]
+  },
+  {
+    path: "/groups",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/groups.vue"),
+      props: {
+        //title: "Posts",
+        filterFunc: x => x == x,
+        mode: "all"
+      }
+    }],
+  }
 ];
+
 
 
 // Always leave this as last one

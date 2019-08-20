@@ -27,7 +27,7 @@
             <div class="q-my-md row wrap justify-between">
               <div class="col-6">Description: {{index.group_desc}}</div>
               <div class="col-4 text-center">
-                <q-btn round color="indigo" icon="my_location" :to="'/group/' + index._id" />
+                <q-btn round color="indigo" icon="my_location" :to="'/groups/' + index._id" />
               </div>
             </div>
             <q-separator class="q-mt-md" />
@@ -38,13 +38,25 @@
         </q-tab-panel>
 
         <q-tab-panel name="Friends">
-          <div class="text-h6">Friends</div>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          <q-btn @click="$store.dispatch('Friend/syncFriends')" icon="sync" />
-          <q-btn
-            @click="$store.dispatch('Friend/add','lermanori@gmail.com')"
-            color="cyan"
-            icon="add"
-          />
+          <div class="text-h6">Friends</div>
+          <div class="row" v-for="(item,index) in Friends" :key="index">{{item.email}}</div>
+          <div class="row">
+            <q-input
+              outlined
+              label="enter email and press add"
+              :style="{width:'100%'}"
+              v-model="addedUserEmail"
+              class="q-mt-sm"
+            />
+          </div>
+          <div class="row justify-between q-mt-sm">
+            <q-btn @click="$store.dispatch('Friend/syncFriends')" icon="sync" />
+            <q-btn
+              @click="addedUserEmail != '' ? $store.dispatch('Friend/add',addedUserEmail) : ()=>{}"
+              color="cyan"
+              icon="add"
+            />
+          </div>
         </q-tab-panel>
       </q-tab-panels>
     </q-card-section>
@@ -76,7 +88,8 @@ export default {
         group_name: "",
         group_desc: ""
       },
-      groups: []
+      groups: [],
+      addedUserEmail: ""
     };
   },
   computed: {
@@ -85,6 +98,9 @@ export default {
     },
     AxiosConfig() {
       return axiosConfig.axiosConfig();
+    },
+    Friends() {
+      return this.$store.getters["Friend/friends"];
     }
   },
   methods: {

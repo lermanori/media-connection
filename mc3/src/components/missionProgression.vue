@@ -5,7 +5,7 @@
       <div class="col-2 text-center self-center">
         <h6 class="text-h6">{{label}}</h6>
       </div>
-      <div class="col-9 q-pr-lg q-pt-md self-center">
+      <div class="col-md-9 col-xs-7 q-pr-lg q-pt-md q-pl-md self-center">
         <q-linear-progress
           stripe
           rounded

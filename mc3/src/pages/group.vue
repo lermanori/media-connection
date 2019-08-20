@@ -35,7 +35,7 @@ export default {
     return {
       groupData: {},
       dataLoaded: false,
-      redirect_uri: "http://localhost:8080/instagram",
+      redirect_uri: baseUrl.instagramRedirect,
       client_id: "c0a7f25d2a7645fd82686d1f128f7409"
     };
   },

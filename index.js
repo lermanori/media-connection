@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-var distPath = path.join(__dirname, 'mc3', 'dist', 'spa');
+var distPath = path.join(__dirname, 'mc3', 'dist', 'pwa');
 var imagesPath = path.join(__dirname, 'images');
 
 

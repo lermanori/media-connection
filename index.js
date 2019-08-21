@@ -65,6 +65,10 @@ app.use('/api/projects', taskManagerRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/friend', friendRoutes);
 
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(distPath, 'index.html'));
+});
+
 
 var port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on port ${port}`));

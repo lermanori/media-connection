@@ -3,28 +3,42 @@
  * when building for PRODUCTION
  */
 
-import { register } from 'register-service-worker'
+import {
+  register
+} from 'register-service-worker'
+
+const requestNotificationPermission = async () => {
+  const permission = await window.Notification.requestPermission();
+  // value of permission can be 'granted', 'default', 'denied'
+  // granted: user has accepted the request
+  // default: user has dismissed the notification permission popup by clicking on x
+  // denied: user has denied the request.
+  if (permission !== 'granted') {
+    throw new Error('Permission not granted for Notification');
+  }
+}
 
 register(process.env.SERVICE_WORKER_FILE, {
-  ready () {
-    console.log('App is being served from cache by a service worker.')
+  ready() {
+    console.log('App is being served from cache by a service worker.');
+    requestNotificationPermission()
   },
-  registered (registration) { // registration -> a ServiceWorkerRegistration instance
+  registered(registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('Service worker has been registered.')
   },
-  cached (registration) { // registration -> a ServiceWorkerRegistration instance
+  cached(registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('Content has been cached for offline use.')
   },
-  updatefound (registration) { // registration -> a ServiceWorkerRegistration instance
+  updatefound(registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('New content is downloading.')
   },
-  updated (registration) { // registration -> a ServiceWorkerRegistration instance
+  updated(registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('New content is available; please refresh.')
   },
-  offline () {
+  offline() {
     console.log('No internet connection found. App is running in offline mode.')
   },
-  error (err) {
+  error(err) {
     console.error('Error during service worker registration:', err)
   }
 })

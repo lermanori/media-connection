@@ -9,6 +9,7 @@
         :options="options"
       ></app-card>
     </template>
+    <q-btn to="/friends/pending" class="absolute-bottom" color="cyan">To Pending</q-btn>
   </div>
 </template>
 <script>

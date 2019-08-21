@@ -1,8 +1,9 @@
 <template>
   <div class="q-pa-md row items-start q-gutter-md">
     <template v-for="(item, index) in pending">
-      <app-pending-card :item="item" :key="index" @approved="handle_approve"></app-pending-card>
+      <app-pending-card :item="item" :key="index" @approve="handle_approve(item)"></app-pending-card>
     </template>
+    <q-btn to="/friends" class="absolute-bottom" color="cyan">To Friends</q-btn>
   </div>
 </template>
 <script>

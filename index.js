@@ -42,6 +42,7 @@ app.use(bodyParser.urlencoded({
 
 
 var distPath = path.join(__dirname, 'mc3', 'dist', 'pwa');
+var staticPath = path.join(__dirname, 'mc3', 'dist', 'pwa', 'statics');
 var imagesPath = path.join(__dirname, 'images');
 
 
@@ -55,6 +56,8 @@ app.get('/instagram', function (req, res) {
 
 app.use('/', express.static(distPath));
 app.use('/images', express.static(imagesPath));
+app.use('/statics', express.static(staticPath));
+
 
 app.use('/auth', authRoutes);
 app.use('/api/group', groupRoutes);

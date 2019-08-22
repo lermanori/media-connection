@@ -2,7 +2,9 @@
   <q-page>
     <q-page-container>
       <div class="text-center">
-        <div class="text-h6">currentGroupID: {{$store.getters["Group/currentGroupID"]}}</div>
+        <div
+          class="text-h6"
+        >Name: {{$store.getters["Group/Groups"].find((x)=>x._id == $store.getters["Group/currentGroupID"]).group_name }}</div>
       </div>
       <div class="row justify-center q-gutter-sm">
         <div class="col-md-5 col-xs-12 q-mb-lg">
@@ -35,7 +37,7 @@
       </div>
     </q-page-container>
 
-    <q-page-container class="q-mx-sm">
+    <q-page-container class="q-mx-sm q-mb-xl">
       <div class="row justify-center q-mb-md">
         <div class="q-gutter-sm">
           <q-radio v-model="dataMode" val="instagram" label="Instagram" />
@@ -43,10 +45,14 @@
           <q-radio v-model="dataMode" val="mixed" label="Combined" />
         </div>
       </div>
-      <div class="row justify-center q-gutter-xl">
-        <div class="col-3" v-for="(img,i) in dynamicDataReverse" :key="i">
+      <div class="row justify-center">
+        <div class="col-4" v-for="(img,i) in dynamicDataReverse" :key="i">
           <q-card>
-            <q-img class="app-img q-mx-auto" :src="img.src" ratio="1.2">
+            <q-img
+              :src="img.src"
+              @click="()=>img.id!=undefined ? $router.push(`/post/${img.id}`):null"
+              ratio="1.2"
+            >
               <div
                 class="absolute-bottom text-subtitle1 text-center q-pa-xs"
               >{{dateToString(img.uploadTime)}}</div>
@@ -99,12 +105,12 @@ export default {
       return this.posts
         .filter(x => x.status === "approved")
         .map(x => {
-          console.log(x);
           return {
             src: this.baseUrl + x.path,
             uploadTime: Date.parse(
               x.filterdProperties.find(x => x.key == "upload date").value
-            )
+            ),
+            id: x.id
           };
         });
     },

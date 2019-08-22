@@ -1,15 +1,17 @@
 <template>
-  <div class="q-pa-md row items-start q-gutter-md">
+  <div class="q-pa-md row items-start q-gutter-none">
     <template v-for="(item, index) in pending">
-      <app-card
-        :item="item"
-        :key="index"
-        @addToGroup="handle_addToGroup($event)"
-        @unfriend="handle_unfriend(item)"
-        :options="options"
-      ></app-card>
+      <div class="col-md-4 col-xs-12" :key="index">
+        <app-card
+          :item="item"
+          :key="index"
+          @addToGroup="handle_addToGroup($event)"
+          @unfriend="handle_unfriend(item)"
+          :options="options"
+        ></app-card>
+      </div>
     </template>
-    <q-btn to="/friends/pending" class="absolute-bottom" color="cyan">To Pending</q-btn>
+    <q-btn to="/friends/pending" class="fixed-bottom" color="cyan">To Pending</q-btn>
   </div>
 </template>
 <script>

@@ -32,6 +32,7 @@ import User from './User'
 import Group from './Group'
 import Post from './Post'
 import Friend from './Friend'
+import Profile from './Profile'
 
 const Store = new Vuex.Store({
   modules: {
@@ -40,6 +41,7 @@ const Store = new Vuex.Store({
     Group,
     Post,
     Friend,
+    Profile
   },
   //enable strict mode (adds overhead!)
   // for dev mode only

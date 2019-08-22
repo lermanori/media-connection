@@ -234,20 +234,37 @@ const routes = [{
 
   },
   {
-    path: "/groups",
+    path: "/profile/:id",
     component: () => import("layouts/MyLayout.vue"),
     children: [{
       path: "",
-      component: () => import("pages/groups.vue"),
-      props: {
-        //title: "Posts",
-        filterFunc: x => x == x,
-        mode: "all"
+      component: () => import("pages/profile.vue"),
+      props: (route) => {
+        return {
+          //title: "post",
+          id: route.params.id,
+
+        }
       }
     }],
     beforeEnter: AuthMidlleware
-
-  }
+  },
+  {
+    path: "/profile/email",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/profile.vue"),
+      props: (route) => {
+        return {
+          //title: "post",
+          id: route.query.email,
+          mode: "email"
+        }
+      }
+    }],
+    beforeEnter: AuthMidlleware
+  },
 ];
 
 

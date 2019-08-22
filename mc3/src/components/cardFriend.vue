@@ -7,7 +7,9 @@
       />
     </div>
     <q-card-section>
-      <div class="text-subtitle2">{{item.email}}</div>
+      <router-link :to="`/profile/${item._id}`">
+        <div class="text-subtitle2">{{item.email}}</div>
+      </router-link>
     </q-card-section>
     <q-card-section>
       <div class="row text-subtitle2 justify-center q-mb-xs">add user to group:</div>

@@ -15,6 +15,7 @@ const groupRoutes = require('./server/routes/group')
 const taskManagerRoutes = require('./server/routes/taskManager')
 const postRoutes = require('./server/routes/post')
 const friendRoutes = require('./server/routes/friend')
+const profileRoutes = require('./server/routes/profile')
 
 app.use(cors())
 app.use(cookieSession({
@@ -64,6 +65,7 @@ app.use('/api/group', groupRoutes);
 app.use('/api/projects', taskManagerRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/friend', friendRoutes);
+app.use('/api/profile', profileRoutes);
 
 app.get('/*', function (req, res) {
     res.sendFile(path.join(distPath, 'index.html'));

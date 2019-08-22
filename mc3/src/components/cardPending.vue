@@ -4,7 +4,9 @@
       :src="item.profilePic != null? item.profilePic : 'https://previews.123rf.com/images/salamatik/salamatik1801/salamatik180100019/92979836-profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-isolated-on.jpg'"
     />
     <q-card-section>
-      <div class="text-subtitle2">{{item.email}}</div>
+      <router-link :to="`/profile/${item._id}`">
+        <div class="text-subtitle2">{{item.email}}</div>
+      </router-link>
     </q-card-section>
     <q-card-section></q-card-section>
     <q-btn push color="white" text-color="primary" label="Aprove" @click="$emit('approve')" />

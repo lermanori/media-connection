@@ -8,20 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/manifest.json"
   },
   {
-    "revision": "4ef3abbd14fbe85ceebf36d900d2c9ad",
-    "url": "/statics\\icon-d.svg"
-  },
-  {
-    "revision": "843c03ed6edd3f2a4dc35357feedbbec",
-    "url": "/statics\\icon-a.svg"
-  },
-  {
     "revision": "a13b2bd5261e2df374128df1aab93001",
     "url": "/statics\\icons\\icon-512x512.png"
-  },
-  {
-    "revision": "6f440c0d2fa852de523edfd5383ad682",
-    "url": "/statics\\icon-c.svg"
   },
   {
     "revision": "66d7719a8ca03c1a591444c013802817",
@@ -32,8 +20,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/statics\\icon-b.svg"
   },
   {
+    "revision": "4ef3abbd14fbe85ceebf36d900d2c9ad",
+    "url": "/statics\\icon-d.svg"
+  },
+  {
+    "revision": "6f440c0d2fa852de523edfd5383ad682",
+    "url": "/statics\\icon-c.svg"
+  },
+  {
     "revision": "ed12d10fd0407eea42ccaf7af7991146",
     "url": "/statics\\icons\\ms-icon-144x144.png"
+  },
+  {
+    "revision": "843c03ed6edd3f2a4dc35357feedbbec",
+    "url": "/statics\\icon-a.svg"
   },
   {
     "revision": "20c6420ccf16a07d9d56538e30a6b524",
@@ -49,11 +49,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   },
   {
     "revision": "3020c8ac2c2872dec7741e5948520093",
-    "url": "/statics\\icons\\icon-128x128.png"
+    "url": "/statics\\quasar-logo.png"
   },
   {
     "revision": "3020c8ac2c2872dec7741e5948520093",
-    "url": "/statics\\quasar-logo.png"
+    "url": "/statics\\icons\\icon-128x128.png"
   },
   {
     "revision": "2f9d7587924933c1912c342b190b53ca",
@@ -96,12 +96,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/6873e6d1.cd32d469.js"
   },
   {
-    "revision": "e090c00f4bd0e00329a0",
+    "revision": "892e4ab87014a5f98898",
     "url": "/css/app.2dfbe6d0.css"
   },
   {
-    "revision": "e090c00f4bd0e00329a0",
-    "url": "/js/app.6458ffd2.js"
+    "revision": "892e4ab87014a5f98898",
+    "url": "/js/app.9dc37bcd.js"
   },
   {
     "revision": "6de8cb711282fd4525c7",
@@ -140,20 +140,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/fonts/KFOkCnqEu92Fr1MmgVxIIzQ.e9dbbe8a.woff"
   },
   {
-    "revision": "bafb105baeb22d965c70fe52ba6b49d9",
-    "url": "/fonts/KFOmCnqEu92Fr1Mu4mxM.bafb105b.woff"
-  },
-  {
     "revision": "a1471d1d6431c893582a5f6a250db3f9",
     "url": "/fonts/KFOlCnqEu92Fr1MmSU5fBBc-.a1471d1d.woff"
   },
   {
-    "revision": "cf6613d1adf490972c557a8e318e0868",
-    "url": "/fonts/KFOlCnqEu92Fr1MmWUlfBBc-.cf6613d1.woff"
+    "revision": "bafb105baeb22d965c70fe52ba6b49d9",
+    "url": "/fonts/KFOmCnqEu92Fr1Mu4mxM.bafb105b.woff"
   },
   {
     "revision": "de8b7431b74642e830af4d4f4b513ec9",
     "url": "/fonts/KFOlCnqEu92Fr1MmEU9fBBc-.de8b7431.woff"
+  },
+  {
+    "revision": "cf6613d1adf490972c557a8e318e0868",
+    "url": "/fonts/KFOlCnqEu92Fr1MmWUlfBBc-.cf6613d1.woff"
   },
   {
     "revision": "87b02c4c58fa36bfbd35",
@@ -184,7 +184,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNa.9219a80f.woff"
   },
   {
-    "revision": "2fffa0b58675bb067ffddcf7ffd84335",
+    "revision": "59f2878b189dd3e8be8440b7508d8c01",
     "url": "/index.html"
   },
   {

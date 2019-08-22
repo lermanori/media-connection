@@ -55,6 +55,7 @@ module.exports = {
             res.status(200).json({
                 "message": "login sucseed",
                 "token": token,
+                "id": user._id
             })
         }).catch((err) => {
             console.log(err)

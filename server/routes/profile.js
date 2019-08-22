@@ -7,6 +7,7 @@ const authMiddleware = require('../middleware/auth-middleware.js')
 router.get('/:id', authMiddleware, profileController.get)
 router.post('/', authMiddleware, profileController.create)
 router.put('/', authMiddleware, profileController.update)
+router.put('/profile-picture', authMiddleware, profileController.updateProfilePic)
 
 
 module.exports = router

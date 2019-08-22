@@ -1,7 +1,9 @@
 <template>
   <q-card class="my-card" :key="item._id">
-    <img
-      :src="item.profilePic != null? item.profilePic : 'https://previews.123rf.com/images/salamatik/salamatik1801/salamatik180100019/92979836-profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-isolated-on.jpg'"
+    <q-img
+      :ratio="1"
+      :style="{width:'250px',height:'250px'}"
+      :src="item.profilePicture != null? `${baseUrl}/` + item.profilePicture : 'https://previews.123rf.com/images/salamatik/salamatik1801/salamatik180100019/92979836-profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-isolated-on.jpg'"
     />
     <q-card-section>
       <router-link :to="`/profile/${item._id}`">
@@ -17,8 +19,14 @@
 
 
 <script>
+import baseUrl from "../baseUrl";
 export default {
-  props: ["item"]
+  props: ["item"],
+  data() {
+    return {
+      baseUrl: baseUrl.localBaseUrl
+    };
+  }
 };
 </script>
 

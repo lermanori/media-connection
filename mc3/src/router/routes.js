@@ -96,7 +96,20 @@ const routes = [{
       component: () => import("pages/group.vue")
     }],
     beforeEnter: AuthMidlleware
-
+  },
+  {
+    path: "/groups",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/groups.vue"),
+      props: {
+        //title: "Posts",
+        filterFunc: x => x == x,
+        mode: "all"
+      }
+    }],
+    beforeEnter: AuthMidlleware
   },
 
   {

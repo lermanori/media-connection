@@ -1,9 +1,10 @@
 <template>
   <q-card class="my-card" :key="item._id">
     <div class="row justify-center">
-      <img
-        :style="{maxWidth:'300px'}"
-        :src="item.profilePic != null? item.profilePic : 'https://previews.123rf.com/images/salamatik/salamatik1801/salamatik180100019/92979836-profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-isolated-on.jpg'"
+      <q-img
+        :ratio="1"
+        :style="{width:'250px',height:'250px'}"
+        :src="item.profilePicture != null? `${baseUrl}/` + item.profilePicture : 'https://previews.123rf.com/images/salamatik/salamatik1801/salamatik180100019/92979836-profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-isolated-on.jpg'"
       />
     </div>
     <q-card-section>
@@ -41,11 +42,13 @@
 </template>
 
 <script>
+import baseUrl from "../baseUrl";
 export default {
   props: ["item", "options"],
   data() {
     return {
-      model: null
+      model: null,
+      baseUrl: baseUrl.localBaseUrl
     };
   }
 };
@@ -54,6 +57,6 @@ export default {
 <style scoped>
 .my-card {
   width: 100%;
-  max-width: 550px;
+  max-width: 250px;
 }
 </style>

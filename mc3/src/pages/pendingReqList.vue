@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md row items-start q-gutter-md">
-    <div class="col-4">
+  <div class="q-pa-md row justify-center q-gutter-md">
+    <div class="col-auto">
       <template v-for="(item, index) in pending">
         <app-pending-card :item="item" :key="index" @approve="handle_approve(item)"></app-pending-card>
       </template>

@@ -9,6 +9,7 @@ const ProfileSchema = new Schema({
     public: {},
     friends: {},
     own: {},
+    profilePicture: String
 
 })
 const User = mongoose.model('profile', ProfileSchema)

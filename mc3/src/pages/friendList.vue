@@ -1,7 +1,7 @@
 <template>
-  <div class="q-pa-md row items-start q-gutter-none">
+  <div class="q-pa-md row justify-center q-gutter-md">
     <template v-for="(item, index) in pending">
-      <div class="col-md-4 col-xs-12" :key="index">
+      <div class="col-auto" :key="index">
         <app-card
           :item="item"
           :key="index"

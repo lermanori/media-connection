@@ -1,5 +1,8 @@
 const User = require('../models/user-model')
 const Profiles = require('../models/profile-model')
+const formidable = require('formidable')
+const path = require('path'),
+    fs = require('fs')
 
 
 module.exports = {
@@ -22,7 +25,7 @@ module.exports = {
         } else if (profile == undefined) {
             res.status(202).json({
                 message: "profile undefined",
-                permission
+                permission: profileId == userId ? 'owner' : permission,
             })
         } else if (profileId == userId) {
             permission = "owner";
@@ -30,16 +33,21 @@ module.exports = {
                 id: profile.id,
                 public: profile.public,
                 friends: profile.friends,
-                own: profile.own
+                profilePicture: profile.profilePicture,
+                own: profile.own,
+                email: user.email,
             }
-            console.log("prof-eq", profile)
+            //console.log("prof-eq", profile)
         } else if (user.friendsList.find(x => x == profileId) != undefined) {
+            const user2 = await User.findById(profileId);
             permission = "friends"
             profile = {
                 id: profile.id,
                 public: profile.public,
                 friends: profile.friends,
-                own: null
+                own: null,
+                profilePicture: profile.profilePicture,
+                email: user2.email
             }
 
         } else {
@@ -47,7 +55,10 @@ module.exports = {
                 id: profile.id,
                 public: profile.public,
                 friends: profile.friends,
-                own: null
+                own: null,
+                profilePicture: profile.profilePicture,
+                email: null,
+
             }
         }
         payload = {
@@ -62,9 +73,10 @@ module.exports = {
     },
     async create(req, res) {
         const userId = req.user.user._id;
-        let profile = await Profiles.find({
+        let profile = await Profiles.findOne({
             id: userId
         });
+        console.log(profile);
         if (profile == undefined) {
             profile = await new Profiles({
                 id: userId
@@ -104,7 +116,60 @@ module.exports = {
                 message: "profile not defined"
             })
         }
+    },
+    async updateProfilePic(req, res) {
+        try {
+            const userId = req.user.user._id;
+            const path = './profiles/' + userId + '.png'
+            const folder = './' + 'profiles'
+
+            if (!fs.existsSync(folder)) {
+                fs.mkdirSync(folder)
+            }
+            const form = new formidable.IncomingForm()
+            form.uploadDir = folder
+            form.parse(req, (_, fields, files) => {
+                console.log('\n-----------')
+                console.log('Fields', fields)
+                console.log('Received:', Object.keys(files))
+                // console.log('files:', Object.values(files))
+                // console.log(Object.values(files)[0].path)
+                // console.log(path)
+                fs.rename(Object.values(files)[0].path, path, (err) => {
+                    console.log(err)
+                });
+            })
+            const shift = (str) => {
+                const path = str.split("");
+                path.shift();
+                path.shift();
+                const res = path.join("");
+                return res;
+            }
+            const user = await User.findByIdAndUpdate(userId, {
+                $set: {
+                    profilePicture: shift(path)
+                }
+            }, {
+                new: true
+            });
+            const profile = await Profiles.findOneAndUpdate({
+                id: userId
+            }, {
+                $set: {
+                    profilePicture: shift(path)
+                }
+            }, {
+                new: true
+            });
+            res.status(200).json(profile);
+
+
+        } catch (err) {
+            console.log(err)
+            res.status(400).json({
+                message: "cant upload photo"
+            });
+        }
     }
-
-
 }

@@ -69,7 +69,8 @@ module.exports = function (ctx) {
         'QTime',
         'QRadio',
         'QExpansionItem',
-        'QEditor'
+        'QEditor',
+        'QUploader'
 
       ],
 

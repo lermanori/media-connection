@@ -1,7 +1,40 @@
 <template>
   <q-page>
     <div v-if="(!ShowCreate)&&(permission!='undefined')">
-      <h6 class="q-my-none">{{`Profile: ${id}`}}</h6>
+      <h6 class="q-my-none">{{`Profile: ${email}`}}</h6>
+      <div class="q-pa-md q-gutter-sm">
+        image:
+        <div class="row justify-center q-gutter-sm">
+          <div class="col-auto">
+            <q-card flat bordered v-if="profilePic">
+              <q-card-section>
+                <!-- <img
+                  style="height:250px;width:250px"
+                  src="https://previews.123rf.com/images/salamatik/salamatik1801/salamatik180100019/92979836-profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-isolated-on.jpg"
+                />-->
+                <q-img style="height:250px;width:250px" :src="`${baseUrl}/${ProfilePic}`" />
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-auto" v-if="(permission=='owner')">
+            <q-uploader
+              ref="uploader"
+              label="Restricted to images"
+              accept=".jpg, image/*"
+              style="max-width: 300px;height:100%"
+              :multiple="false"
+              :hide-upload-btn="true"
+              :url="`${baseUrl}/api/profile/profile-picture`"
+              @added="uploadedImage=true"
+              @removed="uploadedImage=false"
+              @uploaded="showRes"
+              @failed="showRes"
+              method="PUT"
+              :headers="[{name: 'Authorization', value:axiosConfig.headers.Authorization }]"
+            />
+          </div>
+        </div>
+      </div>
       <div class="q-pa-md q-gutter-sm">
         public:
         <q-editor v-if="(permission=='owner')" v-model="editorPublic" min-height="5rem" />
@@ -51,14 +84,21 @@
 </template>
 
 <script>
+import baseUrl from "../baseUrl";
+import axiosConfig from "../axiosConfig";
 export default {
   props: ["id"],
   data() {
     return {
+      axiosConfig: axiosConfig.axiosConfig(),
+      uploadedImage: false,
+      baseUrl: baseUrl.localBaseUrl,
       user: {},
       showCreate: false,
       loaded: false,
       permission: "",
+      profilePic: "",
+      email: "",
       editorPublic: "What you see is <b>what</b> you get.",
       editorFriends: "What you see is <b>what</b> you get.",
       editorPrivate: "What you see is <b>what</b> you get."
@@ -67,18 +107,27 @@ export default {
   computed: {
     ShowCreate() {
       return this.showCreate;
+    },
+    ProfilePic() {
+      return this.profilePic;
     }
   },
   methods: {
+    showRes(info) {
+      console.log(info);
+    },
     async created_handle() {
       const res = await this.$store.dispatch("Profile/create");
       await this.refresh();
     },
     async save_handle() {
+      if (this.uploadedImage == true) {
+        this.$refs.uploader.upload();
+      }
       const res = await this.$store.dispatch("Profile/update", {
-        own: editorPrivate,
-        friends: editorFriends,
-        public: editorPublic
+        own: this.editorPrivate,
+        friends: this.editorFriends,
+        public: this.editorPublic
       });
       await this.refresh();
     },
@@ -94,11 +143,17 @@ export default {
         }
         this.loaded = true;
         this.permission = user.permission;
-        this.editorPrivate = user.profile == undefined ? "" : user.profile.own;
+        this.editorPrivate =
+          user.profile.own == undefined ? "" : user.profile.own;
         this.editorFriends =
-          user.profile == undefined ? "" : user.profile.friends;
+          user.profile.friends == undefined ? "" : user.profile.friends;
         this.editorPublic =
-          user.profile == undefined ? "" : user.profile.public;
+          user.profile.public == undefined ? "" : user.profile.public;
+        this.profilePic =
+          user.profile.profilePicture == undefined
+            ? ""
+            : user.profile.profilePicture;
+        this.email = user.profile.email == undefined ? "" : user.profile.email;
       } catch (err) {
         console.log(err);
       }

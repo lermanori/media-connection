@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import BaseURL from "../../baseUrl";
 import firebase from '../firebase_init'
@@ -73,7 +72,9 @@ export async function auth(context) {
       "uid": user.uid
     })
     const token = loginResult.data.token;
+    const id = loginResult.data.id;
     user['token'] = token;
+    user['id'] = id;
     context.commit('setAuthUser', user);
     return result;
   } catch (error) {

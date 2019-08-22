@@ -24,6 +24,16 @@
 
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
       <q-list>
+        <q-item-label header>Profile</q-item-label>
+
+        <q-item clickable tag="a" :to="`/profile/${$store.getters['User/id']}`">
+          <q-item-section avatar>
+            <q-icon name="public" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>profile</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item-label header>In-app Links</q-item-label>
 
         <q-item clickable tag="a" to="/dashboard">

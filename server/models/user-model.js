@@ -17,6 +17,7 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
+    profilePicture: String
 
 })
 const User = mongoose.model('user', UserSchema)

@@ -12,12 +12,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/statics\\icons\\icon-512x512.png"
   },
   {
-    "revision": "d70663d06bd44437c178f522047470cc",
-    "url": "/statics\\icon-b.svg"
-  },
-  {
     "revision": "66d7719a8ca03c1a591444c013802817",
     "url": "/statics\\icons\\icon-384x384.png"
+  },
+  {
+    "revision": "ed12d10fd0407eea42ccaf7af7991146",
+    "url": "/statics\\icons\\ms-icon-144x144.png"
   },
   {
     "revision": "4ef3abbd14fbe85ceebf36d900d2c9ad",
@@ -32,16 +32,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/statics\\icon-a.svg"
   },
   {
-    "revision": "ed12d10fd0407eea42ccaf7af7991146",
-    "url": "/statics\\icons\\ms-icon-144x144.png"
+    "revision": "d70663d06bd44437c178f522047470cc",
+    "url": "/statics\\icon-b.svg"
   },
   {
-    "revision": "8c4120b4e88276badbc808e518572fad",
-    "url": "/statics\\icons\\icon-192x192.png"
+    "revision": "3020c8ac2c2872dec7741e5948520093",
+    "url": "/statics\\quasar-logo.png"
   },
   {
     "revision": "20c6420ccf16a07d9d56538e30a6b524",
     "url": "/statics\\icons\\icon-256x256.png"
+  },
+  {
+    "revision": "8c4120b4e88276badbc808e518572fad",
+    "url": "/statics\\icons\\icon-192x192.png"
   },
   {
     "revision": "da2b422e2895b9b9c1782a71b6be9d63",
@@ -49,27 +53,23 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   },
   {
     "revision": "3020c8ac2c2872dec7741e5948520093",
-    "url": "/statics\\quasar-logo.png"
-  },
-  {
-    "revision": "3020c8ac2c2872dec7741e5948520093",
     "url": "/statics\\icons\\icon-128x128.png"
-  },
-  {
-    "revision": "efb00e57304380d857603760600da5d5",
-    "url": "/statics\\icons\\favicon-16x16.png"
   },
   {
     "revision": "2f9d7587924933c1912c342b190b53ca",
     "url": "/statics\\icons\\favicon-32x32.png"
   },
   {
+    "revision": "efb00e57304380d857603760600da5d5",
+    "url": "/statics\\icons\\favicon-16x16.png"
+  },
+  {
     "revision": "001cee56fe99f8ee0825fa7fb41acf43",
     "url": "/sad.svg"
   },
   {
-    "revision": "de8b7431b74642e830af4d4f4b513ec9",
-    "url": "/fonts/KFOlCnqEu92Fr1MmEU9fBBc-.de8b7431.woff"
+    "revision": "a1471d1d6431c893582a5f6a250db3f9",
+    "url": "/fonts/KFOlCnqEu92Fr1MmSU5fBBc-.a1471d1d.woff"
   },
   {
     "revision": "37e900dfc3811cba86a1",
@@ -120,12 +120,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/77a4036e.52d6a03d.js"
   },
   {
-    "revision": "177b7054cda34d1dc8b1",
+    "revision": "2e15dc47af5a8ae762f4",
     "url": "/css/app.2dfbe6d0.css"
   },
   {
-    "revision": "177b7054cda34d1dc8b1",
-    "url": "/js/app.4b59850f.js"
+    "revision": "2e15dc47af5a8ae762f4",
+    "url": "/js/app.00ff453a.js"
   },
   {
     "revision": "6de8cb711282fd4525c7",
@@ -172,12 +172,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/365c83b5.868b8b99.js"
   },
   {
-    "revision": "cf6613d1adf490972c557a8e318e0868",
-    "url": "/fonts/KFOlCnqEu92Fr1MmWUlfBBc-.cf6613d1.woff"
+    "revision": "de8b7431b74642e830af4d4f4b513ec9",
+    "url": "/fonts/KFOlCnqEu92Fr1MmEU9fBBc-.de8b7431.woff"
   },
   {
-    "revision": "a1471d1d6431c893582a5f6a250db3f9",
-    "url": "/fonts/KFOlCnqEu92Fr1MmSU5fBBc-.a1471d1d.woff"
+    "revision": "cf6613d1adf490972c557a8e318e0868",
+    "url": "/fonts/KFOlCnqEu92Fr1MmWUlfBBc-.cf6613d1.woff"
   },
   {
     "revision": "8c2ade503b34e31430d6c98aa29a52a3",
@@ -244,7 +244,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/js/2bd63381.46180932.js"
   },
   {
-    "revision": "9085c6b5e75de4b76b5d6de7a0dc57ed",
+    "revision": "d5101d500b3dea12f0a9b64a266397eb",
     "url": "/index.html"
   },
   {

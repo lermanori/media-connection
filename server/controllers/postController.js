@@ -197,5 +197,23 @@ module.exports = {
             console.log(err);
             res.status(400).json("error getting post");
         })
+    },
+    async deletePost(req, res) {
+        try {
+            const postId = req.params.postid;
+            const post = await Post.findById(postId);
+            console.log(post)
+            const group = await Group.findById(post.group);
+            if (group.admin == req.user.user.uid) {
+                await Post.findByIdAndDelete(postId);
+            } else {
+                throw new Error("no permission to delete")
+            }
+            res.status(200).json(post);
+        } catch (err) {
+            console.log(err);
+            res.status(400).json(err);
+        }
+
     }
 }

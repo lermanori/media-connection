@@ -98,6 +98,15 @@ const routes = [{
     beforeEnter: AuthMidlleware
   },
   {
+    path: "/group/:groupid/admin",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/groupAdmin.vue")
+    }],
+    beforeEnter: AuthMidlleware
+  },
+  {
     path: "/groups",
     component: () => import("layouts/MyLayout.vue"),
     children: [{
@@ -197,6 +206,26 @@ const routes = [{
     beforeEnter: AuthMidlleware
   },
   {
+    path: "/post/commits/:id",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/filterType.vue"),
+      props: (route) => {
+        return {
+          //title: "post",
+          filterFunc: x => {
+            const commits = x.commits;
+            const res = commits.find(x => x.user._id == route.params.id)
+            return res;
+          },
+          mode: "all"
+        }
+      }
+    }],
+    beforeEnter: AuthMidlleware
+  },
+  {
     path: "/post",
     component: () => import("layouts/MyLayout.vue"),
     children: [{
@@ -275,6 +304,16 @@ const routes = [{
           mode: "email"
         }
       }
+    }],
+    beforeEnter: AuthMidlleware
+  },
+  {
+    path: "/search",
+    component: () => import("layouts/MyLayout.vue"),
+    children: [{
+      path: "",
+      component: () => import("pages/search.vue"),
+
     }],
     beforeEnter: AuthMidlleware
   },

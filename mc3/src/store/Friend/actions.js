@@ -57,6 +57,7 @@ export async function transformUidToUsers(context, uidArr) {
   return res;
 };
 export async function addFriendToGroup(context, item) {
+  console.log(item);
   const res = await axios.post(BaseURL.localBaseUrl + '/api/friend/addToGroup', item, axiosConfig.axiosConfig())
   return res.data;
 };

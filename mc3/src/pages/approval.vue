@@ -17,7 +17,7 @@
       </div>
     </div>
     <br />
-    <template v-for="(entries,index) in data.properties">
+    <!-- <template v-for="(entries,index) in data.properties">
       <div class="row wrap justify-center" :key="index">
         <div class="col-12" :key="index">
           <p
@@ -25,7 +25,9 @@
           >{{index}}.{{Object.fromEntries(Object.keys(data.properties[index]).map(arg=> [arg,data.properties[index][arg]]))}}</p>
         </div>
       </div>
-    </template>
+    </template>-->
+    <app-properties :arr="data.properties" />
+
     <div class="row wrap justify-center">
       <div class="q-mx-sm q-my-lg">
         <q-btn class="q-mr-xl" round icon="check" color="green" @click="()=>openPopup('yes')"></q-btn>
@@ -54,7 +56,12 @@
 <script>
 import PostConverter from "../mixins/PostConverter.js";
 import baseURL from "../baseUrl";
+import properties from "../components/properties";
+
 export default {
+  components: {
+    "app-properties": properties
+  },
   data() {
     return {
       model: null,

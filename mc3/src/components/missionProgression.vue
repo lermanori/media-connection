@@ -1,11 +1,19 @@
 <template>
   <q-card-section>
-    <q-separator color="indigo" />
+    <q-separator color="black-2" />
     <div class="row">
-      <div class="col-2 text-center self-center">
-        <h6 class="text-h6">{{label}}</h6>
+      <div class="col-md-1 col-xs-12">
+        <h6 class="text-h6 q-mb-none q-mt-sm">
+          <u>group:</u>
+          {{label}}
+        </h6>
       </div>
-      <div class="col-md-9 col-xs-7 q-pr-lg q-pt-md q-pl-md self-center">
+
+      <div class="col-md-3 col-xs-2 text-right self-center text-caption">
+        time:
+        <br />progress:
+      </div>
+      <div class="col-md-5 col-xs-8 self-center q-pt-md q-pl-sm">
         <q-linear-progress
           stripe
           rounded
@@ -22,8 +30,8 @@
           :color="computeColor(1 - progress2)"
         />
       </div>
-      <div class="col-1 q-pr-lg self-center">
-        <q-btn fab icon="create" @click="$emit('click')" />
+      <div class="col-1 self-center">
+        <q-btn round icon="create" class="q-ml-md" @click="$emit('click')" />
       </div>
     </div>
   </q-card-section>

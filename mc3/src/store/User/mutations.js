@@ -7,13 +7,13 @@ export function setAuthUser(state, user) {
   state.user.userObj = JSON.stringify(firebase.auth().currentUser);
   state.user.token = user.token;
   state.user.id = user.id;
+
 }
 export function clearAuthUser(state) {
-  console.log("clearing user " + state.user.loggedIn);
-  state.user = {};
+  state.user.userObj = {};
+  state.user.token = "";
+  state.user.id = "";
   state.authenticated = false;
-  localStorage.vuex = ""
-  console.log("clearing user " + state.user.loggedIn + " afater ");
 }
 export function setInstagramToken(state, token) {
   state.user.instagram_token = token;

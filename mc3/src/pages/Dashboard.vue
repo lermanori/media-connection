@@ -1,35 +1,46 @@
 <template>
   <q-page>
     <div class="row justify-center q-pa-md">
-      <div class="col-12">
+      <div class="col-md-6 col-xs-12">
         <div class="text-h5 text-center">DashBoard</div>
-        <q-card bordered class="my-card" style="min-height:25vh;">
-          <q-card-section>
-            <div class="text-h6 text-center">
-              <u>PROGRESSION:</u>
-            </div>
-          </q-card-section>
-          <app-progress
-            :label="progress.group"
-            :progress1="progress.time"
-            :progress2="progress.progress"
-            v-for="(progress,index) in Progression"
-            :key="index"
-            @click="progressBarClick_handle(progress)"
-          />
-          <q-separator class="q-mb-lg" color="indigo-8" />
-        </q-card>
-
+        <q-list>
+          <q-expansion-item popup icon="timeline" :label="'PROGRESSION:'">
+            <q-card bordered class="my-card" style="min-height:25vh;">
+              <q-card-section>
+                <div class="text-h6 text-center"></div>
+              </q-card-section>
+              <div class="row justify-center" v-if="!visible">
+                <q-circular-progress indeterminate size="10em" color="indigo" class="q-mx-auto" />
+              </div>
+              <div class="row justify-center" v-if="visible && Progression.length == 0 ">
+                <span class="text-caption">
+                  NO DATA.
+                  <br />create a new post.
+                </span>
+              </div>
+              <template v-if="visible && Progression.length > 0 ">
+                <app-progress
+                  :label="progress.group"
+                  :progress1="progress.time"
+                  :progress2="progress.progress"
+                  v-for="(progress,index) in Progression"
+                  :key="index"
+                  @click="progressBarClick_handle(progress)"
+                />
+              </template>
+              <q-separator class="q-mb-lg" color="black-2" />
+            </q-card>
+          </q-expansion-item>
+        </q-list>
         <div class="row justify-between">
           <div class="col-md-12 col-xs-12 q-my-lg">
-            <q-card bordered class="my-card">
-              <q-card-section>
-                <div class="text-h6 text-center">
-                  <u>CONNECTIONS:</u>
-                </div>
-              </q-card-section>
-              <app-connection />
-            </q-card>
+            <q-list>
+              <q-expansion-item popup icon="contacts" :label="'CONNECTIONS:'">
+                <q-card bordered class="my-card">
+                  <app-connection />
+                </q-card>
+              </q-expansion-item>
+            </q-list>
           </div>
           <!--<div class="col-md-5 col-xs-12 q-my-lg">
             <q-card bordered class="my-card">
@@ -55,6 +66,7 @@ import progress from "../components/missionProgression";
 import notification from "../components/notification";
 import connection from "../components/connection";
 import postConverter from "../mixins/PostConverter";
+import axiosConfig from "../axiosConfig";
 
 export default {
   components: {
@@ -68,7 +80,9 @@ export default {
       label: "label",
       progress1: 0.7,
       progress2: 0.5,
-      progression: []
+      progression: [],
+      visible: false,
+      axiosConfig: axiosConfig
     };
   },
 
@@ -108,7 +122,8 @@ export default {
     }
   },
 
-  created() {
+  async created() {
+    this.visible = false;
     this.$store.dispatch("Friend/syncFriends");
     this.$store.dispatch("Group/syncGroups");
     this.$store.dispatch("Post/getAllPosts").then(x => {
@@ -156,10 +171,14 @@ export default {
         };
       });
       this.progression = pretty;
+      this.visible = true;
     });
   }
 };
 </script>
 
 <style scoped>
+.my-card {
+  max-width: 800px;
+}
 </style>

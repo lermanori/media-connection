@@ -10,3 +10,6 @@ export function id(state) {
 export function instagram_token(state) {
   return state.user.instagram_token;
 }
+export function uid(state) {
+  return JSON.parse(state.user.userObj).uid;
+}

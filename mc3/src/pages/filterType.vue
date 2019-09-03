@@ -4,10 +4,21 @@
       <u>{{title}}</u>
     </h5>
 
-    <div class="row q-gutter-md justify-center">
-      <template v-for="(request,index) in filterdPosts">
-        <app-post-card :post="request" :key="index" class="col-6" />
-      </template>
+    <div class="q-pa-md q-mx-auto" style="max-width: 350px">
+      <q-list>
+        <template v-for="(request,index) in filterdPosts">
+          <q-expansion-item
+            popup
+            :default-opened="filterdPosts.length < 2"
+            icon="perm_identity"
+            :label="request.status"
+            :caption="request.groupID"
+            :key="index"
+          >
+            <app-post-card :post="request" class="q-mx-auto" />
+          </q-expansion-item>
+        </template>
+      </q-list>
     </div>
     <div class="row q-my-md justify-center">
       <q-btn fab to="/new-request" icon="add" color="cyan" class></q-btn>

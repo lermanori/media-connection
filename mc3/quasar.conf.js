@@ -70,7 +70,10 @@ module.exports = function (ctx) {
         'QRadio',
         'QExpansionItem',
         'QEditor',
-        'QUploader'
+        'QUploader',
+        'QChip',
+        'QCircularProgress',
+        'QOptionGroup'
 
       ],
 

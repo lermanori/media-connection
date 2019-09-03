@@ -32,6 +32,61 @@ module.exports = {
             });
         })
     },
+    async delete(req, res) {
+        try {
+            const groupId = req.params.groupid;
+            const group = await Group.findById(groupId);
+            if (group.admin == req.user.user.uid) {
+
+                await Group.findByIdAndDelete(groupId);
+                console.log('deleted')
+            } else {
+                throw new Error("no permission to delete")
+            }
+            res.status(200).json(group);
+        } catch (err) {
+            console.log(err);
+            res.status(400).json(err);
+        }
+    },
+    async deleteUserFromGroup(req, res) {
+        try {
+            const groupId = req.params.groupid;
+            const friendShipId = req.params.friendshipid;
+            const group = await Group.findById(groupId);
+            if (group.admin == req.user.user.uid) {
+                group.members = group.members.filter(x => x._id != friendShipId)
+                console.log(friendShipId)
+                console.log(group.members)
+                await group.save();
+            } else {
+                throw new Error("no permission to delete")
+            }
+            res.status(200).json(group);
+        } catch (err) {
+            console.log(err);
+            res.status(400).json(err);
+        }
+    },
+    async deletePostFromGroup(req, res) {
+        try {
+            const groupId = req.params.groupid;
+            const postId = req.params.postid;
+            const group = await Group.findById(groupId);
+            if (group.admin == req.user.user.uid) {
+                group.posts = group.members.filter(x => x._id != postId)
+                console.log(postId)
+                console.log(group.posts);
+                await group.save();
+            } else {
+                throw new Error("no permission to delete")
+            }
+            res.status(200).json(group);
+        } catch (err) {
+            console.log(err);
+            res.status(400).json(err);
+        }
+    },
     getGroups(req, res, next) {
         User.findById(req.user.user._id).then((doc) => {
             const groups = doc.groups;

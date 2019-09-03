@@ -11,6 +11,7 @@ router.post('/:postid/approve', authMiddleware, postController.approveCommit);
 router.post('/:postid/disapprove', authMiddleware, postController.disapproveCommit);
 router.get('/', authMiddleware, postController.getPosts);
 router.get('/:postid', authMiddleware, postController.getPost);
+router.delete('/:postid', authMiddleware, postController.deletePost);
 
 
 module.exports = router

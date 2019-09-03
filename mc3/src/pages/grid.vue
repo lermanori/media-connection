@@ -2,6 +2,14 @@
   <q-page>
     <q-page-container>
       <div class="text-center">
+        <q-btn
+          class="fixed-bottom q-mt-xl w-100"
+          icon="edit"
+          label="admin"
+          :style="{width:'100%',height:'50px'}"
+          color="green"
+          :to="`/group/${$store.getters['Group/currentGroupID']}/admin`"
+        />
         <div
           class="text-h6"
         >Name: {{$store.getters["Group/Groups"].find((x)=>x._id == $store.getters["Group/currentGroupID"]).group_name }}</div>
@@ -45,7 +53,7 @@
           <q-radio v-model="dataMode" val="mixed" label="Combined" />
         </div>
       </div>
-      <div class="row justify-center">
+      <div class="row justify-center" :style="{marginBottom:'9vh'}">
         <div class="col-4" v-for="(img,i) in dynamicDataReverse" :key="i">
           <q-card>
             <q-img
@@ -91,6 +99,13 @@ export default {
           uploadTime: parseInt(x.created_time) * 1000
         };
       });
+    },
+    Admin() {
+      return (
+        this.$store.getters["Group/Groups"].find(
+          x => x._id == this.$store.getters["Group/currentGroupID"]
+        ).admin == this.$store.getters["User/uid"]
+      );
     },
     NumberOfNewPosts() {
       return this.posts.filter(x => x.status === "new request").length;

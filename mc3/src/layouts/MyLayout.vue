@@ -12,9 +12,19 @@
         >
           <q-icon name="menu" />
         </q-btn>
-        <q-toolbar-title>Media Connection</q-toolbar-title>
+        <q-toolbar-title>MC</q-toolbar-title>
 
-        <q-space />
+        <!-- <q-space /> -->
+        <q-input
+          @keyup.enter="$router.push(`/search/?search='${text}'`)"
+          dark
+          dense
+          standout
+          v-model="text"
+          input-class="text-right"
+          class="q-ml-md"
+          v-if="loggedIn"
+        />
 
         <q-btn flat dense round aria-label="Logout" v-if="loggedIn" @click="logout_Handle">
           <q-icon color="white" name="exit_to_app" />
@@ -89,24 +99,32 @@ export default {
   data() {
     return {
       leftDrawerOpen:
-        this.$q.platform.is.desktop && this.$store.getters.loggedIn
+        this.$q.platform.is.desktop && this.$store.getters["User/loggedIn"],
+      text: ""
     };
   },
   methods: {
     openURL,
     logout_Handle() {
       this.$store.dispatch("User/clearAuth");
+      this.leftDrawerOpen = false;
       this.$router.push("/");
-      console.log(this.$store.getters.loggedIn);
-    }
+    },
+    input_handle() {}
   },
   computed: {
     loggedIn() {
       return this.$store.getters["User/loggedIn"];
+    },
+    LeftDrawerOpen() {
+      return (
+        this.$q.platform.is.desktop && this.$store.getters["User/loggedIn"]
+      );
     }
   },
   created() {
     //this.$store.dispatch('reauth');
+    this.$forceUpdate();
   }
 };
 </script>

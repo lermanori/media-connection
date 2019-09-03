@@ -1,16 +1,11 @@
 <template>
   <div class="q-pa-md row justify-center q-gutter-md">
     <template v-for="(item, index) in pending">
-      <div class="col-auto" :key="index">
-        <app-card
-          :item="item"
-          :key="index"
-          @addToGroup="handle_addToGroup($event)"
-          @unfriend="handle_unfriend(item)"
-          :options="options"
-        ></app-card>
+      <div class="col-auto" :key="index" v-if="visible">
+        <app-card :item="item" :options="options" :key="index" @addToGroup="handle_addToGroup"></app-card>
       </div>
     </template>
+    <q-circular-progress v-if="!visible" indeterminate size="10em" color="indigo" class="q-ma-md" />
     <q-btn to="/friends/pending" class="fixed-bottom" color="cyan">To Pending</q-btn>
   </div>
 </template>
@@ -24,12 +19,8 @@ export default {
   },
   data() {
     return {
-      pending: [
-        {
-          email: "heeelll"
-        }
-      ],
-
+      pending: [],
+      visible: false,
       options: []
     };
   },
@@ -46,11 +37,13 @@ export default {
       console.log("unfriend:", item);
     },
     async refresh() {
+      this.visible = false;
       const pending = await this.$store.dispatch(
         "Friend/syncByFilter",
         res => res.data.user.friendsList
       );
       this.pending = pending;
+      this.visible = true;
     }
   },
   async created() {

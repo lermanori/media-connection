@@ -37,6 +37,7 @@
 import baseURL from "../baseUrl.js";
 import services from "../services.js";
 import store from "../store";
+import axiosConfig from "../axiosConfig";
 
 export default {
   name: "login",
@@ -45,13 +46,17 @@ export default {
       email: "",
       password: "",
       baseURL: baseURL,
-      auth: true
+      auth: true,
+      axiosConfig
     };
   },
   methods: {
     login() {
-      this.$store.dispatch("User/auth").then(() => {
-        window.setTimeout(() => this.$router.push("/dashboard"), 100);
+      this.$store.dispatch("User/auth").then(x => {
+        window.setTimeout(() => {
+          // console.log(() => this.$store.getters["User/token"]() == undefined);
+          this.$router.push("/dashboard");
+        }, 10);
       });
     },
     loginWithEmailAndPass() {

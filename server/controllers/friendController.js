@@ -132,7 +132,6 @@ module.exports = {
     },
     async addToGroup(req, res) {
         try {
-
             const body = req.body;
             let group = await Group.findById(body.group);
             let addedUser = await User.findById(body.friend._id);

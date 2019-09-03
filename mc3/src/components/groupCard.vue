@@ -1,55 +1,41 @@
 <template>
   <q-card class="card">
     <q-card-section>
-      <div class="text-h6">
+      <q-separator />
+      <span class="text-caption">
         <u>Group Name:</u>
         {{group.group_name}}
-      </div>
+      </span>
     </q-card-section>
     <q-card-section>
-      <div class="text-body">
+      <div class="text-caption">
         <u>Group description:</u>
         {{group.group_desc}}
       </div>
     </q-card-section>
 
     <q-card-section>
-      <div class="text-body">
+      <div class="text-caption">
         <u>admin:</u>
       </div>
-      <q-expansion-item
-        v-for="(member,index) in Members.filter(x=>x.uid == group.admin)"
-        :key="index"
-      >
-        <template v-slot:header>
-          <!-- <q-item-section thumbnail>
-              <img :src="mybaseUrl + prop.path2" /> 
-
-          </q-item-section>-->
-
-          <q-item-section class="q-mt-sm">
-            <q-item-label>
-              <u>email:</u>
-              {{member.email}}
-            </q-item-label>
-            <q-item-label caption>{{member._id}}</q-item-label>
-          </q-item-section>
-          <q-item-section side top>
-            <!-- <q-item-label caption>{{Date(prop.time).split(" ").slice(0,3).join(" ") }}</q-item-label> -->
-          </q-item-section>
-        </template>
-        <app-friend-card
-          :item="member"
+      <div class="q-gutter-sm">
+        <q-chip
+          square
+          v-for="(member,index) in Members.filter(x=>x.uid == group.admin)"
           :key="index"
-          @addToGroup="handle_addToGroup($event)"
-          @unfriend="handle_unfriend(item)"
-          :options="options"
-        ></app-friend-card>
-      </q-expansion-item>
+          clickable
+          @click="$router.push('/profile/'+member._id)"
+        >
+          <q-avatar>
+            <q-img contains style="height:100%" :src="mybaseUrl + '/' + member.profilePicture" />
+          </q-avatar>
+          {{member.email}}
+        </q-chip>
+      </div>
     </q-card-section>
     <q-card-section></q-card-section>
     <q-card-section>
-      <div class="text-body">
+      <div class="text-caption">
         <u>posts:</u>
       </div>
       <q-list>
@@ -74,34 +60,22 @@
           <app-post-card :post="post" :key="index" class="col-6" />
         </q-expansion-item>
       </q-list>
-      <u>members:</u>
+      <u class="text-caption">members:</u>
       <q-list>
-        <q-expansion-item v-for="(member,index) in Members" :key="index">
-          <template v-slot:header>
-            <!-- <q-item-section thumbnail>
-              <img :src="mybaseUrl + prop.path2" /> 
-
-            </q-item-section>-->
-
-            <q-item-section class="q-mt-sm">
-              <q-item-label>
-                <u>email:</u>
-                {{member.email}}
-              </q-item-label>
-              <q-item-label caption>{{member._id}}</q-item-label>
-            </q-item-section>
-            <q-item-section side top>
-              <!-- <q-item-label caption>{{Date(prop.time).split(" ").slice(0,3).join(" ") }}</q-item-label> -->
-            </q-item-section>
-          </template>
-          <app-friend-card
-            :item="member"
+        <div class="q-gutter-sm">
+          <q-chip
+            square
+            v-for="(member,index) in Members"
             :key="index"
-            @addToGroup="handle_addToGroup($event)"
-            @unfriend="handle_unfriend(item)"
-            :options="options"
-          ></app-friend-card>
-        </q-expansion-item>
+            clickable
+            @click="$router.push('/profile/'+member._id)"
+          >
+            <q-avatar>
+              <q-img contains style="height:100%" :src="mybaseUrl + '/' + member.profilePicture" />
+            </q-avatar>
+            {{member.email}}
+          </q-chip>
+        </div>
       </q-list>
     </q-card-section>
     <q-separator />

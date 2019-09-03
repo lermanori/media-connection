@@ -1,5 +1,6 @@
 <template>
   <div class="q-pa-md row justify-center q-gutter-md">
+    <q-circular-progress v-if="!visible" indeterminate size="10em" color="indigo" class="q-ma-md" />
     <div class="col-auto">
       <template v-for="(item, index) in pending">
         <app-pending-card :item="item" :key="index" @approve="handle_approve(item)"></app-pending-card>
@@ -18,11 +19,8 @@ export default {
   },
   data() {
     return {
-      pending: [
-        {
-          email: "heeelll"
-        }
-      ]
+      pending: [],
+      visible: false
     };
   },
   methods: {
@@ -31,11 +29,13 @@ export default {
       await this.refreshPending();
     },
     async refreshPending() {
+      this.visible = false;
       const pending = await this.$store.dispatch(
         "Friend/syncByFilter",
         res => res.data.user.pendingReq
       );
       this.pending = pending;
+      this.visible = true;
     }
   },
   async created() {

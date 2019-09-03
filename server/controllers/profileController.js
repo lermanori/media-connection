@@ -79,7 +79,9 @@ module.exports = {
         console.log(profile);
         if (profile == undefined) {
             profile = await new Profiles({
-                id: userId
+                id: userId,
+                email: req.user.user.email
+
             });
             profile = await profile.save();
             res.status(201).json({
@@ -93,15 +95,18 @@ module.exports = {
         }
     },
     async update(req, res) {
+        console.log(req.user.user.email)
         const userId = req.user.user._id;
         const body = req.body;
         let profile = await Profiles.findOneAndUpdate({
-            id: userId
+            id: userId,
+
         }, {
             $set: {
                 own: body.own,
                 friends: body.friends,
-                public: body.public
+                public: body.public,
+                email: req.user.user.email
             }
         }, {
             new: true
@@ -171,5 +176,22 @@ module.exports = {
                 message: "cant upload photo"
             });
         }
+    },
+    async search(req, res) {
+        const results = await Profiles.find({
+            $text: {
+                $search: req.query.search
+            }
+        }, {
+            score: {
+                $meta: "textScore"
+            }
+        }).sort({
+            score: {
+                $meta: "textScore"
+            }
+        });
+        // console.log(req.query);
+        res.status(200).json(results);
     }
 }

@@ -1,12 +1,6 @@
 <template>
   <div class="container text-center">
-    <div class="row">
-      <div class="col-12">
-        <h6 class="q-mt-xl q-mb-none">
-          <u>{{$route.params.postid}}</u>
-        </h6>
-      </div>
-    </div>
+    <br />
     <q-select
       filled
       @input="loadImageFromUrl(model.value)"
@@ -19,18 +13,9 @@
       commit description: {{model.description}}
       <!--<q-img :src="baseURL.localBaseUrl+model.value" />-->
     </div>
-    <br />
-    <template v-for="(entries,index) in data.properties">
-      <div class="row wrap justify-center" :key="index">
-        <div class="col-12" :key="index">
-          <p
-            :key="index"
-          >{{index}}.{{Object.fromEntries(Object.keys(data.properties[index]).map(arg=> [arg,data.properties[index][arg]]))}}</p>
-        </div>
-      </div>
-    </template>
+    <app-properties :arr="data.properties" />
     <div class="row wrap justify-center">
-      <div class="imageEditorApp q-mx-sm">
+      <div class="imageEditorApp q-lg-mx-sm q-xs-md-none">
         <tui-image-editor
           ref="tuiImageEditor"
           :include-ui="useDefaultUI"
@@ -81,9 +66,11 @@ import "tui-image-editor/dist/svg/icon-d.svg";
 
 import PostConverter from "../mixins/PostConverter.js";
 import baseURL from "../baseUrl";
+import properties from "../components/properties";
 export default {
   components: {
-    "tui-image-editor": ImageEditor
+    "tui-image-editor": ImageEditor,
+    "app-properties": properties
   },
   data() {
     return {

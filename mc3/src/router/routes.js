@@ -150,14 +150,17 @@ const routes = [{
     beforeEnter: AuthMidlleware
   },
   {
-    path: "/post/requests",
+    path: "/:groupID/post/requests",
     component: () => import("layouts/MyLayout.vue"),
     children: [{
       path: "",
       component: () => import("pages/filterType.vue"),
-      props: {
-        //title: "new requests",
-        filterFunc: x => x.status == "new request"
+      props: (route) => {
+        return {
+          //title: "post",
+          filterFunc: x => x.status == "new request" && x.groupID == route.params.groupID,
+          mode: "approval"
+        }
       }
     }],
     beforeEnter: AuthMidlleware
@@ -168,9 +171,11 @@ const routes = [{
     children: [{
       path: "",
       component: () => import("pages/filterType.vue"),
-      props: {
-        //title: "In Process",
-        filterFunc: x => x.status == "in process"
+      props: (route) => {
+        return {
+          filterFunc: x => x.status == "in process" && x.groupID == route.params.groupID,
+          mode: "approval"
+        }
       }
     }],
     beforeEnter: AuthMidlleware
@@ -181,10 +186,11 @@ const routes = [{
     children: [{
       path: "",
       component: () => import("pages/filterType.vue"),
-      props: {
-        //  title: "Waiting For Approval",
-        filterFunc: x => x.status == "waiting for approval",
-        mode: "approval"
+      props: (route) => {
+        return {
+          filterFunc: x => x.status == "waiting for approval" && x.groupID == route.params.groupID,
+          mode: "approval"
+        }
       }
     }],
     beforeEnter: AuthMidlleware

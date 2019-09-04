@@ -44,9 +44,7 @@ export default {
     }
   },
   async created() {
-    if (this.mode == "all") {
-      await this.$store.dispatch("Post/getAllPosts");
-    } else await this.$store.dispatch("Post/syncPosts");
+    await this.$store.dispatch("Post/getAllPosts");
   }
 };
 </script>

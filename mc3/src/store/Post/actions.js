@@ -28,10 +28,12 @@ export async function createPost(context, filterdProperties) {
     }
     const res = await axios.post(baseUrl.localBaseUrl + "/api/post/create", dataObj, conf);
     const data = {
-      ...res.data
+      groupID: res.data.group,
+      filterdProperties: res.data.properties,
+      status: res.data.status,
+      id: res.data._id
     }
     context.commit('createPost', data)
-
   } catch (err) {
     console.log(err);
   }

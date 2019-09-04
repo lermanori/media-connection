@@ -92,7 +92,9 @@ export default {
         return { key, value, mode };
       });
       await this.$store.dispatch("Post/createPost", this.filterdProperties);
-      this.$router.push("post/requests"); //need to move after schema
+      this.$router.push(
+        `/${this.$store.getters["Group/currentGroupID"]}/post/requests`
+      ); //need to move after schema
     },
     clean_handler() {
       this.properties = this.properties.filter(arg => !arg.disabled);

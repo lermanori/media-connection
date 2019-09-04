@@ -27,14 +27,9 @@ export async function createPost(context, filterdProperties) {
       status: "new request"
     }
     const res = await axios.post(baseUrl.localBaseUrl + "/api/post/create", dataObj, conf);
-    console.log(res);
     const data = {
-      groupID: res.data.group,
-      filterdProperties: res.data.properties,
-      status: res.data.status,
-      id: res.data._id
+      ...res.data
     }
-    console.log(data);
     context.commit('createPost', data)
 
   } catch (err) {

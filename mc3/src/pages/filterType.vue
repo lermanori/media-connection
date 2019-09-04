@@ -5,7 +5,7 @@
     </h5>
 
     <div class="q-pa-md q-mx-auto" style="max-width: 350px">
-      <q-list>
+      <q-list v-if="filterdPosts.length != undefined">
         <template v-for="(request,index) in filterdPosts">
           <q-expansion-item
             popup
@@ -43,10 +43,10 @@ export default {
       return this.Posts.filter(this.filterFunc);
     }
   },
-  created() {
+  async created() {
     if (this.mode == "all") {
-      this.$store.dispatch("Post/getAllPosts");
-    }
+      await this.$store.dispatch("Post/getAllPosts");
+    } else await this.$store.dispatch("Post/syncPosts");
   }
 };
 </script>

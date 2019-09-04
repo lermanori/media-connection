@@ -85,13 +85,13 @@ export default {
     log(arg) {
       console.log(arg);
     },
-    handle_click_save() {
+    async handle_click_save() {
       const filter = this.properties.filter(arg => !arg.disabled);
       filter.push(this.uploadAt);
       this.filterdProperties = filter.map(({ key, value, mode }) => {
         return { key, value, mode };
       });
-      this.$store.dispatch("Post/createPost", this.filterdProperties);
+      await this.$store.dispatch("Post/createPost", this.filterdProperties);
       this.$router.push("post/requests"); //need to move after schema
     },
     clean_handler() {

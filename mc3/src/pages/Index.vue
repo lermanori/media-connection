@@ -22,6 +22,11 @@ export default {
     return {
       welcome_msg: "welocome to our app, login or register please."
     };
+  },
+  created() {
+    if (this.$store.getters["User/loggedIn"]) {
+      this.$router.push("/dashboard");
+    }
   }
 };
 </script>

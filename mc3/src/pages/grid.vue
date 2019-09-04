@@ -20,7 +20,9 @@
             <q-card-section class="bg-indigo text-white text-center">
               <div class="text-h6">Post Waiting For Approval</div>
               <div class="text-h4" v-if="postLoaded">{{NumberOfWaitingPosts}}</div>
-              <q-btn to="/post/waiting-for-approval">to submissions</q-btn>
+              <q-btn
+                :to="`/${$store.getters['Group/currentGroupID']}/post/waiting-for-approval`"
+              >to submissions</q-btn>
             </q-card-section>
           </q-card>
         </div>
@@ -29,7 +31,9 @@
             <q-card-section class="bg-blue darken 4 text-white text-center">
               <div class="text-h6">Posts In Process</div>
               <div class="text-h4" v-if="postLoaded">{{NumberOfInProcessPosts}}</div>
-              <q-btn to="/post/in-process">to In Process</q-btn>
+              <q-btn
+                :to="`/${$store.getters['Group/currentGroupID']}/post/in-process`"
+              >to In Process</q-btn>
             </q-card-section>
           </q-card>
         </div>
@@ -38,7 +42,7 @@
             <q-card-section class="bg-cyan text-white text-center">
               <div class="text-h6">Posts requested</div>
               <div class="text-h4" v-if="postLoaded">{{NumberOfNewPosts}}</div>
-              <q-btn to="/post/requests">to requests</q-btn>
+              <q-btn :to="`/${$store.getters['Group/currentGroupID']}/post/requests`">to requests</q-btn>
             </q-card-section>
           </q-card>
         </div>

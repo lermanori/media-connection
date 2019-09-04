@@ -109,7 +109,7 @@ export default {
       app_key: "",
       app_value: "",
       mask: "DD-MM-YYYY HH:mm",
-      date: "2019/02/01",
+      date: "2019/09/04",
       time: "10:56",
       readOnly: false
     };

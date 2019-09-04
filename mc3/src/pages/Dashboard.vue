@@ -121,12 +121,11 @@ export default {
       });
     }
   },
-
   async created() {
     this.visible = false;
-    this.$store.dispatch("Friend/syncFriends");
-    this.$store.dispatch("Group/syncGroups");
-    this.$store.dispatch("Post/getAllPosts").then(x => {
+    await this.$store.dispatch("Friend/syncFriends");
+    await this.$store.dispatch("Group/syncGroups");
+    await this.$store.dispatch("Post/getAllPosts").then(x => {
       const mapped = x
         .filter(x => x.status != "approved")
         .map(val => {

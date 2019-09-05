@@ -40,6 +40,7 @@ export default {
       return this.$store.getters["Post/getPosts"];
     },
     filterdPosts() {
+      console.log(this.Posts);
       return this.Posts.filter(this.filterFunc);
     }
   },

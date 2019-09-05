@@ -35,7 +35,7 @@
         <div class="row justify-between">
           <div class="col-md-12 col-xs-12 q-my-lg">
             <q-list>
-              <q-expansion-item popup icon="contacts" :label="'CONNECTIONS:'">
+              <q-expansion-item popup icon="contacts" :label="'Connections:'">
                 <q-card bordered class="my-card">
                   <app-connection />
                 </q-card>

@@ -19,11 +19,12 @@
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="Groups">
           <div class="row q-gutter-md justify-center">
-            <q-btn color="indigo" v-for="(index,i) in Groups" :key="i" :to="'/groups/' + index._id">
-              name:{{index.group_name}}
-              <br />
-              Description: {{index.group_desc}}
-            </q-btn>
+            <q-btn
+              color="indigo"
+              v-for="(index,i) in Groups"
+              :key="i"
+              :to="'/groups/' + index._id"
+            >{{index.group_name}}</q-btn>
           </div>
 
           <q-separator class="q-mt-md" />

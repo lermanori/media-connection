@@ -23,7 +23,10 @@ import '@quasar/extras/animate/fadeIn.css'
 import '@quasar/extras/animate/fadeOut.css'
 
 
-import 'quasar-styl'
+// We load Quasar stylus files
+import 'quasar/dist/quasar.styl'
+
+
 
 
 import 'src/css/app.styl'
@@ -33,24 +36,26 @@ import Vue from 'vue'
 import createApp from './app.js'
 
 
-import 'app/src-pwa/register-service-worker.js'
 
 
+import qboot_Bootaxios from 'boot/axios'
 
-import b_Bootaxios from 'boot/axios'
-
-import b_Bootcookies from 'boot/cookies'
-
-
-
-
-
-import FastClick from 'fastclick'
+import qboot_Bootcookies from 'boot/cookies'
 
 
 
 
 
+
+
+
+
+Vue.config.devtools = true
+Vue.config.productionTip = false
+
+
+
+console.info('[Quasar] Running SPA.')
 
 
 
@@ -58,19 +63,14 @@ const { app, store, router } = createApp()
 
 
 
-// Needed only for iOS PWAs
-if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
-
-  document.addEventListener('DOMContentLoaded', () => {
-    FastClick.attach(document.body)
-  }, false)
-}
-
-
 async function start () {
   
-  const bootFiles = [b_Bootaxios,b_Bootcookies]
+  const bootFiles = [qboot_Bootaxios,qboot_Bootcookies]
   for (let i = 0; i < bootFiles.length; i++) {
+    if (typeof bootFiles[i] !== 'function') {
+      continue
+    }
+
     try {
       await bootFiles[i]({
         app,

@@ -20,6 +20,7 @@
         </template>
       </q-list>
     </div>
+
     <q-btn class="q-ma-md fixed-bottom-right" icon="add" fab color="purple" @click="popup=true" />
     <q-dialog v-model="popup">
       <q-card bordered class="q-pa-md">

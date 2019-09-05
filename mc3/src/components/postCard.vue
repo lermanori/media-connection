@@ -3,20 +3,32 @@
     <q-card-section>
       <span class="text-h6">
         status:
-        <u>{{post.status}}</u>
+        <font color="red" v-if="post.status =='new request' ">{{post.status}}</font>
+        <font color="orange" v-if="post.status =='in process' ">{{post.status}}</font>
+        <font color="green" v-if="post.status =='waiting for approval' ">{{post.status}}</font>
       </span>
     </q-card-section>
-    <q-card-section>
+
+    <q-card-section v-if="post.filterdProperties.length > 1">
       properties:
-      <q-list bordered separator>
-        <q-item>
-          <q-item-section v-for="(prop,index) in post.filterdProperties" :key="index">
-            <q-item-label overline>{{prop.key}}</q-item-label>
-            <q-item-label>{{prop.value}}</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+      <div class="q-pa-sm">
+        <q-markup-table separator="cell">
+          <thead>
+            <tr>
+              <th class="text-left">Key</th>
+              <th class="text-center">Value</th>
+            </tr>
+          </thead>
+          <tbody v-for="(prop,index) in post.filterdProperties" :key="index">
+            <tr v-if="prop.key != undefined && prop.value != undefined">
+              <td class="text-left">{{prop.key}}</td>
+              <td class="text-center textSmall">{{prop.value}}</td>
+            </tr>
+          </tbody>
+        </q-markup-table>
+      </div>
     </q-card-section>
+
     <q-card-section v-if="post.commits.length > 0">
       commits:
       <q-list bordered separator class="q-mt-sm q-mb-md">
@@ -27,7 +39,8 @@
             </q-item-section>
 
             <q-item-section class="q-mt-sm">
-              <q-item-label>{{prop.user.email}}</q-item-label>
+              <p></p>
+              <q-item-label class="textSmall">{{prop.user.email}}</q-item-label>
               <q-item-label caption>{{prop.commitMessage}}</q-item-label>
             </q-item-section>
             <q-item-section side top>
@@ -37,17 +50,31 @@
 
           <q-card>
             <q-card-section>
-              <div class="text-body">
-                <u>commit message:</u>
-                {{prop.commitMessage}}
-              </div>
-              <div class="text-body">
-                <u>time uploaded:</u>
-                {{Date(prop.time).split(" ").slice(0,5).join(" ")}}
-              </div>
-              <div class="text-body">
-                <u>done:</u>
-                {{prop.done}}
+              <div>
+                <q-markup-table separator="horizontal">
+                  <tbody>
+                    <tr>
+                      <td class="text-left textSmall">
+                        <b>Commit message:</b>
+                      </td>
+                      <td class="text-left textSmall">{{prop.commitMessage}}</td>
+                    </tr>
+                    <tr>
+                      <td class="text-left textSmall">
+                        <b>Time uploaded:</b>
+                      </td>
+                      <td
+                        class="text-left textXSmall"
+                      >{{Date(prop.time).split(" ").slice(0,5).join(" ")}}</td>
+                    </tr>
+                    <tr>
+                      <td class="text-left textSmall">
+                        <b>Done:</b>
+                      </td>
+                      <td class="text-left textSmall">{{prop.done}}</td>
+                    </tr>
+                  </tbody>
+                </q-markup-table>
               </div>
             </q-card-section>
           </q-card>
@@ -83,4 +110,37 @@ export default {
   width: 100%;
   max-width: 500px;
 }
+.textXSmall {
+  font-size: 8px;
+}
+.textSmall {
+  font-size: 10px;
+}
 </style>
+<style lang="stylus">
+.my-sticky-column-table {
+  /*
+    specifying max-width so the example can
+    highlight the sticky column on any browser window
+  */
+  max-width: 600px;
+
+  /* bg color is important for th; just specify one */
+  thead tr:first-child th:first-child {
+    background-color: #fff;
+    opacity: 1;
+  }
+
+  td:first-child {
+    background-color: #f5f5dc;
+  }
+
+  thead tr:first-child th:first-child, td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+  }
+}
+</style>
+
+

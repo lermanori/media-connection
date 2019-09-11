@@ -61,6 +61,13 @@
         :color="(post.status=='waiting for approval'?'green':'indigo')"
         :to="'/' + post.id + (post.status=='waiting for approval' ?'/approval':'/image-editor')"
       ></q-btn>
+      <q-btn
+        v-if="post.status=='approved'"
+        class="absolute-bottom q-mt-sm"
+        icon="share"
+        color="pink"
+        @click="handle_share(post)"
+      ></q-btn>
     </q-card-actions>
     <!-- <h6 class="q-mb-none">{{post}}</h6> -->
   </q-card>
@@ -74,6 +81,31 @@ export default {
     return {
       mybaseUrl: mybaseUrl.localBaseUrl
     };
+  },
+  methods: {
+    handle_share(post) {
+      console.log(post);
+      if (navigator.share) {
+        navigator.share({
+          title: "mc3-upload",
+          url: `${this.mybaseUrl}${this.post.path}`
+        });
+      } else {
+        console.log("hey");
+        this.$axios({
+          url: `${this.mybaseUrl}${this.post.path}`,
+          method: "GET",
+          responseType: "blob" // important
+        }).then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "image.png"); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+        });
+      }
+    }
   }
 };
 </script>

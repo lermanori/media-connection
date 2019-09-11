@@ -142,5 +142,69 @@ module.exports = {
             res.status(404).json("error getting group");
         })
 
+    },
+    async updatePermissions(req, res) {
+        try {
+            const body = req.body;
+            let group = await Group.findById(body.group);
+            let user = await User.findById(body.friend._id);
+            const updatedPermissions = body.updatedPermissions;
+            if (group.members.find(x => x.memberUid == user.uid)) {
+                group.members.forEach((element, idx) => {
+                    if (element.memberUid == user.uid) {
+                        group.members[idx].role = updatedPermissions;
+                    }
+                });
+            }
+            console.log(group)
+            group = await group.save();
+            res.status(200).json({
+                group,
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({
+                message: "add to group failed"
+            });
+        }
+    },
+    async getDefaultPermissions(req, res) {
+        try {
+            let groupId = req.params.groupId;
+            console.log(groupId)
+            const group = await Group.findById(groupId);
+            if (group.defaultPermissions == undefined) {
+                res.status(201).json({
+                    defaultPermissions: []
+                });
+            } else {
+                res.status(200).json({
+                    defaultPermissions: group.defaultPermissions
+                });
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({
+                message: "get Permissions failed"
+            });
+        }
+    },
+    async setDefaultPermissions(req, res) {
+        try {
+            let groupId = req.params.groupId;
+            let body = req.body;
+            console.log(body)
+            let group = await Group.findById(groupId);
+            group.defaultPermissions = body;
+            group = await group.save();
+            res.status(200).json({
+                group
+            });
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({
+                message: "get Permissions failed"
+            });
+        }
     }
 }

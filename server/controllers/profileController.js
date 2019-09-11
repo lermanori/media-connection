@@ -54,10 +54,10 @@ module.exports = {
             profile = {
                 id: profile.id,
                 public: profile.public,
-                friends: profile.friends,
+                friends: null,
                 own: null,
                 profilePicture: profile.profilePicture,
-                email: null,
+                email: profile.email,
 
             }
         }

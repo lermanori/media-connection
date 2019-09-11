@@ -109,12 +109,12 @@ export default {
     },
     convertGroupIdToName(id) {
       const groups = this.$store.getters["Group/Groups"];
-      const res = groups.find(x => x._id == id).group_name;
-      return res;
+      const res = groups.find(x => x._id == id);
+      return res != undefined ? res.group_name : undefined;
     },
     progressBarClick_handle(arg) {
       this.$store.dispatch("Group/setGroupID", arg.groupId).then(() => {
-        this.$store.dispatch("Post/syncPosts", arg.groupId).then(() => {
+        this.$store.dispatch("Post/getAllPosts").then(() => {
           const url = `/post/${arg.id}`;
           this.$router.push(url);
         });

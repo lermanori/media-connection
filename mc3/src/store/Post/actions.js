@@ -95,6 +95,7 @@ export async function getCommits(context, postId) {
     console.log(err)
   }
 }
+///very bad method. use get all posts instead.
 export async function syncPosts(context, groupId) {
   try {
     const conf = newAxioxConfig();

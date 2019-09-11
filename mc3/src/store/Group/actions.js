@@ -5,7 +5,6 @@ import store from "../../store";
 import postConverter from "../../mixins/PostConverter"
 
 export function setGroupID(context, obj) {
-  console.log(obj);
   context.commit('setGroupID', obj);
 }
 export async function syncGroups(context) {
@@ -49,6 +48,28 @@ export async function removePost(context, obj) {
     res1
   };
   //tbi instead of group and connection
+}
+export async function updatePermissions(context, obj) {
+  const conf = axiosConfig.axiosConfig();
+  let URL = baseUrl.localBaseUrl + "/api/group/permissions";
+  const res = await axios.put(URL, obj, conf);
+  return res;
+}
+export async function getDefaultPermissions(context, groupId) {
+  const conf = axiosConfig.axiosConfig();
+  let URL = baseUrl.localBaseUrl + "/api/group/permissions/" + groupId;
+  const res = await axios.get(URL, conf);
+  return res;
+}
+export async function setDefaultPermissions(context, obj) {
+  const conf = axiosConfig.axiosConfig();
+  console.log(obj);
+  let URL = baseUrl.localBaseUrl + "/api/group/permissions/" + obj.groupId;
+  const res = await axios.post(URL, obj.defaultPermissions, conf);
+  console.log(res)
+  return res;
+
+
 }
 
 ///

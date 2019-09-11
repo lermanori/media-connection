@@ -3,6 +3,7 @@
     <q-page-container>
       <div class="text-center">
         <q-btn
+          v-if="Admin"
           class="fixed-bottom q-mt-xl w-100"
           icon="edit"
           label="admin"
@@ -16,7 +17,10 @@
       </div>
       <div class="row justify-center q-gutter-sm">
         <div class="col-md-5 col-xs-12 q-mb-lg">
-          <q-card class="my-card">
+          <q-card
+            class="my-card"
+            v-if="Roles.find(x=>x=='waiting-for-approval') || DefaultPermissions.find(x=>x=='waiting-for-approval') || Admin"
+          >
             <q-card-section class="bg-indigo text-white text-center">
               <div class="text-h6">Post Waiting For Approval</div>
               <div class="text-h4" v-if="postLoaded">{{NumberOfWaitingPosts}}</div>
@@ -27,7 +31,10 @@
           </q-card>
         </div>
         <div class="col-md-5 col-xs-12 q-mb-lg">
-          <q-card class="my-card">
+          <q-card
+            class="my-card"
+            v-if="Roles.find(x=>x=='in-process') || DefaultPermissions.find(x=>x=='in-process') || Admin"
+          >
             <q-card-section class="bg-blue darken 4 text-white text-center">
               <div class="text-h6">Posts In Process</div>
               <div class="text-h4" v-if="postLoaded">{{NumberOfInProcessPosts}}</div>
@@ -38,7 +45,10 @@
           </q-card>
         </div>
         <div class="col-md-5 col-xs-12 q-mb-lg">
-          <q-card class="my-card">
+          <q-card
+            class="my-card"
+            v-if="Roles.find(x=>x=='request') || DefaultPermissions.find(x=>x=='request') || Admin"
+          >
             <q-card-section class="bg-cyan text-white text-center">
               <div class="text-h6">Posts requested</div>
               <div class="text-h4" v-if="postLoaded">{{NumberOfNewPosts}}</div>
@@ -85,6 +95,7 @@ export default {
   name: "Register",
   data() {
     return {
+      defaultPermissions: ["in-process"],
       baseUrl: baseUrl.localBaseUrl,
       username: "",
       password: "",
@@ -110,6 +121,15 @@ export default {
           x => x._id == this.$store.getters["Group/currentGroupID"]
         ).admin == this.$store.getters["User/uid"]
       );
+    },
+    Roles() {
+      return this.$store.getters["Group/Groups"]
+        .find(x => x._id == this.$store.getters["Group/currentGroupID"])
+        .members.find(x => x.memberUid == this.$store.getters["User/uid"])
+        .role.split(" ");
+    },
+    DefaultPermissions() {
+      return this.defaultPermissions;
     },
     NumberOfNewPosts() {
       return this.posts.filter(x => x.status === "new request").length;
@@ -179,12 +199,21 @@ export default {
         .join(" ");
     }
   },
-  created() {
+  async created() {
     this.getInstagramData();
+    if (this.Roles.find(x => x == "default")) {
+      const res = await this.$store.dispatch(
+        "Group/getDefaultPermissions",
+        this.$store.getters["Group/currentGroupID"]
+      );
+      this.defaultPermissions = res.data.defaultPermissions;
+    }
+    await this.$store.dispatch("Group/syncGroups");
     this.$store
-      .dispatch("Post/syncPosts", this.$store.getters["Group/currentGroupID"])
+      .dispatch("Post/getAllPosts")
       .then(result => {
-        this.posts = result;
+        const groupId = this.$store.getters["Group/currentGroupID"];
+        this.posts = result.filter(x => x.groupID == groupId);
         this.postLoaded = true;
       })
       .catch(err => {

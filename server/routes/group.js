@@ -11,6 +11,9 @@ router.delete('/:groupid/:postid/post/delete', authMiddleware, groupController.d
 router.get('/', authMiddleware, groupController.getGroups);
 router.get('/:groupid', authMiddleware, groupController.getGroup);
 router.get('/:groupid/posts', authMiddleware, groupController.getGroupPosts);
+router.put('/permissions', authMiddleware, groupController.updatePermissions);
+router.get('/permissions/:groupId', authMiddleware, groupController.getDefaultPermissions);
+router.post('/permissions/:groupId', authMiddleware, groupController.setDefaultPermissions);
 
 
 module.exports = router

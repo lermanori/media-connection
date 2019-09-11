@@ -166,7 +166,7 @@ const routes = [{
     beforeEnter: AuthMidlleware
   },
   {
-    path: "/post/in-process",
+    path: "/:groupID/post/in-process",
     component: () => import("layouts/MyLayout.vue"),
     children: [{
       path: "",
@@ -181,7 +181,7 @@ const routes = [{
     beforeEnter: AuthMidlleware
   },
   {
-    path: "/post/waiting-for-approval",
+    path: "/:groupID/post/waiting-for-approval",
     component: () => import("layouts/MyLayout.vue"),
     children: [{
       path: "",

@@ -53,19 +53,33 @@
           <q-separator vertical :key="'sd'+index" />
         </template>
       </div>
-      <div class="row justify-center" v-if="permission=='friends'">
-        <template v-for="(i,index) in ownerBar">
-          <q-separator vertical :key="'su'+index" />
-          <div
-            class="col-2 text-center friend-bar-btn"
-            :key="'u'+index"
-            @click="$router.push(i.to)"
-          >
-            <div class="text-caption">{{i.label}}</div>
-            <div class="text-h6">{{i.value}}</div>
+      <div v-if="permission=='friends'">
+        <div class="row text-subtitle2 justify-center q-mb-xs">add user to group:</div>
+        <div class="row">
+          <div class="col-9">
+            <q-select :options="options" v-model="model" />
           </div>
-          <q-separator vertical :key="'sd'+index" />
-        </template>
+          <div class="col-3">
+            <q-btn
+              outline
+              text-color="primary"
+              icon="add"
+              :style="{height:'100%',width:'100%'}"
+              @click="handle_addToGroup({group:model == null ? null:model.value,friend:{_id:user.profile.id}})"
+            />
+          </div>
+        </div>
+      </div>
+      <div v-if="permission!='friends' && permission!= 'owner'">
+        <div class="row justify-center q-my-md">
+          <q-btn
+            outline
+            color="white"
+            text-color="black"
+            label="Add Friend"
+            @click="$store.dispatch('Friend/add',email)"
+          />
+        </div>
       </div>
 
       <q-separator inset class="q-px-auto" color="black-2" />
@@ -134,6 +148,8 @@ export default {
   },
   data() {
     return {
+      model: null,
+      options: [],
       axiosConfig: axiosConfig.axiosConfig(),
       uploadedImage: false,
       baseUrl: baseUrl.localBaseUrl,
@@ -182,12 +198,26 @@ export default {
       await this.refresh();
       this.uploadedImage = false;
     },
+    async handle_addToGroup(item) {
+      if (item.group != null) {
+        this.$store.dispatch("Friend/addFriendToGroup", item);
+      } else {
+        alert("no group chosen");
+      }
+    },
+    async getOptionsGroup() {
+      await this.$store.dispatch("Group/syncGroups");
+      const groups = this.$store.getters["Group/Groups"];
+      const parsedGroups = groups.map(x => {
+        return { label: `${x.group_name}: ${x.group_desc}`, value: x._id };
+      });
+      this.options = parsedGroups;
+    },
     async refresh() {
       try {
         const result = await this.$store.dispatch("Profile/get", this.id);
         const user = result.data;
         this.user = user;
-        console.log(user);
         if (user.permission == "owner" && user.message == "profile undefined") {
           console.error("should create");
           this.showCreate = true;
@@ -214,6 +244,7 @@ export default {
             }
           ];
         }
+
         this.loaded = true;
         this.permission = user.permission;
         this.editorPrivate =
@@ -224,7 +255,7 @@ export default {
           user.profile.public == undefined ? "" : user.profile.public;
         this.profilePic =
           user.profile.profilePicture == undefined
-            ? ""
+            ? "images/anonymous.jpg"
             : user.profile.profilePicture;
         this.email = user.profile.email == undefined ? "" : user.profile.email;
       } catch (err) {
@@ -234,6 +265,7 @@ export default {
   },
   async created() {
     await this.refresh();
+    await this.getOptionsGroup();
   }
   // async Updated() {
   //   await this.refresh();

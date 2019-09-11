@@ -61,7 +61,12 @@
                   />
                 </div>
                 <div class="col-md-2 col-xs-12 text-center">
-                  <q-btn label="save" icon="save" class="q-ml-md q-mt-none q-pa-xs" />
+                  <q-btn
+                    label="save"
+                    icon="save"
+                    class="q-ml-md q-mt-none q-pa-xs"
+                    @click="handle_updatePermissions(member,index)"
+                  />
                 </div>
                 <div class="col-md-10 col-xs-12">
                   <q-option-group
@@ -70,6 +75,34 @@
                     label="Permission:"
                     type="checkbox"
                     v-model="permissions[index]"
+                  />
+                </div>
+              </div>
+            </q-item>
+          </q-list>
+        </q-card-section>
+        <q-card-section>
+          <q-list bordered separator>
+            <q-item>
+              <div class="row justify-center q-gutter-sm">
+                <div class="col-md-4 col-xs-12 text-center">
+                  <q-chip square>Default Permissons</q-chip>
+                </div>
+                <div class="col-md-2 col-xs-12 text-center">
+                  <q-btn
+                    label="save"
+                    icon="save"
+                    class="q-ml-md q-mt-none q-pa-xs"
+                    @click="handle_setDefaultPermissions"
+                  />
+                </div>
+                <div class="col-md-10 col-xs-12">
+                  <q-option-group
+                    inline
+                    :options="defaultOptions"
+                    label="Permission:"
+                    type="checkbox"
+                    v-model="defaultPermissionsModel"
                   />
                 </div>
               </div>
@@ -151,6 +184,7 @@ export default {
   },
   data() {
     return {
+      defaultPermissionsModel: [],
       deleted: [],
       members: [],
       admins: [],
@@ -162,7 +196,7 @@ export default {
         { label: "In-Process", value: "in-process", color: "green" },
         {
           label: "Waiting For Approval",
-          value: "waiting for approval",
+          value: "waiting-for-approval",
           color: "indigo"
         },
         {
@@ -174,6 +208,10 @@ export default {
     };
   },
   computed: {
+    defaultOptions() {
+      return this.options.filter(x => x.label != "default");
+    },
+
     Group() {
       return this.$store.getters["Group/Groups"].find(
         x => x._id == this.group._id
@@ -196,6 +234,20 @@ export default {
   },
 
   methods: {
+    async handle_setDefaultPermissions() {
+      await this.$store.dispatch("Group/setDefaultPermissions", {
+        groupId: this.$store.getters["Group/currentGroupID"],
+        defaultPermissions: this.defaultPermissionsModel
+      });
+    },
+    async handle_updatePermissions(arg, idx) {
+      const res = await this.$store.dispatch("Group/updatePermissions", {
+        group: this.$store.getters["Group/currentGroupID"],
+        friend: { _id: arg._id },
+        updatedPermissions: this.permissions[idx].join(" ")
+      });
+      await this.updateData();
+    },
     async handle_userDelete(member) {
       const res = await this.$store.dispatch("Group/removeUser", {
         groupId: this.group._id,
@@ -234,8 +286,7 @@ export default {
         .map(x => x.memberUid);
       const roles = this.group.members
         .filter(x => x.role != "admin")
-        .map(x => [x.role]);
-      console.log("roles", roles);
+        .map(x => x.role.split(" "));
       const membersAsUsers = await this.$store.dispatch(
         "Friend/transformUidToUsers",
         uids
@@ -249,17 +300,22 @@ export default {
       this.permissions = roles;
     },
     async updateData() {
+      await this.$store.dispatch("Group/syncGroups");
       this.group = this.$store.getters["Group/Groups"].find(
         x => x._id == this.$route.params.groupid
       );
-      console.log(this.group);
       await this.membersToUsers();
-      console.log(this.members);
     }
   },
 
   async created() {
     await this.updateData();
+    const res = await this.$store.dispatch(
+      "Group/getDefaultPermissions",
+      this.$store.getters["Group/currentGroupID"]
+    );
+    console.log(res);
+    this.defaultPermissionsModel = res.data.defaultPermissions;
   }
 };
 </script>

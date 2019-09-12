@@ -31,26 +31,32 @@ export async function signUpwWithEmailAndPass(context, obj) {
     })
     const token = result.data.token;
     obj['token'] = token;
-    this.$cookies.set("token", token);
+    //this.$cookies.set("token", token);
     context.commit('setAuthUser', obj);
   } catch (error) {
     console.log("Error SignIn" + error);
+    throw error;
   }
 }
 
 export async function login(context, obj) {
   try {
     const data = await firebase.auth().signInWithEmailAndPassword(obj.email, obj.password);
+    
     const result = await axios.post(baseURL + '/auth/login', {
       "email": data.user.email,
       "uid": data.user.uid
     })
+
+    console.log("Result:")
+    console.log(result)
     const token = result.data.token;
     data['token'] = token;
     this.$cookies.set("token", token);
     context.commit('setAuthUser', data);
   } catch (error) {
     console.log("Error SignIn" + error);
+    throw error;
   }
 }
 
@@ -59,8 +65,10 @@ export async function auth(context) {
     const result = await firebase.auth().signInWithPopup(provider);
     const user = result.user;
 
-    if (result.additionalUserInfo.isNewUser) {
-      const {
+    if (result.additionalUserInfo.isNewUser) 
+    {
+      const 
+      {
         data
       } = await axios.post(baseURL + '/auth/register', {
         "email": user.email,
@@ -82,6 +90,7 @@ export async function auth(context) {
     console.log(error);
     var errorCode = error.code;
     var errorMessage = error.message;
+    throw error;
   }
 }
 

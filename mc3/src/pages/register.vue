@@ -7,9 +7,9 @@
       <q-card-section>
         <div class="row">
           <div class="col">
-            <q-input v-model="email" label="Enter email"></q-input>
-            <q-input v-model="password" label="Enter password"></q-input>
-            <q-input v-model="passwordMatch" label="RE-Enter password"></q-input>
+            <q-input v-model="email" label="Enter email" clearable></q-input>
+            <q-input v-model="password"  type="password" label="Enter Password" clearable></q-input>
+            <q-input v-model="passwordMatch" type="password" label="Enter Password" clearable></q-input>
           </div>
         </div>
       </q-card-section>

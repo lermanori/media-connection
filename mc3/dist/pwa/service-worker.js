@@ -1,34 +1,20 @@
-/**
- * Welcome to your Workbox-powered service worker!
- *
- * You'll need to register this file in your web app and you should
- * disable HTTP caching for this file too.
- * See https://goo.gl/nhQhGp
- *
- * The rest of the code is auto-generated. Please don't update this file
- * directly; instead, make changes to your Workbox build configuration
- * and re-run your build process.
- * See https://goo.gl/2aRDsh
+importScripts("/precache-manifest.8fb2411cc93591e75001937d5ce7bd91.js", "https://storage.googleapis.com/workbox-cdn/releases/4.1.1/workbox-sw.js");
+
+/*
+ * This file (which will be your service worker)
+ * is picked up by the build system ONLY if
+ * quasar.conf > pwa > workboxPluginMode is set to "InjectManifest"
  */
-
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.1.1/workbox-sw.js");
-
-importScripts(
-  "/precache-manifest.f31dad88c94068aa42a1e61c3c004cbe.js"
-);
-
-workbox.core.setCacheNameDetails({prefix: "mc3"});
-
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
+console.log(self)
+self.addEventListener('push', function (event) {
+  console.log('[Service Worker] Push Received.');
+  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+  const title = 'media-connection';
+  const options = {
+    body: `${event.data.text()}`,
+    badge: "/statics/icons/icon-128x128.png",
+    icon: "/statics/icons/icon-128x128.png"
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
 });
 
-/**
- * The workboxSW.precacheAndRoute() method efficiently caches and responds to
- * requests for URLs in the manifest.
- * See https://goo.gl/S9QRab
- */
-self.__precacheManifest = [].concat(self.__precacheManifest || []);
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {});

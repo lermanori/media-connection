@@ -54,15 +54,15 @@
         </template>
       </div>
       <div v-if="permission=='friends'">
-        <div class="row text-subtitle2 justify-center q-mb-xs">add user to group:</div>
-        <div class="row">
+        <div class="row text-subtitle2 justify-center q-mb-xs q-mx-md">add user to group:</div>
+        <div class="row q-px-md">
           <div class="col-9">
-            <q-select :options="options" v-model="model" />
+            <q-select outlined :options="options" v-model="model" />
           </div>
           <div class="col-3">
             <q-btn
               outline
-              text-color="primary"
+              text-color="black"
               icon="add"
               :style="{height:'100%',width:'100%'}"
               @click="handle_addToGroup({group:model == null ? null:model.value,friend:{_id:user.profile.id}})"
@@ -200,7 +200,13 @@ export default {
     },
     async handle_addToGroup(item) {
       if (item.group != null) {
-        this.$store.dispatch("Friend/addFriendToGroup", item);
+        const res = await this.$store.dispatch("Friend/addFriendToGroup", item);
+        this.$q.notify({
+          message: "added account: " + res.addedUser.email,
+          color: "purple"
+        });
+
+        await this.$store.dispatch("Group/syncGroups");
       } else {
         alert("no group chosen");
       }

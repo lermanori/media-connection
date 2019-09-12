@@ -12,7 +12,7 @@
             :default-opened="filterdPosts.length < 2"
             icon="perm_identity"
             :label="request.status"
-            :caption="request.groupID"
+            :caption="GroupName(request.groupID)"
             :key="index"
           >
             <app-post-card :post="request" class="q-mx-auto" />
@@ -41,6 +41,12 @@ export default {
     },
     filterdPosts() {
       return this.Posts.filter(this.filterFunc);
+    }
+  },
+  methods: {
+    GroupName(id) {
+      const group = this.$store.getters["Group/Groups"].find(x => x._id == id);
+      return group != undefined ? group.group_name : "no valid group name";
     }
   },
   async created() {

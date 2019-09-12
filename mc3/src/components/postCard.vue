@@ -56,33 +56,68 @@
     </q-card-section>
     <q-card-actions vertical>
       <q-btn
-        class="absolute-bottom q-mt-sm"
+        class
         :icon="(post.status=='waiting for approval'?'check':'edit')"
         :color="(post.status=='waiting for approval'?'green':'indigo')"
         :to="'/' + post.id + (post.status=='waiting for approval' ?'/approval':'/image-editor')"
       ></q-btn>
       <q-btn
         v-if="post.status=='approved'"
-        class="absolute-bottom q-mt-sm"
+        class
         icon="share"
         color="pink"
         @click="handle_share(post)"
       ></q-btn>
+      <q-btn
+        class
+        v-if="post.status=='approved'"
+        icon="timer"
+        color="black"
+        @click="handle_time(post)"
+      ></q-btn>
     </q-card-actions>
+    <q-dialog v-model="openDateDialog" persistent>
+      <app-date-dialog @set="handle_set" />
+    </q-dialog>
+
     <!-- <h6 class="q-mb-none">{{post}}</h6> -->
   </q-card>
 </template>
 
 <script>
 import mybaseUrl from "../baseUrl";
+import baseUrl from "../baseUrl";
+import axiosConfig from "../axiosConfig";
+import appDateDialog from "../components/dateDialog.vue";
 export default {
+  components: {
+    "app-date-dialog": appDateDialog
+  },
   props: ["post"],
   data() {
     return {
-      mybaseUrl: mybaseUrl.localBaseUrl
+      mybaseUrl: mybaseUrl.localBaseUrl,
+      openDateDialog: false,
+      subscription: null
     };
   },
   methods: {
+    handle_set(arg) {
+      const timeStr = `${arg.date} ${arg.time}`;
+      const date = Date.parse(timeStr);
+      this.$axios.post(
+        `${this.mybaseUrl}/api/subscription/notify`,
+        {
+          subscription: this.subscription,
+          message: "reminder to upload",
+          timeToNotify: date
+        },
+        axiosConfig.axiosConfig()
+      );
+
+      console.log(date);
+      console.log(this.subscription);
+    },
     handle_share(post) {
       console.log(post);
       if (navigator.share) {
@@ -104,6 +139,47 @@ export default {
           document.body.appendChild(link);
           link.click();
         });
+      }
+    },
+    async handle_time(arg) {
+      console.log(arg);
+      if ("serviceWorker" in navigator && "PushManager" in window) {
+        console.log("Service Worker and Push is supported");
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.getSubscription();
+        this.subscription = subscription;
+        if (subscription == null) {
+          const publicKey =
+            "BFlWZsn4o7jzPoQKglsVMsxoLM9scn4Y_dCRKF9brvUbaZFIDlNjmoqKwwLdG88ny-5szJXjjB9iUpvE7z6VvrY";
+          const options = {
+            userVisibleOnly: true,
+            applicationServerKey: publicKey
+          };
+          const permission = await window.Notification.requestPermission();
+          // value of permission can be 'granted', 'default', 'denied'
+          // granted: user has accepted the request
+          // default: user has dismissed the notification permission popup by clicking on x
+          // denied: user has denied the request.
+          if (permission !== "granted") {
+            throw new Error("Permission not granted for Notification");
+          }
+          const newSubscription = await registration.pushManager.subscribe(
+            options
+          );
+          if (permission == "granted") {
+            console.log(newSubscription);
+            const res = await this.$axios.post(
+              baseUrl.localBaseUrl + "/api/subscription",
+              newSubscription,
+              axiosConfig.axiosConfig()
+            );
+            console.log(res);
+          }
+        } else {
+          console.log("already subscribed");
+          console.log(subscription);
+        }
+        this.openDateDialog = true;
       }
     }
   }

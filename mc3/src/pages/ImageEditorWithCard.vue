@@ -1,57 +1,69 @@
 <template>
   <div class="container text-center">
     <br />
-    <q-select
-      filled
-      @input="loadImageFromUrl(model.value)"
-      v-model="model"
-      v-if="loaded"
-      :options="InputOptions"
-      label="Commits"
-    />
-    <div v-if="model!=null">
-      commit description: {{model.description}}
-      <!--<q-img :src="baseURL.localBaseUrl+model.value" />-->
-    </div>
-    <app-properties :arr="data.properties" />
-    <div class="row wrap justify-center">
-      <div class="imageEditorApp q-lg-mx-sm q-xs-md-none">
-        <tui-image-editor
-          ref="tuiImageEditor"
-          :include-ui="useDefaultUI"
-          :options="options"
-          @addText="onAddText"
-          @objectMoved="onObjectMoved"
-        ></tui-image-editor>
+    <h6 class="q-mb-none desktop-only">Load any base picture before picking commits</h6>
+    <q-card style="max-width:1000px;" class="q-mx-auto q-my-xl">
+      <q-select
+        filled
+        @input="handle_inputSelect"
+        v-model="model"
+        v-if="loaded"
+        :options="InputOptions"
+        label="Commits"
+      />
+      <div v-if="model!=null">
+        commit description: {{model.description}}
+        <!--<q-img :src="baseURL.localBaseUrl+model.value" />-->
       </div>
-    </div>
-    <div class="row wrap justify-center">
-      <div class="q-mx-sm q-my-lg">
-        <q-btn
-          class="q-mr-xl"
-          round
-          icon="exit_to_app"
-          color="indigo"
-          @click="$router.push('/grid')"
-        />
-        <q-btn class="q-mr-xl" round icon="save" color="indigo">
-          <q-popup-proxy v-model="opened">
-            <q-banner>
-              <template v-slot:avatar>
-                <q-icon name="save" color="primary" />
-              </template>
-              Enter Commit Message
-              <template v-slot:action>
-                <q-checkbox outline round label="done" v-model="done" class="q-mr-xl" />
+      <app-properties :arr="data.properties" />
+      <div class="row wrap justify-center desktop-only">
+        <div class="imageEditorApp q-lg-mx-sm q-xs-md-none">
+          <tui-image-editor
+            ref="tuiImageEditor"
+            :include-ui="useDefaultUI"
+            :options="options"
+            @addText="onAddText"
+            @objectMoved="onObjectMoved"
+          ></tui-image-editor>
+        </div>
+      </div>
+      <div class="row wrap justify-center desktop-hide">
+        <div class="q-lg-mx-sm q-xs-md-none">
+          <q-btn class="q-mt-sm" color="cyan" icon="add" @click="click_handle" />
+          <q-card class="q-mt-md">
+            <q-img
+              :src="ImageFile!= null? ImageFile : 'https://placeimg.com/500/300/nature'"
+              :ratio="1"
+              :style="{width:'200px',height:'200px'}"
+              :key="ImageFile"
+            />
+          </q-card>
+          <input type="file" ref="fileInput" v-show="false" @input="handle_input" />
+        </div>
+      </div>
 
-                <q-input outline round label="Commit Message" v-model="commitMessage" />
-                <q-btn outline round color="indigo" icon="send" @click="sumbit_photo_handle" />
-              </template>
-            </q-banner>
-          </q-popup-proxy>
-        </q-btn>
+      <div class="row wrap justify-center">
+        <div class="q-mx-sm q-my-lg">
+          <q-btn class="q-mx-sm" icon="exit_to_app" color="indigo" @click="$router.push('/grid')" />
+          <q-btn class="q-mx-sm" icon="save" color="indigo">
+            <q-popup-proxy v-model="opened">
+              <q-banner>
+                <template v-slot:avatar>
+                  <q-icon name="save" color="primary" />
+                </template>
+                Enter Commit Message
+                <template v-slot:action>
+                  <q-checkbox outline label="done" v-model="done" class="q-mr-xl" />
+
+                  <q-input outline label="Commit Message" v-model="commitMessage" />
+                  <q-btn outline color="indigo" icon="send" @click="sumbit_photo_handle" />
+                </template>
+              </q-banner>
+            </q-popup-proxy>
+          </q-btn>
+        </div>
       </div>
-    </div>
+    </q-card>
   </div>
 </template>
 <script>
@@ -67,6 +79,7 @@ import "tui-image-editor/dist/svg/icon-d.svg";
 import PostConverter from "../mixins/PostConverter.js";
 import baseURL from "../baseUrl";
 import properties from "../components/properties";
+import axiosConfig from "../axiosConfig";
 export default {
   components: {
     "tui-image-editor": ImageEditor,
@@ -74,7 +87,9 @@ export default {
   },
   data() {
     return {
+      axiosConfig,
       model: null,
+      uploadedImage: false,
       inputOptions: [
         {
           label: "Google",
@@ -107,7 +122,9 @@ export default {
       commitMessage: "",
       opened: false,
       done: false,
-      baseURL
+      baseURL,
+      imageFile: null,
+      mobile: false
     };
   },
   computed: {
@@ -123,9 +140,32 @@ export default {
         .filter(x => x.value != undefined);
       console.log(commitsToValues);
       return commitsToValues;
+    },
+    ImageFile() {
+      return this.imageFile;
     }
   },
   methods: {
+    async handle_input(arg) {
+      console.log(arg.target.files[0]);
+      const toBase64 = file =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      this.imageFile = await toBase64(arg.target.files[0]);
+      this.mobile = true;
+    },
+    handle_inputSelect() {
+      this.loadImageFromUrl(this.model.value);
+      console.log(this.model.value);
+      this.imageFile = this.baseURL.localBaseUrl + this.model.value;
+    },
+    click_handle() {
+      this.$refs.fileInput.click();
+    },
     onAddText(res) {
       console.group("addText");
       console.log("Client Position : ", res.clientPosition);
@@ -139,7 +179,9 @@ export default {
       console.groupEnd();
     },
     sumbit_photo_handle() {
-      let image64 = this.$refs.tuiImageEditor.invoke("toDataURL");
+      let image64 = this.mobile
+        ? this.imageFile
+        : this.$refs.tuiImageEditor.invoke("toDataURL");
       let commitMessage = this.commitMessage;
       let postId = this.$route.params.postid;
       let done = this.done;

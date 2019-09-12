@@ -9,5 +9,9 @@ module.exports = {
     session: {
         cookieKey: 'hfythfluylfyflytdfdf'
     },
-    JWT_KEY: "shhhhhh"
+    JWT_KEY: "shhhhhh",
+    vapid: {
+        "publicKey": "BFlWZsn4o7jzPoQKglsVMsxoLM9scn4Y_dCRKF9brvUbaZFIDlNjmoqKwwLdG88ny-5szJXjjB9iUpvE7z6VvrY",
+        "privateKey": "Pj4CW9rVrNWE1eOGonCiDi2SzZ9JXq9yrWv1oAUCIxU"
+    }
 }

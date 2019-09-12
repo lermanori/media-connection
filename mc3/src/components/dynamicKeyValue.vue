@@ -4,7 +4,6 @@
       <div class="col q-pa-sm">
         <q-input
           @input="handleInput"
-          rounded
           outlined
           v-model="app_key"
           label="Enter Property"
@@ -14,7 +13,6 @@
       <div class="col q-pa-sm">
         <q-input
           @input="handleInput"
-          rounded
           outlined
           v-model="app_value"
           label="Enter String"
@@ -27,7 +25,6 @@
       <div class="col q-pa-sm">
         <q-input
           @input="handleInput"
-          rounded
           outlined
           v-model="app_key"
           label="Enter Property"
@@ -37,7 +34,6 @@
       <div class="col q-pa-sm">
         <q-input
           @input="handleInput"
-          rounded
           outlined
           v-model="app_value"
           label="Enter photo"
@@ -46,10 +42,9 @@
       </div>
     </div>
     <div class="row" v-if="mode == 'date'">
-      <div class="col q-pa-sm">
+      <div class="col q-pa-sm q-pt-md">
         <q-input
           @input="handleInput"
-          rounded
           outlined
           v-model="app_key"
           :label="this.requiredKey != null ?'Required':'Enter Property'"
@@ -62,6 +57,7 @@
           @input="handleInput"
           :disable="disabled"
           filled
+          outlined
           v-model="date"
           mask="date"
           :rules="['date']"
@@ -84,6 +80,7 @@
           @input="handleInput"
           :disable="disabled"
           filled
+          outlined
           v-model="time"
           mask="time"
           :rules="['time']"

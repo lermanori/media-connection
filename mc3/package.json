@@ -13,7 +13,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "@toast-ui/vue-image-editor": "^1.0.2",
-    "axios": "^0.18.1",
+    "axios": "^0.19.0",
     "fabric": "^3.3.2",
     "firebase": "^6.1.1",
     "quasar": "^1.0.0-beta.0",

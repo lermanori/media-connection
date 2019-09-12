@@ -86,6 +86,79 @@ module.exports = {
             }
         );
     },
+    async addCommitMobile(req, res) {
+        try {
+            // const user = req.user.user;
+            // const time = JSON.stringify(Date.now());
+
+            // // to declare some path to store your converted image
+            // const path = './images/' + time + '.png'
+            // const folder = './' + 'images'
+
+            // if (!fs.existsSync(folder)) {
+            //     fs.mkdirSync(folder)
+            // }
+            // const form = new formidable.IncomingForm()
+            // form.uploadDir = folder
+            // form.parse(req, (_, fields, files) => {
+            //     console.log('\n-----------')
+            //     console.log('Fields', fields)
+            //     console.log('Received:', Object.keys(files))
+            //     // console.log('files:', Object.values(files))
+            //     // console.log(Object.values(files)[0].path)
+            //     // console.log(path)
+            //     fs.rename(Object.values(files)[0].path, path, (err) => {
+            //         console.log(err)
+            //     });
+            // })
+            // const shift = (str) => {
+            //     const path = str.split("");
+            //     path.shift();
+            //     path.shift();
+            //     const res = path.join("");
+            //     return res;
+            // }
+            // const data = req.body;
+            // const {
+            //     postId,
+            //     done,
+            //     commitMessage
+            // } = data;
+            // const dataWithUser = {
+            //     path2:path,
+            //     commitMessage,
+            //     user,
+            //     time,
+            //     done,
+            //     postId
+            // }
+            // Post.findOneAndUpdate({
+            //     _id: postId
+            // }, {
+            //     $push: {
+            //         commits: dataWithUser
+            //     },
+            //     $set: {
+            //         status: done ? "waiting for approval" : "in process"
+            //     }
+            // }, {
+            //     new: true
+            // }).then((post) => {
+            //     res.status(201).json(post);
+            // }).catch(err => {
+            //     console.log(err);
+            // })
+
+            console.log(req.body);
+            res.status(200).json(req.body);
+
+        } catch (err) {
+            console.log(err)
+            res.status(400).json({
+                message: "cant upload photo"
+            });
+        }
+    },
     getCommits(req, res, next) {
         let postID = req.params.postid;
         Post.findById(postID).then((doc) => {

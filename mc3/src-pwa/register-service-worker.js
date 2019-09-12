@@ -19,12 +19,12 @@ const requestNotificationPermission = async () => {
 }
 
 register(process.env.SERVICE_WORKER_FILE, {
-  ready() {
+  ready(registration) {
     console.log('App is being served from cache by a service worker.');
-    requestNotificationPermission()
   },
   registered(registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('Service worker has been registered.')
+
   },
   cached(registration) { // registration -> a ServiceWorkerRegistration instance
     console.log('Content has been cached for offline use.')
@@ -40,6 +40,9 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
   error(err) {
     console.error('Error during service worker registration:', err)
+  },
+  push() {
+    console.log("push notification!")
   }
 })
 

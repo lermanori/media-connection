@@ -74,12 +74,13 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable tag="a" to="/post">
-          <q-item-section avatar class>
+        <q-item clickable tag="a" :to="`/post/commits/${$store.getters['User/id']}`">
+          <q-item-section avatar>
             <q-icon name="pages" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Posts</q-item-label>
+            <q-item-label>Commits</q-item-label>
+            <q-item-label caption>Post Contributions</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -108,13 +109,17 @@ export default {
     logout_Handle() {
       this.$store.dispatch("User/clearAuth");
       this.leftDrawerOpen = false;
-      this.$router.push("/");
+      this.$router.push("/login");
     },
     input_handle() {}
   },
   computed: {
     loggedIn() {
-      return this.$store.getters["User/loggedIn"];
+      const logged = this.$store.getters["User/loggedIn"];
+      if (logged == false) {
+        this.$router.push("/login");
+      }
+      return logged;
     },
     LeftDrawerOpen() {
       return (

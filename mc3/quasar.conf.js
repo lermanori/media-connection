@@ -86,8 +86,12 @@ module.exports = function (ctx) {
       plugins: [
         'Notify',
         'Dialog'
-      ]
-
+      ],
+      config: {
+        notify: {
+          /* Notify defaults */
+        }
+      }
       // iconSet: 'ionicons-v4'
       // lang: 'de' // Quasar language
     },
@@ -138,7 +142,7 @@ module.exports = function (ctx) {
     },
 
     pwa: {
-      // workboxPluginMode: 'InjectManifest',
+      workboxPluginMode: 'InjectManifest',
       // workboxOptions: {},
       manifest: {
         // name: 'Quasar App',

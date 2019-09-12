@@ -1,23 +1,17 @@
 <template>
   <div class="container text-center">
-    <div class="row">
-      <div class="col-12">
-        <h6 class="q-mt-xl q-mb-none">
-          <u>{{$route.params.postid}}</u>
-        </h6>
+    <q-card style="max-width:800px" class="q-mx-auto q-mt-md">
+      <q-select filled v-model="model" v-if="loaded" :options="InputOptions" label="Commits" />
+      <div class="container q-ma-xl" v-if="model!=null">
+        <div class="row justify-center q-my-md">commit description: {{model.description}}</div>
+        <div class="row justify-center">
+          <q-card class="my-card">
+            <q-img class="app-img q-mx-auto" ratio="1" :src="baseURL.localBaseUrl+model.value" />
+          </q-card>
+        </div>
       </div>
-    </div>
-    <q-select filled v-model="model" v-if="loaded" :options="InputOptions" label="Commits" />
-    <div class="container q-ma-xl" v-if="model!=null">
-      <div class="row justify-center q-my-md">commit description: {{model.description}}</div>
-      <div class="row justify-center">
-        <q-card class="my-card">
-          <q-img class="app-img q-mx-auto" ratio="1" :src="baseURL.localBaseUrl+model.value" />
-        </q-card>
-      </div>
-    </div>
-    <br />
-    <!-- <template v-for="(entries,index) in data.properties">
+      <br />
+      <!-- <template v-for="(entries,index) in data.properties">
       <div class="row wrap justify-center" :key="index">
         <div class="col-12" :key="index">
           <p
@@ -25,32 +19,35 @@
           >{{index}}.{{Object.fromEntries(Object.keys(data.properties[index]).map(arg=> [arg,data.properties[index][arg]]))}}</p>
         </div>
       </div>
-    </template>-->
-    <app-properties :arr="data.properties" />
+      </template>-->
+      <app-properties :arr="data.properties" style="width:100%" />
 
-    <div class="row wrap justify-center">
-      <div class="q-mx-sm q-my-lg">
-        <q-btn class="q-mr-xl" round icon="check" color="green" @click="()=>openPopup('yes')"></q-btn>
-        <q-btn class="q-mr-xl" round icon="close" color="red" @click="()=>openPopup('no')"></q-btn>
-        <q-dialog v-model="prompt">
-          <q-card style="min-width: 400px">
-            <q-card-section>
-              <div class="text-h6">{{popUpText}}</div>
-            </q-card-section>
+      <div class="row wrap justify-center">
+        <div class="q-mx-sm q-my-lg">
+          <q-card-actions>
+            <q-btn class="q-mr-xl" icon="check" color="green" @click="()=>openPopup('yes')"></q-btn>
+            <q-btn class="q-mr-xl" icon="close" color="red" @click="()=>openPopup('no')"></q-btn>
+          </q-card-actions>
+          <q-dialog v-model="prompt">
+            <q-card style="min-width: 400px">
+              <q-card-section>
+                <div class="text-h6">{{popUpText}}</div>
+              </q-card-section>
 
-            <q-card-section>
-              <q-input dense v-model="message" autogrow filled @keyup.enter="prompt = false" />
-            </q-card-section>
+              <q-card-section>
+                <q-input dense v-model="message" autogrow filled @keyup.enter="prompt = false" />
+              </q-card-section>
 
-            <q-card-actions align="right" class="text-primary">
-              <q-btn fab icon="close" v-close-popup />
-              <q-btn fab icon="check" v-close-popup @click="handlePrompt" />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
+              <q-card-actions align="right" class="text-primary">
+                <q-btn fab icon="close" v-close-popup />
+                <q-btn fab icon="check" v-close-popup @click="handlePrompt" />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+        </div>
+        <div class="q-mx-sm q-my-lg"></div>
       </div>
-      <div class="q-mx-sm q-my-lg"></div>
-    </div>
+    </q-card>
   </div>
 </template>
 <script>

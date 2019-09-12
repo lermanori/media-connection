@@ -6,6 +6,7 @@ const postController = require('../controllers/postController.js')
 
 router.post('/create', authMiddleware, postController.create);
 router.post('/commit', authMiddleware, postController.addCommit);
+router.post('/commit/mobile', authMiddleware, postController.addCommitMobile);
 router.get('/:postid/commit', authMiddleware, postController.getCommits);
 router.post('/:postid/approve', authMiddleware, postController.approveCommit);
 router.post('/:postid/disapprove', authMiddleware, postController.disapproveCommit);

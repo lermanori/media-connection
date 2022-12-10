@@ -23,7 +23,7 @@
     "vuex-persist": "^2.0.1"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.6",
+    "@quasar/app": "^2.4.3",
     "strip-ansi": "=3.0.1"
   },
   "engines": {
